@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
   m_Name: Jacket 3 Gear
   m_EditorClassIdentifier: 
-  classId: 47d0fcd0-f53d-4997-b516-978fa6c56af2
+  classId: 71cd03b0-5ba2-4969-983a-506b85080281
   accessoryPrefabs:
   - {fileID: 1812480944318735502, guid: c7edb15dbbed6ea41b669579c7b7d422, type: 3}
   face: {fileID: 0}

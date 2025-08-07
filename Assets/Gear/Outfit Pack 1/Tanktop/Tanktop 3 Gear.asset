@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
   m_Name: Tanktop 3 Gear
   m_EditorClassIdentifier: 
-  classId: 02a5d1aa-992c-4af5-9dbe-3d53e6b8d6e0
+  classId: ed6eaecd-af75-4da9-90d6-dbd3907aa200
   accessoryPrefabs:
   - {fileID: 378538291013512516, guid: aa74b99ecfefb5c43bf6692aeb01e6f4, type: 3}
   face: {fileID: 0}

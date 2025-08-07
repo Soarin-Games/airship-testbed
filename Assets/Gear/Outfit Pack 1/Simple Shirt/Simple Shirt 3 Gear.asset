@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
   m_Name: Simple Shirt 3 Gear
   m_EditorClassIdentifier: 
-  classId: b86cb9a1-83b9-4f57-b3c2-308a4634fb8b
+  classId: 539d6ea2-272d-43a4-b99c-7a4a02eff07b
   accessoryPrefabs:
   - {fileID: 8992841241059813186, guid: 53c15583dd7697440b681f1b29fc2a26, type: 3}
   face: {fileID: 0}

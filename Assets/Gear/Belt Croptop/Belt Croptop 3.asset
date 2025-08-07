@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
   m_Name: Belt Croptop 3
   m_EditorClassIdentifier: 
-  classId: 29c6f523-9a5c-4530-bede-62eca6f849a9
+  classId: 7a3f5e9b-a888-48e0-9a15-85b87e0b5a72
   accessoryPrefabs:
   - {fileID: 7155063303260377299, guid: 2358cc0b6a0a1c348ac06ee326c1278f, type: 3}
   face: {fileID: 0}

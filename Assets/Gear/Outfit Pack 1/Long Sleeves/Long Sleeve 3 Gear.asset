@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
   m_Name: Long Sleeve 3 Gear
   m_EditorClassIdentifier: 
-  classId: 85bcef3f-4377-43c1-80b6-0cf58940e404
+  classId: c8619e27-a2f4-46bb-9308-69339938f023
   accessoryPrefabs:
   - {fileID: 8250544884108246839, guid: 169b0bf7e5a417d44b7828de94bef49a, type: 3}
   face: {fileID: 0}

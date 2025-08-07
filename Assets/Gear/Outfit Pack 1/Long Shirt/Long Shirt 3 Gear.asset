@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
   m_Name: Long Shirt 3 Gear
   m_EditorClassIdentifier: 
-  classId: 91f176a5-0b83-4a3d-95d9-86b7c437b5b9
+  classId: 51e06be2-6f25-43b0-b166-42c1b1b0a9c1
   accessoryPrefabs:
   - {fileID: 7272280013838001057, guid: 61463fe8a3e78cc4e9568c90af405508, type: 3}
   face: {fileID: 0}

@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
-  m_Name: Bracelets Gear
+  m_Name: New Platform Gear
   m_EditorClassIdentifier: 
-  classId: 5e8ce793-0ca7-4e6b-9470-4ce938176a53
-  accessoryPrefabs:
-  - {fileID: 3741616224412442864, guid: 7034e8889c189e640ba0a4489039d3cc, type: 3}
+  classId: 
+  accessoryPrefabs: []
   face: {fileID: 0}

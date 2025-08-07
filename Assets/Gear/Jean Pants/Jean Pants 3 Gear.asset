@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
   m_Name: Jean Pants 3 Gear
   m_EditorClassIdentifier: 
-  classId: b713b180-5f68-4bc9-97ad-08b43a7f36fd
+  classId: 34448d3e-fab5-4bf0-b594-aca4b799c58e
   accessoryPrefabs:
   - {fileID: 6261813539419311019, guid: 97044abadc00d1e479071403d74dbaf7, type: 3}
   face: {fileID: 0}

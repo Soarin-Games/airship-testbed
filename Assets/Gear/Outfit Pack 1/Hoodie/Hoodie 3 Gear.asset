@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
   m_Name: Hoodie 3 Gear
   m_EditorClassIdentifier: 
-  classId: 65d3a4f9-447d-4b2d-846c-3aea7a49c5ea
+  classId: 30624021-7802-4c71-a3a5-0da47c6bcb01
   accessoryPrefabs:
   - {fileID: 6607801588035700596, guid: 0a0c4f17bf961084b99a2fb5320016b1, type: 3}
   face: {fileID: 0}

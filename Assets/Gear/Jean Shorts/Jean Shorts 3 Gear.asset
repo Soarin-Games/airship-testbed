@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
   m_Name: Jean Shorts 3 Gear
   m_EditorClassIdentifier: 
-  classId: fe3b77fa-bfca-487b-98bc-0dfa4f4c8d85
+  classId: 4d0277d7-52e8-49b7-b085-669401caa194
   accessoryPrefabs:
   - {fileID: 6917948673111891309, guid: 785762cf2c7e5dd44bcabc586e592955, type: 3}
   face: {fileID: 0}

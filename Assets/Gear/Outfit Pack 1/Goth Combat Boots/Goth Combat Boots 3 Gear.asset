@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
   m_Name: Goth Combat Boots 3 Gear
   m_EditorClassIdentifier: 
-  classId: c825a817-5af6-4535-a940-a85960f2d7bc
+  classId: 99004859-4dcf-4494-86b7-152b5893c0a7
   accessoryPrefabs:
   - {fileID: 7753452265518702293, guid: cb68df3e6fd44c54dbfbf00cb99a1d3c, type: 3}
   face: {fileID: 0}

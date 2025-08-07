@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
   m_Name: Busted Shorts 3 Gear
   m_EditorClassIdentifier: 
-  classId: 9d3fd620-6010-4dd9-8c61-6aa5358ccc8c
+  classId: 87fa31b7-453a-444e-bb66-3c957dd25088
   accessoryPrefabs:
   - {fileID: 2154050089467913875, guid: bcc800882fb5abc40b1bfba9fa21abc6, type: 3}
   face: {fileID: 0}

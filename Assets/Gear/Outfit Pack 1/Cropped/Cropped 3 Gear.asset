@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4968faf83d4945b20e087dcd456ddd, type: 3}
   m_Name: Cropped 3 Gear
   m_EditorClassIdentifier: 
-  classId: 2237e502-bca3-4e49-a8ed-6a86ef45b676
+  classId: 0d2f67b0-e522-4c32-8f7d-f14fe1be29d9
   accessoryPrefabs:
   - {fileID: 376441933091101889, guid: 007cac9f8bdd70841bf33b1087c02e3a, type: 3}
   face: {fileID: 0}
