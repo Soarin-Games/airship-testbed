@@ -43785,7 +43785,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetAlphamaps.html | TerrainData.GetAlphamaps}
      */
-    GetAlphamaps(x: number, y: number, width: number, height: number): Single[,,];
+    GetAlphamaps(x: number, y: number, width: number, height: number): Single[][][];
     /**
      * Returns the alphamap texture at the specified index.
      * @param index Index of the alphamap.
@@ -43810,8 +43810,8 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetDetailLayer.html | TerrainData.GetDetailLayer}
      */
-    GetDetailLayer(xBase: number, yBase: number, width: number, height: number, layer: number): Int32[,];
-    GetDetailLayer(positionBase: Vector2Int, size: Vector2Int, layer: number): Int32[,];
+    GetDetailLayer(xBase: number, yBase: number, width: number, height: number, layer: number): Int32[][];
+    GetDetailLayer(positionBase: Vector2Int, size: Vector2Int, layer: number): Int32[][];
     /**
      * Gets the world space height of the Terrain at a certain point x,y without adding the Terrain's world position y.
      * 
@@ -43827,7 +43827,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetHeights.html | TerrainData.GetHeights}
      */
-    GetHeights(xBase: number, yBase: number, width: number, height: number): Single[,];
+    GetHeights(xBase: number, yBase: number, width: number, height: number): Single[][];
     /**
      * Gets an array of Terrain holes samples.
      * @param xBase First x index of Terrain holes samples to retrieve.
@@ -43837,7 +43837,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetHoles.html | TerrainData.GetHoles}
      */
-    GetHoles(xBase: number, yBase: number, width: number, height: number): Boolean[,];
+    GetHoles(xBase: number, yBase: number, width: number, height: number): Boolean[][];
     /**
      * Gets an interpolated height at a point x,y. The x and y coordinates are clamped to [0, 1].
      * @param x X coordinate of the point in the range of [0, 1].
@@ -43857,7 +43857,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetInterpolatedHeights.html | TerrainData.GetInterpolatedHeights}
      */
-    GetInterpolatedHeights(xBase: number, yBase: number, xCount: number, yCount: number, xInterval: number, yInterval: number): Single[,];
+    GetInterpolatedHeights(xBase: number, yBase: number, xCount: number, yCount: number, xInterval: number, yInterval: number): Single[][];
     /**
      * Fills the array with Terrain height values using normalized x,y coordinates.
      * @param results The array to fill with height values.
@@ -43872,7 +43872,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetInterpolatedHeights.html | TerrainData.GetInterpolatedHeights}
      */
-    GetInterpolatedHeights(results: Single[,], resultXOffset: number, resultYOffset: number, xBase: number, yBase: number, xCount: number, yCount: number, xInterval: number, yInterval: number): void;
+    GetInterpolatedHeights(results: Single[][], resultXOffset: number, resultYOffset: number, xBase: number, yBase: number, xCount: number, yCount: number, xInterval: number, yInterval: number): void;
     /**
      * Get an interpolated normal at a given location.
      * 
@@ -43954,7 +43954,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.SetAlphamaps.html | TerrainData.SetAlphamaps}
      */
-    SetAlphamaps(x: number, y: number, map: Single[,,]): void;
+    SetAlphamaps(x: number, y: number, map: Single[][][]): void;
     /**
      * Marks the terrain data as dirty to trigger an update of the terrain basemap texture.
      * 
@@ -43966,8 +43966,8 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.SetDetailLayer.html | TerrainData.SetDetailLayer}
      */
-    SetDetailLayer(xBase: number, yBase: number, layer: number, details: Int32[,]): void;
-    SetDetailLayer(basePosition: Vector2Int, layer: number, details: Int32[,]): void;
+    SetDetailLayer(xBase: number, yBase: number, layer: number, details: Int32[][]): void;
+    SetDetailLayer(basePosition: Vector2Int, layer: number, details: Int32[][]): void;
     /**
      * Sets the resolution of the detail map.
      * @param detailResolution Specifies the number of pixels in the detail resolution map. A larger detailResolution, leads to more accurate detail object painting.
@@ -43990,7 +43990,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.SetHeights.html | TerrainData.SetHeights}
      */
-    SetHeights(xBase: number, yBase: number, heights: Single[,]): void;
+    SetHeights(xBase: number, yBase: number, heights: Single[][]): void;
     /**
      * Sets an array of heightmap samples.
      * @param xBase First x index of heightmap samples to set.
@@ -43999,7 +43999,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.SetHeightsDelayLOD.html | TerrainData.SetHeightsDelayLOD}
      */
-    SetHeightsDelayLOD(xBase: number, yBase: number, heights: Single[,]): void;
+    SetHeightsDelayLOD(xBase: number, yBase: number, heights: Single[][]): void;
     /**
      * Sets an array of Terrain holes samples.
      * @param xBase First x index of Terrain holes samples to set.
@@ -44008,7 +44008,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.SetHoles.html | TerrainData.SetHoles}
      */
-    SetHoles(xBase: number, yBase: number, holes: Boolean[,]): void;
+    SetHoles(xBase: number, yBase: number, holes: Boolean[][]): void;
     /**
      * Sets an array of Terrain holes samples.
      * @param xBase First x index of Terrain holes samples to set.
@@ -44017,7 +44017,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.SetHolesDelayLOD.html | TerrainData.SetHolesDelayLOD}
      */
-    SetHolesDelayLOD(xBase: number, yBase: number, holes: Boolean[,]): void;
+    SetHolesDelayLOD(xBase: number, yBase: number, holes: Boolean[][]): void;
     /**
      * This function sets the terrainLayers property, and in addition, registers the action to the Editor's undo stack.
      * @param terrainLayers The Terrain Layer assets to set.
