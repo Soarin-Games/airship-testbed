@@ -173,6 +173,15 @@ type AirshipDecorator<T> = T & {
 type AirshipBehaviourFieldDecorator<T extends ReadonlyArray<unknown>> = (
 	...args: T
 ) => AirshipDecorator<(target: AirshipBehaviour, property: string) => void>;
+
+type AirshipBehaviourMethodDecorator<T extends ReadonlyArray<unknown>> = (...args: T) => AirshipDecorator<
+	(
+		target: AirshipBehaviour | typeof AirshipBehaviour, // static or non-static
+		property: string,
+		descriptor: TypedPropertyDescriptor<(this: AirshipBehaviour | typeof AirshipBehaviour, ...args: any[]) => void>,
+	) => void
+>;
+
 type AirshipBehaviourClassDecorator<T extends ReadonlyArray<unknown>> = (
 	...args: T
 ) => AirshipDecorator<(target: typeof AirshipBehaviour) => void>;
@@ -227,6 +236,11 @@ declare const InspectorName: AirshipBehaviourFieldDecorator<[name: string]>;
  * @deprecated Not yet implemented
  */
 declare const ColorUsage: AirshipBehaviourFieldDecorator<[hdr: boolean, showAlpha: boolean]>;
+
+/**
+ * Require a component to be attached to the same GameObject.
+ */
+declare const RequireComponent: <T>() => AirshipDecorator<(target: typeof AirshipBehaviour) => void>;
 
 declare const AirshipComponentMenu: AirshipBehaviourClassDecorator<[path: string]>;
 declare const AirshipComponentIcon: AirshipBehaviourClassDecorator<[assetPath: string]>;

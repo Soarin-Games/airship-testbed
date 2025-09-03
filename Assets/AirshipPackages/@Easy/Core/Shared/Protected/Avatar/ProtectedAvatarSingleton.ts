@@ -12,7 +12,7 @@ import { HttpRetryInstance } from "../../Http/HttpRetry";
 import { CoreLogger } from "../../Logger/CoreLogger";
 import { Protected } from "../../Protected";
 import { ContentServiceClient } from "../../TypePackages/content-service-types";
-import { isUnityMakeRequestError, UnityMakeRequest } from "../../TypePackages/UnityMakeRequest";
+import { UnityMakeRequest, UnityMakeRequestError } from "../../TypePackages/UnityMakeRequest";
 import { AirshipUrl } from "../../Util/AirshipUrl";
 import { ColorUtil } from "../../Util/ColorUtil";
 import { RandomUtil } from "../../Util/RandomUtil";
@@ -212,8 +212,9 @@ export class ProtectedAvatarSingleton {
 			const result = await contentServiceClient.outfits.getActiveOutfit();
 			return result.outfit;
 		} catch (err) {
-			if (isUnityMakeRequestError(err)) {
-				CoreLogger.Error("failed to load user equipped outfit: " + (err.responseMessage() ?? "Empty Data"));
+			if (UnityMakeRequestError.IsInstance(err)) {
+				const errorMessage = UnityMakeRequestError.DisplayText(err) ?? "Empty Data";
+				CoreLogger.Error(`failed to load user equipped outfit: ${errorMessage}`);
 			}
 			throw err;
 		}
@@ -224,8 +225,9 @@ export class ProtectedAvatarSingleton {
 			const result = await contentServiceClient.outfits.getUserActiveOutfit({ uid: userId });
 			return result.outfit;
 		} catch (err) {
-			if (isUnityMakeRequestError(err)) {
-				CoreLogger.Error("failed to load users equipped outfit: " + (err.responseMessage() ?? "Empty Data"));
+			if (UnityMakeRequestError.IsInstance(err)) {
+				const errorMessage = UnityMakeRequestError.DisplayText(err) ?? "Empty Data";
+				CoreLogger.Error(`failed to load users equipped outfit: ${errorMessage}`);
 			}
 			throw err;
 		}
@@ -236,8 +238,9 @@ export class ProtectedAvatarSingleton {
 			const result = await contentServiceClient.outfits.getOutfit({ outfitId });
 			return result.outfit;
 		} catch (err) {
-			if (isUnityMakeRequestError(err)) {
-				CoreLogger.Error("failed to load user outfit: " + (err.responseMessage() ?? "Empty Data"));
+			if (UnityMakeRequestError.IsInstance(err)) {
+				const errorMessage = UnityMakeRequestError.DisplayText(err) ?? "Empty Data";
+				CoreLogger.Error(`failed to load user outfit: ${errorMessage}`);
 			}
 			throw err;
 		}
@@ -248,8 +251,9 @@ export class ProtectedAvatarSingleton {
 			const result = await contentServiceClient.outfits.createOutfit(outfit);
 			return result.outfit;
 		} catch (err) {
-			if (isUnityMakeRequestError(err)) {
-				CoreLogger.Error("Error creating outfit: " + (err.responseMessage() ?? "An unknown error occurred"));
+			if (UnityMakeRequestError.IsInstance(err)) {
+				const errorMessage = UnityMakeRequestError.DisplayText(err) ?? "An unknown error occurred";
+				CoreLogger.Error(`Error creating outfit: ${errorMessage}`);
 			}
 			throw err;
 		}
@@ -259,8 +263,9 @@ export class ProtectedAvatarSingleton {
 		try {
 			await contentServiceClient.outfits.loadOutfit({ outfitId });
 		} catch (err) {
-			if (isUnityMakeRequestError(err)) {
-				CoreLogger.Error("Failed to equip outfit: " + (err.responseMessage() ?? "An unknown error occurred"));
+			if (UnityMakeRequestError.IsInstance(err)) {
+				const errorMessage = UnityMakeRequestError.DisplayText(err) ?? "An unknown error occurred";
+				CoreLogger.Error(`Failed to equip outfit: ${errorMessage}`);
 			}
 			throw err;
 		}
@@ -314,8 +319,9 @@ export class ProtectedAvatarSingleton {
 		try {
 			return contentServiceClient.outfits.updateOutfit({ data: update, params: { outfitId } }).expect().outfit;
 		} catch (err) {
-			if (isUnityMakeRequestError(err)) {
-				CoreLogger.Error("Error Updating Outfit: " + (err.responseMessage() ?? "An unknown error occurred"));
+			if (UnityMakeRequestError.IsInstance(err)) {
+				const errorMessage = UnityMakeRequestError.DisplayText(err) ?? "An unknown error occurred";
+				CoreLogger.Error(`Error Updating Outfit: ${errorMessage}`);
 			}
 			throw err;
 		}
@@ -372,10 +378,9 @@ export class ProtectedAvatarSingleton {
 
 			return imageId;
 		} catch (err) {
-			if (isUnityMakeRequestError(err)) {
-				CoreLogger.Error(
-					"Error getting item image resource: " + (err.responseMessage() ?? "An unknown error occurred"),
-				);
+			if (UnityMakeRequestError.IsInstance(err)) {
+				const errorMessage = UnityMakeRequestError.DisplayText(err) ?? "An unknown error occurred";
+				CoreLogger.Error(`Error getting item image resource: ${errorMessage}`);
 			}
 			return "";
 		}
