@@ -11895,7 +11895,6 @@ interface AgonesProxy extends MonoBehaviour {
 
     readonly connected: MonoSignal<void>;
     readonly ready: MonoSignal<void>;
-    readonly test: MonoSignal<void>;
 
 
     AppendListValue(list: string, value: string): boolean;
@@ -31356,6 +31355,7 @@ interface GameConfig extends ScriptableObject {
     gameLayers: Readonly<string[]>;
     gameTags: Readonly<string[]>;
     physicsMatrix: Readonly<boolean[]>;
+    physicsMatrix2D: Readonly<boolean[]>;
     gravity: Vector3;
     bounceThreshold: number;
     defaultMaxDepenetrationVelocity: number;
@@ -31366,6 +31366,26 @@ interface GameConfig extends ScriptableObject {
     queriesHitBackfaces: boolean;
     queriesHitTriggers: boolean;
     fixedDeltaTime: number;
+    gravity2D: Vector3;
+    velocityIterations2D: number;
+    positionIterations2D: number;
+    bounceThreshold2D: number;
+    maxLinearCorrection2D: number;
+    maxAngularCorrection2D: number;
+    maxTranslationSpeed2D: number;
+    maxRotationSpeed2D: number;
+    baumgarteScale2D: number;
+    baumgarteTOIScale2D: number;
+    timeToSleep2D: number;
+    linearSleepTolerance2D: number;
+    angularSleepTolerance2D: number;
+    defaultContactOffset2D: number;
+    contactThreshold2D: number;
+    queriesHitTriggers2D: boolean;
+    queriesStartInColliders2D: boolean;
+    callbacksOnDisable2D: boolean;
+    reuseCollisionCallbacks2D: boolean;
+    autoSyncTransforms2D: boolean;
     supportsMobile: boolean;
     compileURPShaders: boolean;
 
@@ -31967,6 +31987,7 @@ interface ServerBootstrap extends MonoBehaviour {
     organizationId: string;
     isShutdownEventTriggered: boolean;
     isAgonesShutdownTriggered: boolean;
+    isShutdownComplete: boolean;
     serverContext: ServerContext;
     isServerReady: boolean;
     isStartupConfigReady: boolean;
@@ -37695,7 +37716,7 @@ interface TexturePacker {
 
     Dispose(): void;
     GetUVs(sourceTexture: Texture2D): Rect;
-    PackTextures(textures: CSDictionary<number, TextureSet>, desiredPadding: number, width: number, height: number, numMips: number, normalizedSize: number): void;
+    PackTextures(textures: CSDictionary<number, TextureSet>, desiredPadding: number, width: number, height: number, numMips: number, normalizedSize: number, packNormals: boolean): void;
 
 
 }
