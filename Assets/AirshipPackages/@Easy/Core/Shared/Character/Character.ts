@@ -73,7 +73,7 @@ export default class Character extends AirshipBehaviour {
 	// Inventory and related
 	@Header("Inventory")
 	@NonSerialized()
-	public inventory: Inventory;
+	public inventory: Inventory | undefined;
 	@NonSerialized() public heldItem?: ItemStack;
 	@NonSerialized() public heldSlot = 0;
 	@NonSerialized() public readonly onHeldSlotChanged = new Signal<number>();
@@ -390,16 +390,18 @@ export default class Character extends AirshipBehaviour {
 			}),
 		);
 
+		let customInput: Map<string, unknown>;
 		this.bin.AddEngineEventConnection(
 			movementWithSignals.OnProcessCommand((input, state, isReplay) => {
-				this.PreProcessCommand.Fire(this.ParseCustomInputData(input), input, isReplay);
-				this.ProcessCommand(input, state, isReplay);
+				customInput = this.ParseCustomInputData(input);
+				this.PreProcessCommand.Fire(customInput, input, isReplay);
+				this.OnUseCustomInputData.Fire(customInput, input, isReplay);
 			}),
 		);
 
 		this.bin.AddEngineEventConnection(
 			movementWithSignals.OnProcessedCommand((input, state, isReplay) => {
-				this.ProcessCommandAfterMove(input, state, isReplay);
+				this.OnUseCustomInputDataAfterMove.Fire(customInput, input, isReplay);
 			}),
 		);
 
@@ -565,16 +567,6 @@ export default class Character extends AirshipBehaviour {
 			}
 		}
 		return allCustomData;
-	}
-
-	private ProcessCommand(input: CharacterInputData, state: CharacterSnapshotData, isReplay: boolean) {
-		const data = this.ParseCustomInputData(input);
-		this.OnUseCustomInputData.Fire(data, input, isReplay);
-	}
-
-	private ProcessCommandAfterMove(input: CharacterInputData, state: CharacterSnapshotData, isReplay: boolean) {
-		const data = this.ParseCustomInputData(input);
-		this.OnUseCustomInputDataAfterMove.Fire(data, input, isReplay);
 	}
 
 	public IsInitialized() {
@@ -818,7 +810,7 @@ export default class Character extends AirshipBehaviour {
 	}
 
 	public GetHeldItem(): ItemStack | undefined {
-		return this.inventory.GetItem(this.heldSlot);
+		return this.inventory?.GetItem(this.heldSlot);
 	}
 
 	public GetHeldSlot(): number {

@@ -1207,7 +1207,9 @@ export class AirshipInputSingleton {
 			const clientSettings = Protected.Settings.WaitForSettingsLoaded().expect();
 			const gameOverrides = clientSettings.gameKeybindOverrides[gameId];
 			if (!gameOverrides) return;
-			const actionOverride = gameOverrides[action.internalName];
+			// Checking by key `action.name` here for backwards compat. Old rebinds could have case sensitive
+			// entries in ClientSettings.
+			const actionOverride = gameOverrides[action.internalName] ?? gameOverrides[action.name];
 			if (!actionOverride) return;
 			const bindingFromSettings = this.CreateBindingFromSerializedAction(actionOverride);
 			action.UpdateBinding(bindingFromSettings);
@@ -1235,6 +1237,15 @@ export class AirshipInputSingleton {
 	 */
 	public IsSprintToggleEnabled(): boolean {
 		return contextbridge.invoke<() => boolean>("ClientSettings:IsSprintToggleEnabled", LuauContext.Protected);
+	}
+
+	/**
+	 * Returns mute toggle based on player's setting.
+	 *
+	 * @returns mute toggle based on player's setting.
+	 */
+	public IsVoiceToggleEnabled(): boolean {
+		return contextbridge.invoke<() => boolean>("ClientSettings:IsVoiceToggleEnabled", LuauContext.Protected);
 	}
 
 	/**

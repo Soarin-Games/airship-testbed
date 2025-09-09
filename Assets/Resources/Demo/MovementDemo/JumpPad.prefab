@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4feffba88dce746a2607f0ec6233b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: 2e99e530-0d89-45c0-a7a1-9d3a64549849
+  guid: e3d0adf2-d92e-453b-ae68-443cdc86dfdd
   script: {fileID: -1395346797326882881, guid: a82008896ce7c804a9e06e3e2edd2804, type: 3}
   scriptPath: Assets/Code/AirshipPlatformDemo/MovementModifications/CharacterForceTrigger.lua
   forceContext: 0

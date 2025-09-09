@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4feffba88dce746a2607f0ec6233b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: 9aaaa85f-515c-48b8-9b53-04121eb96437
+  guid: e0329f40-43aa-4f75-9a35-56261168369a
   script: {fileID: 2083954211131876583, guid: d3900584501ded7489325db581fa5648, type: 3}
   scriptPath: Assets/Code/AirshipPlatformDemo/MovementModifications/OneWayPlatform.lua
   forceContext: 0

@@ -307,6 +307,12 @@ interface Vector3 {
 	WithY(y: number): Vector3;
 	/** Returns vector with provided z value */
 	WithZ(z: number): Vector3;
+
+	/**
+	 * Check if the two vectors are approximately equal, using `epsilon` as
+	 * the threshold. The default epsilon value is `0.00001`.
+	 */
+	ApproxEqual(other: Vector3, epsilon?: number): boolean;
 }
 
 interface Vector3Constructor {
@@ -412,6 +418,12 @@ interface Vector3Constructor {
 		maxSpeed?: number,
 	) => LuaTuple<[newCurrent: Vector3, newVelocity: Vector3]>;
 
+	/**
+	 * Check if the two vectors are approximately equal, using `epsilon` as
+	 * the threshold. The default epsilon value is `0.00001`.
+	 */
+	ApproxEqual: (a: Vector3, b: Vector3, epsilon?: number) => boolean;
+
 	/** Constructs a new Vector3 using the given x, y, and z components. */
 	new (x: number, y: number, z: number): Vector3;
 
@@ -467,6 +479,12 @@ interface Vector4 {
 
 	/** Calculates the distance between two vectors. */
 	Distance(to: Vector4): number;
+
+	/**
+	 * Check if the two vectors are approximately equal, using `epsilon` as
+	 * the threshold. The default epsilon value is `0.00001`.
+	 */
+	ApproxEqual(other: Vector4, epsilon?: number): boolean;
 }
 
 interface Vector4Constructor {
@@ -505,6 +523,12 @@ interface Vector4Constructor {
 
 	/** Calculates the distance between two vectors. */
 	Distance: (from: Vector4, to: Vector4) => number;
+
+	/**
+	 * Check if the two vectors are approximately equal, using `epsilon` as
+	 * the threshold. The default epsilon value is `0.00001`.
+	 */
+	ApproxEqual: (a: Vector4, b: Vector4, epsilon?: number) => boolean;
 
 	/** Constructs a new Vector4 using the given x, y, z, and w components. */
 	new (x: number, y: number, z: number, w: number): Vector4;
@@ -571,6 +595,12 @@ interface Vector2 {
 
 	/** Returns the vector moved towards `target` a maximum of `maxDistanceDelta`. */
 	MoveTowards(target: Vector2, maxDistanceDelta: number): Vector2;
+
+	/**
+	 * Check if the two vectors are approximately equal, using `epsilon` as
+	 * the threshold. The default epsilon value is `0.00001`.
+	 */
+	ApproxEqual(other: Vector2, epsilon?: number): boolean;
 }
 
 interface Vector2Constructor {
@@ -634,6 +664,12 @@ interface Vector2Constructor {
 	/** Returns a vector moved from `current` towards `target` a maximum of `maxDistanceDelta`. */
 	MoveTowards: (current: Vector2, target: Vector2, maxDistanceDelta: number) => Vector2;
 
+	/**
+	 * Check if the two vectors are approximately equal, using `epsilon` as
+	 * the threshold. The default epsilon value is `0.00001`.
+	 */
+	ApproxEqual: (a: Vector2, b: Vector2, epsilon?: number) => boolean;
+
 	new (x: number, y: number): Vector2;
 	new (): Vector2;
 }
@@ -658,6 +694,9 @@ interface Quaternion {
 
 	/** Z component of the quaternion. */
 	z: number;
+
+	/** Converts a quaternion to angle-axis representation. */
+	ToAngleAxis(): LuaTuple<[angle: number, axis: Vector3]>;
 }
 
 interface QuaternionConstructor {
@@ -678,6 +717,12 @@ interface QuaternionConstructor {
 	 * the X axis, and `y` degrees around the Y axis; applied in that order.
 	 */
 	Euler: (x: number, y: number, z: number) => Quaternion;
+
+	/**
+	 * Constructs a quaternion that rotates `vec.z` degrees around the Z axis, `vec.x` degrees around
+	 * the X axis, and `vec.y` degrees around the Y axis; applied in that order.
+	 */
+	Euler: (vec: Vector3) => Quaternion;
 
 	/** Creates a rotation which rotates from `fromDirection` to `toDirection`. */
 	FromToRotation: (fromDirection: Vector3, toDirection: Vector3) => Quaternion;
@@ -5358,3 +5403,102 @@ interface WheelCollider extends Collider {
 	 */
 	ResetSprungMasses(): void;
 }
+
+interface Rect {
+	/** The X coordinate of the rectangle. */
+	x: number;
+
+	/** The Y coordinate of the rectangle. */
+	y: number;
+
+	/** The X and Y position of the rectangle. */
+	position: Vector2;
+
+	/** The position of the center of the rectangle. */
+	center: Vector2;
+
+	/** The position of the minimum corner of the rectangle. */
+	min: Vector2;
+
+	/** The position of the maximum corner of the rectangle. */
+	max: Vector2;
+
+	/** The width of the rectangle, measured from the X position. */
+	width: number;
+
+	/** The height of the rectangle, measured from the Y position. */
+	height: number;
+
+	/** The width and height of the rectangle. */
+	size: Vector2;
+
+	/** The minimum X coordinate of the rectangle. */
+	xMin: number;
+
+	/** The minimum Y coordinate of the rectangle. */
+	yMin: number;
+
+	/** The maximum X coordinate of the rectangle. */
+	xMax: number;
+
+	/** The maximum Y coordinate of the rectangle. */
+	yMax: number;
+
+	/**
+	 * Returns true if the x and y components of point is a point inside this rectangle. If allowInverse is present and true, the width and height of the Rect are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.
+	 * @param point Point to test.
+	 */
+	Contains(point: Vector2): boolean;
+
+	/**
+	 * Returns true if the x and y components of point is a point inside this rectangle. If allowInverse is present and true, the width and height of the Rect are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.
+	 * @param point Point to test.
+	 */
+	Contains(point: Vector3): boolean;
+	/**
+	 * Returns true if the x and y components of point is a point inside this rectangle. If allowInverse is present and true, the width and height of the Rect are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.
+	 * @param point Point to test.
+	 * @param allowInverse Does the test allow the Rect's width and height to be negative?
+	 */
+	Contains(point: Vector3, allowInverse: boolean): boolean;
+
+	/**
+	 * Returns true if the other rectangle overlaps this one.
+	 * @param other Other rectangle to test overlapping with.
+	 */
+	Overlaps(other: Rect): boolean;
+
+	/**
+	 * Returns true if the other rectangle overlaps this one. If allowInverse is present and true, the widths and heights of the Rects are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.
+	 * @param other Other rectangle to test overlapping with.
+	 * @param allowInverse Does the test allow the widths and heights of the Rects to be negative?
+	 */
+	Overlaps(other: Rect, allowInverse: boolean): boolean;
+
+	/**
+	 * Set components of an existing Rect.
+	 * @param x Rect X position.
+	 * @param y Rect Y position.
+	 * @param width Rect width.
+	 * @param height Rect height.
+	 */
+	Set(x: number, y: number, width: number, height: number): void;
+}
+
+interface RectConstructor {
+	/** Shorthand for writing `new Rect(0,0,0,0)`. */
+	readonly zero: Rect;
+
+	new (x: number, y: number, width: number, height: number): Rect;
+	new (position: Vector2, size: Vector2): Rect;
+
+	/** Creates a rectangle from min/max coordinate values. */
+	MinMaxRect(xmin: number, ymin: number, xmax: number, ymax: number): Rect;
+
+	/** Returns a point inside a rectangle, given normalized coordinates. */
+	NormalizedToPoint(rectangle: Rect, normalizedRectCoordinates: Vector2): Vector2;
+
+	/** Returns the normalized coordinates corresponding to the point. */
+	PointToNormalized(rectangle: Rect, point: Vector2): Vector2;
+}
+declare const Rect: RectConstructor;

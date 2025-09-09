@@ -4983,7 +4983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4feffba88dce746a2607f0ec6233b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guid: 82d3f6e1-c301-48c8-b7f2-87093fc36f7e
+  guid: 61e39284-4ae7-4153-9ca4-9903866be414
   script: {fileID: 2633685010534107183, guid: e939fe72bcc69db4498bbd1c6ef0732e, type: 3}
   scriptPath: Assets/Code/AirshipPlatformDemo/MovementModifications/CharacterTeleporter.lua
   forceContext: 0
