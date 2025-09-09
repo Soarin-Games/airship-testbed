@@ -1370,16 +1370,6 @@ declare const enum CanvasUpdate {
     LatePreRender = 4,
     MaxUpdateValue = 5,
 }
-declare const enum Edge {
-    Left = 0,
-    Right = 1,
-    Top = 2,
-    Bottom = 3,
-}
-declare const enum Axis {
-    Horizontal = 0,
-    Vertical = 1,
-}
 declare const enum RenderMode {
     ScreenSpaceOverlay = 0,
     ScreenSpaceCamera = 1,
@@ -10693,6 +10683,8 @@ Returns NULL if there is no associated alpha Texture for the source Sprite. This
 
 }
     
+    
+    
 interface Texture extends Object {
     /**
      * How many mipmap levels are in this Texture (Read Only).
@@ -19837,194 +19829,11 @@ interface RayTracingShader extends Object {
 
 }
     
-interface RectInt {
-    /**
-     * Left coordinate of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-x.html | RectInt.x}
-     */
-    x: number;
-    /**
-     * Top coordinate of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-y.html | RectInt.y}
-     */
-    y: number;
-    /**
-     * Center coordinate of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-center.html | RectInt.center}
-     */
-    readonly center: Vector2;
-    /**
-     * The lower left corner of the rectangle; which is the minimal position of the rectangle along the x- and y-axes, when it is aligned to both axes.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-min.html | RectInt.min}
-     */
-    min: Vector2Int;
-    /**
-     * The upper right corner of the rectangle; which is the maximal position of the rectangle along the x- and y-axes, when it is aligned to both axes.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-max.html | RectInt.max}
-     */
-    max: Vector2Int;
-    /**
-     * Width of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-width.html | RectInt.width}
-     */
-    width: number;
-    /**
-     * Height of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-height.html | RectInt.height}
-     */
-    height: number;
-    /**
-     * Shows the minimum X value of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-xMin.html | RectInt.xMin}
-     */
-    xMin: number;
-    /**
-     * Show the minimum Y value of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-yMin.html | RectInt.yMin}
-     */
-    yMin: number;
-    /**
-     * Shows the maximum X value of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-xMax.html | RectInt.xMax}
-     */
-    xMax: number;
-    /**
-     * Shows the maximum Y value of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-yMax.html | RectInt.yMax}
-     */
-    yMax: number;
-    /**
-     * Returns the position (x, y) of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-position.html | RectInt.position}
-     */
-    position: Vector2Int;
-    /**
-     * Returns the width and height of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-size.html | RectInt.size}
-     */
-    size: Vector2Int;
-    /**
-     * A RectInt.PositionCollection that contains all positions within the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-allPositionsWithin.html | RectInt.allPositionsWithin}
-     */
-    readonly allPositionsWithin: PositionEnumerator;
-
-
-
-    /**
-     * Clamps the position and size of the RectInt to the given bounds.
-     * @param bounds Bounds to clamp the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.ClampToBounds.html | RectInt.ClampToBounds}
-     */
-    ClampToBounds(bounds: RectInt): void;
-    /**
-     * Returns true if the given position is within the RectInt.
-     * @param position Position to check.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.Contains.html | RectInt.Contains}
-     */
-    Contains(position: Vector2Int): boolean;
-    Equals(other: unknown): boolean;
-    /**
-     * Returns true if the given RectInt is equal to this RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.Equals.html | RectInt.Equals}
-     */
-    Equals(other: RectInt): boolean;
-    GetHashCode(): number;
-    /**
-     * RectInts overlap if each RectInt Contains a shared point.
-     * @param other Other rectangle to test overlapping with.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.Overlaps.html | RectInt.Overlaps}
-     */
-    Overlaps(other: RectInt): boolean;
-    /**
-     * Sets the bounds to the min and max value of the rect.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.SetMinMax.html | RectInt.SetMinMax}
-     */
-    SetMinMax(minPosition: Vector2Int, maxPosition: Vector2Int): void;
-    /**
-     * Returns the x, y, width and height of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.ToString.html | RectInt.ToString}
-     */
-    ToString(): string;
-    /**
-     * Returns the x, y, width and height of the RectInt.
-     * @param format A numeric format string.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.ToString.html | RectInt.ToString}
-     */
-    ToString(format: string): string;
-    /**
-     * Returns the x, y, width and height of the RectInt.
-     * @param format A numeric format string.
-     * @param formatProvider An object that specifies culture-specific formatting.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.ToString.html | RectInt.ToString}
-     */
-    ToString(format: string, formatProvider: IFormatProvider): string;
-
-
-}
     
     
     
-interface PositionEnumerator {
-    readonly Current: Vector2Int;
-
-
-
-    GetEnumerator(): PositionEnumerator;
-    MoveNext(): boolean;
-    Reset(): void;
-
-
-}
     
-interface PositionEnumeratorConstructor {
-
-
-    new(min: Vector2Int, max: Vector2Int): PositionEnumerator;
-
-
-
-}
-declare const PositionEnumerator: PositionEnumeratorConstructor;
     
-interface RectIntConstructor {
-    /**
-     * Shorthand for writing new RectInt(0,0,0,0).
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-zero.html | RectInt.zero}
-     */
-    readonly zero: RectInt;
-
-
-    new(xMin: number, yMin: number, width: number, height: number): RectInt;
-    new(position: Vector2Int, size: Vector2Int): RectInt;
-
-
-
-}
-declare const RectInt: RectIntConstructor;
     
 interface RendererList {
     /**
@@ -21484,106 +21293,7 @@ interface Graphic extends UIBehaviour, ICanvasElement {
 
 }
     
-interface RectTransform extends Transform {
-    /**
-     * The calculated rectangle in the local space of the Transform.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-rect.html | RectTransform.rect}
-     */
-    readonly rect: Rect;
-    /**
-     * The normalized position in the parent RectTransform that the lower left corner is anchored to.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-anchorMin.html | RectTransform.anchorMin}
-     */
-    anchorMin: Vector2;
-    /**
-     * The normalized position in the parent RectTransform that the upper right corner is anchored to.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-anchorMax.html | RectTransform.anchorMax}
-     */
-    anchorMax: Vector2;
-    /**
-     * The position of the pivot of this RectTransform relative to the anchor reference point.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-anchoredPosition.html | RectTransform.anchoredPosition}
-     */
-    anchoredPosition: Vector2;
-    /**
-     * The size of this RectTransform relative to the distances between the anchors.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-sizeDelta.html | RectTransform.sizeDelta}
-     */
-    sizeDelta: Vector2;
-    /**
-     * The normalized position in this RectTransform that it rotates around.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-pivot.html | RectTransform.pivot}
-     */
-    pivot: Vector2;
-    /**
-     * The 3D position of the pivot of this RectTransform relative to the anchor reference point.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-anchoredPosition3D.html | RectTransform.anchoredPosition3D}
-     */
-    anchoredPosition3D: Vector3;
-    /**
-     * The offset of the lower left corner of the rectangle relative to the lower left anchor.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-offsetMin.html | RectTransform.offsetMin}
-     */
-    offsetMin: Vector2;
-    /**
-     * The offset of the upper right corner of the rectangle relative to the upper right anchor.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-offsetMax.html | RectTransform.offsetMax}
-     */
-    offsetMax: Vector2;
-    /**
-     * The object that is driving the values of this RectTransform. Value is null if not driven.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-drivenByObject.html | RectTransform.drivenByObject}
-     */
-    readonly drivenByObject: Object;
-
-
-
-    /**
-     * Force the recalculation of RectTransforms internal data.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform.ForceUpdateRectTransforms.html | RectTransform.ForceUpdateRectTransforms}
-     */
-    ForceUpdateRectTransforms(): void;
-    /**
-     * Get the corners of the calculated rectangle in the local space of its Transform.
-     * @param fourCornersArray The array that corners are filled into.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform.GetLocalCorners.html | RectTransform.GetLocalCorners}
-     */
-    GetLocalCorners(fourCornersArray: Readonly<Vector3[]>): void;
-    /**
-     * Get the corners of the calculated rectangle in world space.
-     * @param fourCornersArray The array that corners are filled into.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform.GetWorldCorners.html | RectTransform.GetWorldCorners}
-     */
-    GetWorldCorners(fourCornersArray: Readonly<Vector3[]>): void;
-    SetInsetAndSizeFromParentEdge(edge: Edge, inset: number, size: number): void;
-    SetSizeWithCurrentAnchors(axis: Axis, size: number): void;
-
-
-}
     
-interface RectTransformConstructor {
-
-
-    new(): RectTransform;
-
-
-
-    readonly reapplyDrivenProperties: MonoSignal<void>;
-}
-declare const RectTransform: RectTransformConstructor;
     
 interface Canvas extends Behaviour {
     /**
@@ -39397,93 +39107,7 @@ interface LayoutGroup extends UIBehaviour, ILayoutGroup, ILayoutElement {
 
 }
     
-interface RectOffset {
-    /**
-     * Left edge size.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset-left.html | RectOffset.left}
-     */
-    left: number;
-    /**
-     * Right edge size.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset-right.html | RectOffset.right}
-     */
-    right: number;
-    /**
-     * Top edge size.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset-top.html | RectOffset.top}
-     */
-    top: number;
-    /**
-     * Bottom edge size.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset-bottom.html | RectOffset.bottom}
-     */
-    bottom: number;
-    /**
-     * Shortcut for left + right. (Read Only)
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset-horizontal.html | RectOffset.horizontal}
-     */
-    readonly horizontal: number;
-    /**
-     * Shortcut for top + bottom. (Read Only)
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset-vertical.html | RectOffset.vertical}
-     */
-    readonly vertical: number;
-
-
-
-    /**
-     * Add the border offsets to a rect.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset.Add.html | RectOffset.Add}
-     */
-    Add(rect: Rect): Rect;
-    /**
-     * Remove the border offsets from a rect.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset.Remove.html | RectOffset.Remove}
-     */
-    Remove(rect: Rect): Rect;
-    /**
-     * Returns a formatted string for this RectOffset.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset.ToString.html | RectOffset.ToString}
-     */
-    ToString(): string;
-    /**
-     * Returns a formatted string for this RectOffset.
-     * @param format A numeric format string.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset.ToString.html | RectOffset.ToString}
-     */
-    ToString(format: string): string;
-    /**
-     * Returns a formatted string for this RectOffset.
-     * @param format A numeric format string.
-     * @param formatProvider An object that specifies culture-specific formatting.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset.ToString.html | RectOffset.ToString}
-     */
-    ToString(format: string, formatProvider: IFormatProvider): string;
-
-
-}
     
-interface RectOffsetConstructor {
-
-
-    new(): RectOffset;
-    new(left: number, right: number, top: number, bottom: number): RectOffset;
-
-
-
-}
-declare const RectOffset: RectOffsetConstructor;
     
 interface HorizontalOrVerticalLayoutGroup extends LayoutGroup {
     spacing: number;
@@ -39587,33 +39211,7 @@ interface LayoutRebuilderConstructor {
 }
 declare const LayoutRebuilder: LayoutRebuilderConstructor;
     
-interface RectTransformUtility {
-
-
-
-
-
-}
     
-interface RectTransformUtilityConstructor {
-
-
-
-
-    CalculateRelativeRectTransformBounds(root: Transform, child: Transform): Bounds;
-    CalculateRelativeRectTransformBounds(trans: Transform): Bounds;
-    FlipLayoutAxes(rect: RectTransform, keepPositioning: boolean, recursive: boolean): void;
-    FlipLayoutOnAxis(rect: RectTransform, axis: number, keepPositioning: boolean, recursive: boolean): void;
-    PixelAdjustPoint(point: Vector2, elementTransform: Transform, canvas: Canvas): Vector2;
-    PixelAdjustRect(rectTransform: RectTransform, canvas: Canvas): Rect;
-    RectangleContainsScreenPoint(rect: RectTransform, screenPoint: Vector2): boolean;
-    RectangleContainsScreenPoint(rect: RectTransform, screenPoint: Vector2, cam: Camera): boolean;
-    RectangleContainsScreenPoint(rect: RectTransform, screenPoint: Vector2, cam: Camera, offset: Vector4): boolean;
-    ScreenPointToRay(cam: Camera, screenPos: Vector2): Ray;
-    WorldToScreenPoint(cam: Camera, worldPoint: Vector3): Vector2;
-
-}
-declare const RectTransformUtility: RectTransformUtilityConstructor;
     
 interface ScrollRect extends UIBehaviour, ILayoutGroup, IBeginDragHandler, IInitializePotentialDragHandler, IDragHandler, IEndDragHandler, ICanvasElement, IScrollHandler, ILayoutElement {
     content: RectTransform;
