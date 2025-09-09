@@ -10,8 +10,10 @@ import { Bin } from "../Util/Bin";
 import { SignalPriority } from "../Util/Signal";
 import { EmoteDefinition } from "./EmoteDefinition";
 import { EmoteId } from "./EmoteId";
-import { InternalEmoteDefinitions, EmoteCooldown } from "./InternalEmoteDef";
+import { InternalEmoteDefinitions } from "./InternalEmoteDef";
 import InternalEmoteMenu from "./InternalEmoteMenu";
+
+const EmoteCooldown = 0.2;
 
 @Singleton({})
 export default class AirshipEmoteSingleton implements OnStart {
@@ -28,12 +30,12 @@ export default class AirshipEmoteSingleton implements OnStart {
 			const emoteDef = InternalEmoteDefinitions[emoteId as EmoteId] as EmoteDefinition | undefined;
 			if (!emoteDef) return;
 			if (!player.character) return;
-			if (this.emoteCooldown.get(player.character.id) ?? 0 > os.clock()) {
-				return;
-			} else {
-				this.emoteCooldown.set(player.character.id, os.clock() + EmoteCooldown);
-			}
 
+			const lastEmoteTime = this.emoteCooldown.get(player.character.id) ?? 0;
+			if (lastEmoteTime > 0 && lastEmoteTime < EmoteCooldown) {
+				return;
+			}
+			this.emoteCooldown.set(player.character.id, Time.unscaledTime);
 			CoreNetwork.ServerToClient.Character.EmoteStart.server.FireAllClients(player.character.id, emoteId);
 		});
 

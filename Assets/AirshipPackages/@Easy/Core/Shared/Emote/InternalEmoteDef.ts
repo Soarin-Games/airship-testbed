@@ -68,7 +68,6 @@ for (let id of ObjectUtils.keys(defs)) {
 	(defs[id] as any).id = id;
 }
 
-export const EmoteCooldown = 0.1;
 export const InternalEmoteDefinitions: {
 	[key in EmoteId]: EmoteDefinition;
 } = defs as {
