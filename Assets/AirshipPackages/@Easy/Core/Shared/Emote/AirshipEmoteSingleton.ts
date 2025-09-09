@@ -32,7 +32,7 @@ export default class AirshipEmoteSingleton implements OnStart {
 			if (!player.character) return;
 
 			const lastEmoteTime = this.emoteCooldown.get(player.character.id) ?? 0;
-			if (lastEmoteTime > 0 && lastEmoteTime < EmoteCooldown) {
+			if (Time.unscaledTime - lastEmoteTime < EmoteCooldown) {
 				return;
 			}
 			this.emoteCooldown.set(player.character.id, Time.unscaledTime);
