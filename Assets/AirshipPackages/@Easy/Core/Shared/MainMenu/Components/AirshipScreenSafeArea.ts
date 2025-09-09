@@ -25,6 +25,7 @@ export default class AirshipScreenSafeArea extends AirshipBehaviour {
 
 	protected UpdateSafeArea() {
 		if (!Game.IsMobile()) return;
+		if (Game.deviceType === AirshipDeviceType.Tablet) return;
 
 		let shouldModify: boolean;
 		if (this.orientation === SafeAreaOrientation.PortraitAndLandscape) {
