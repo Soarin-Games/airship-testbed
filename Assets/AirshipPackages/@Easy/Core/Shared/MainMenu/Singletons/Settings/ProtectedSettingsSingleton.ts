@@ -296,6 +296,7 @@ export class ProtectedSettingsSingleton {
 		task.spawn(() => {
 			this.settingsLoaded = true;
 			this.onSettingsLoaded.Fire(this.data);
+			contextbridge.broadcast("Settings:Loaded");
 		});
 
 		SetInterval(0.5, () => {

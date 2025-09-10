@@ -1,21 +1,24 @@
 import { Bin } from "../../Util/Bin";
-import { CanvasAPI } from "../../Util/CanvasAPI";
+import { CanvasAPI, PointerButton, PointerDirection } from "../../Util/CanvasAPI";
 
 export default class TouchJoystick extends AirshipBehaviour {
-	public dragTarget: RectTransform;
-	public handle: RectTransform;
-	public handleRange = 1;
-	public deadZone = 0;
+	@SerializeField() private dragTarget: RectTransform;
+	@SerializeField() private handleOuter: RectTransform;
+	@SerializeField() private handleInner: RectTransform;
+	@SerializeField() private handleRange = 1;
+	@SerializeField() private deadZone = 0;
+	private handleOuterImage: Image;
+	private handleInnerImage: Image;
 
 	/**
 	 * Normalized input vector.
 	 */
-	public input = new Vector2(0, 0);
+	@NonSerialized() public input = new Vector2(0, 0);
 
 	/**
 	 * True if currently being dragged.
 	 */
-	public dragging = false;
+	private dragging = false;
 
 	private rectTransform!: RectTransform;
 	private canvas!: Canvas;
@@ -24,6 +27,8 @@ export default class TouchJoystick extends AirshipBehaviour {
 	private tweenBin = new Bin();
 
 	public Awake(): void {
+		this.handleOuterImage = this.handleOuter.GetComponent<Image>()!;
+		this.handleInnerImage = this.handleInner.GetComponent<Image>()!;
 		this.rectTransform = this.gameObject.GetComponent<RectTransform>()!;
 		this.canvas = this.gameObject.GetComponentInParent<Canvas>()!;
 		if (this.canvas === undefined) {
@@ -32,6 +37,18 @@ export default class TouchJoystick extends AirshipBehaviour {
 	}
 
 	override Start(): void {
+		this.bin.AddEngineEventConnection(
+			CanvasAPI.OnPointerEvent(this.dragTarget.gameObject, (direction, button) => {
+				if (direction === PointerDirection.DOWN && button === PointerButton.LEFT) {
+					NativeTween.GraphicAlpha(this.handleOuterImage, 0.6, 0.2).SetUseUnscaledTime(true);
+					NativeTween.GraphicAlpha(this.handleInnerImage, 0.6, 0.2).SetUseUnscaledTime(true);
+				}
+				if (direction === PointerDirection.UP && button === PointerButton.LEFT) {
+					NativeTween.GraphicAlpha(this.handleOuterImage, 0.2, 0.2).SetUseUnscaledTime(true);
+					NativeTween.GraphicAlpha(this.handleInnerImage, 0.2, 0.2).SetUseUnscaledTime(true);
+				}
+			}),
+		);
 		this.bin.AddEngineEventConnection(
 			CanvasAPI.OnBeginDragEvent(this.dragTarget.gameObject, (data) => {
 				this.tweenBin.Clean();
@@ -52,7 +69,7 @@ export default class TouchJoystick extends AirshipBehaviour {
 				this.dragging = false;
 
 				// todo: adjust speed by distance
-				NativeTween.AnchoredPosition(this.handle, Vector2.zero, 0.09).SetUseUnscaledTime(true);
+				NativeTween.AnchoredPosition(this.handleInner, Vector2.zero, 0.1).SetUseUnscaledTime(true);
 			}),
 		);
 	}
@@ -69,7 +86,7 @@ export default class TouchJoystick extends AirshipBehaviour {
 		this.input = this.ApplyDeadZoneToInput(this.input, this.deadZone);
 		let newPos = this.input.mul(radius);
 		newPos = newPos.mul(this.handleRange);
-		this.handle.anchoredPosition = newPos;
+		this.handleInner.anchoredPosition = newPos;
 	}
 
 	private ApplyDeadZoneToInput(input: Vector2, deadZone: number): Vector2 {

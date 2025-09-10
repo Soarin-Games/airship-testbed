@@ -29,26 +29,33 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 	protected Start(): void {}
 
 	public Init(): void {
-		if (Game.IsMobile()) {
-			Airship.Input.CreateMobileButton(CoreMobileButton.Jump, new Vector2(-220, 180), {
-				icon: CoreIcon.JumpPose,
-			});
-			this.crouchGO = Airship.Input.CreateMobileButton(CoreMobileButton.CrouchToggle, new Vector2(-140, 340), {
-				icon: CoreIcon.CrouchPose,
-			});
-			this.crouchImg = this.crouchGO.GetComponent<Image>()!;
+		if (!Game.IsMobile()) return;
 
-			this.isJoystickStatic = Airship.Input.IsMobileStaticJoystickEnabled();
-			// Listen for mobile static joystick setting changes
-			this.bin.Add(
-				contextbridge.subscribe(
-					"Settings:Toggle:MobileStaticJoystick:OnChanged",
-					(from: LuauContext, value: boolean) => {
-						this.UpdateJoystickVisibility(value);
-					},
-				),
-			);
-		}
+		Airship.Input.CreateMobileButton(CoreMobileButton.Jump, new Vector2(-220, 180), {
+			icon: CoreIcon.JumpPose,
+		});
+		this.crouchGO = Airship.Input.CreateMobileButton(CoreMobileButton.CrouchToggle, new Vector2(-140, 340), {
+			icon: CoreIcon.CrouchPose,
+		});
+		this.crouchImg = this.crouchGO.GetComponent<Image>()!;
+
+		// Listen for mobile static joystick setting changes
+		this.bin.Add(
+			contextbridge.subscribe("Settings:Loaded", () => {
+				this.isJoystickStatic = Airship.Input.IsMobileStaticJoystickEnabled();
+				this.UpdateJoystickVisibility(this.isJoystickStatic);
+			}),
+		);
+
+		this.bin.Add(
+			contextbridge.subscribe(
+				"Settings:Toggle:MobileStaticJoystick:OnChanged",
+				(from: LuauContext, value: boolean) => {
+					this.UpdateJoystickVisibility(value);
+				},
+			),
+		);
+
 		this.bin.Add(
 			Airship.Input.OnDown(CoreMobileButton.CrouchToggle).Connect((event) => {
 				this.crouchToggle = !this.crouchToggle;
@@ -57,7 +64,6 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 		);
 		this.bin.Add(
 			Game.localPlayer.ObserveCharacter((character) => {
-				if (!Game.IsMobile()) return;
 				if (character === undefined) {
 					this.HideCharacterControls();
 					return;
@@ -76,8 +82,6 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 	}
 
 	public UpdateButtonState(): void {
-		if (!Game.IsMobile()) return;
-
 		if (this.crouchToggle) {
 			Airship.Input.SetDown(CoreAction.Crouch);
 		} else {
@@ -117,8 +121,6 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 	}
 
 	public UpdateJoystickVisibility(isStaticJoystickEnabled: boolean): void {
-		if (!Game.IsMobile()) return;
-
 		this.isJoystickStatic = isStaticJoystickEnabled;
 		this.staticJoystick.gameObject.SetActive(false);
 		this.dynamicJoystick.gameObject.SetActive(false);
