@@ -4,11 +4,14 @@ import { Game } from "../../Game";
 import { ColorUtil } from "../../Util/ColorUtil";
 import { CoreAction } from "../AirshipCoreAction";
 import { CoreIcon } from "../UI/CoreIcon";
+import DynamicJoystick from "./DynamicJoystick";
 import { CoreMobileButton } from "./MobileButton";
 import TouchJoystick from "./TouchJoystick";
 
 export default class MobileControlsCanvas extends AirshipBehaviour {
-	public movementJoystick: TouchJoystick;
+	public staticJoystick: TouchJoystick;
+	public dynamicJoystick: DynamicJoystick;
+	private isJoystickStatic = false;
 
 	private crouchGO: GameObject;
 	private crouchImg: Image;
@@ -34,6 +37,17 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 				icon: CoreIcon.CrouchPose,
 			});
 			this.crouchImg = this.crouchGO.GetComponent<Image>()!;
+
+			this.isJoystickStatic = Airship.Input.IsMobileStaticJoystickEnabled();
+			// Listen for mobile static joystick setting changes
+			this.bin.Add(
+				contextbridge.subscribe(
+					"Settings:Toggle:MobileStaticJoystick:OnChanged",
+					(from: LuauContext, value: boolean) => {
+						this.UpdateJoystickVisibility(value);
+					},
+				),
+			);
 		}
 		this.bin.Add(
 			Airship.Input.OnDown(CoreMobileButton.CrouchToggle).Connect((event) => {
@@ -79,7 +93,11 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 	}
 
 	public ShowCharacterControls(): void {
-		this.movementJoystick.gameObject.SetActive(true);
+		if (this.isJoystickStatic) {
+			this.staticJoystick.gameObject.SetActive(true);
+		} else {
+			this.dynamicJoystick.gameObject.SetActive(true);
+		}
 
 		for (const [, button] of pairs(CoreMobileButton)) {
 			Airship.Input.ShowMobileButtons(button);
@@ -87,16 +105,39 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 	}
 
 	public HideCharacterControls(): void {
-		this.movementJoystick.gameObject.SetActive(false);
+		if (this.isJoystickStatic) {
+			this.staticJoystick.gameObject.SetActive(false);
+		} else {
+			this.dynamicJoystick.gameObject.SetActive(false);
+		}
 
 		for (const [, button] of pairs(CoreMobileButton)) {
 			Airship.Input.HideMobileButtons(button);
 		}
 	}
 
+	public UpdateJoystickVisibility(isStaticJoystickEnabled: boolean): void {
+		if (!Game.IsMobile()) return;
+
+		this.isJoystickStatic = isStaticJoystickEnabled;
+		this.staticJoystick.gameObject.SetActive(false);
+		this.dynamicJoystick.gameObject.SetActive(false);
+
+		if (isStaticJoystickEnabled) {
+			this.staticJoystick.gameObject.SetActive(true);
+		} else {
+			this.dynamicJoystick.gameObject.SetActive(true);
+		}
+	}
+
 	protected Update(dt: number): void {
 		if (Game.IsMobile()) {
-			const input = this.movementJoystick.input;
+			let input: Vector2;
+			if (this.isJoystickStatic) {
+				input = this.staticJoystick.input;
+			} else {
+				input = this.dynamicJoystick.input;
+			}
 			const inputMagnitude = input.magnitude;
 
 			const shouldSprint = inputMagnitude >= this.sprintThreshold;

@@ -33,6 +33,7 @@ export default class SettingsPage extends AirshipBehaviour {
 	@Header("Toggles")
 	public sprintToggle: SettingsToggle;
 	public voiceToggle: SettingsToggle;
+	public mobileStaticJoystickToggle: SettingsToggle;
 
 	@Header("Sliders")
 	public mouseSensitivitySlider!: SettingsSlider;
@@ -242,6 +243,11 @@ export default class SettingsPage extends AirshipBehaviour {
 		this.sprintToggle.Init("Toggle Sprint", settings.IsSprintToggleEnabled());
 		this.sprintToggle.toggle.onValueChanged.Connect((val) => {
 			settings.SetSprintToggleEnabled(val);
+		});
+
+		this.mobileStaticJoystickToggle.Init("Toggle Static Joystick", settings.IsMobileStaticJoystickEnabled());
+		this.mobileStaticJoystickToggle.toggle.onValueChanged.Connect((val) => {
+			settings.SetMobileStaticJoystick(val);
 		});
 
 		let voiceChat = Bridge.GetAirshipVoiceChatNetwork();

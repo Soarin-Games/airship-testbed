@@ -6,7 +6,6 @@ export default class TouchJoystick extends AirshipBehaviour {
 	public handle: RectTransform;
 	public handleRange = 1;
 	public deadZone = 0;
-	public tweenToCenterSensitivity = 50;
 
 	/**
 	 * Normalized input vector.

@@ -1239,6 +1239,10 @@ export class AirshipInputSingleton {
 		return contextbridge.invoke<() => boolean>("ClientSettings:IsSprintToggleEnabled", LuauContext.Protected);
 	}
 
+	public IsMobileStaticJoystickEnabled(): boolean {
+		return contextbridge.invoke<() => boolean>("ClientSettings:IsMobileStaticJoystick", LuauContext.Protected);
+	}
+
 	/**
 	 * Returns mute toggle based on player's setting.
 	 *
