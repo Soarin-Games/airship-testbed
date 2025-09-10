@@ -273,6 +273,7 @@ export default class SettingsPage extends AirshipBehaviour {
 		} else {
 			this.mouseSensitivitySlider.gameObject.SetActive(false);
 			this.mouseSmoothingSlider.gameObject.SetActive(false);
+			this.sprintToggle.gameObject.SetActive(false);
 		}
 
 		if (Game.IsMobile()) {
