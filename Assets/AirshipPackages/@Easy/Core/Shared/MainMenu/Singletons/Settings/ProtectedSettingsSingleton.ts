@@ -18,7 +18,7 @@ const defaultData: ClientSettingsFile = {
 	mouseSensitivity: 2,
 	mouseSmoothing: 0,
 	touchSensitivity: 0.5,
-	mobileStaticJoystick: false,
+	mobileDynamicJoystick: true,
 	globalVolume: 1,
 	ambientVolume: 0.1,
 	musicVolume: 0.11,
@@ -91,8 +91,8 @@ export class ProtectedSettingsSingleton {
 			return this.GetTouchSensitivity();
 		});
 
-		contextbridge.callback<() => boolean>("ClientSettings:IsMobileStaticJoystick", () => {
-			return this.IsMobileStaticJoystickEnabled();
+		contextbridge.callback<() => boolean>("ClientSettings:IsMobileDynamicJoystick", () => {
+			return this.IsMobileDynamicJoystickEnabled();
 		});
 
 		contextbridge.callback(
@@ -452,14 +452,14 @@ export class ProtectedSettingsSingleton {
 		return this.data.mouseSmoothing;
 	}
 
-	public IsMobileStaticJoystickEnabled(): boolean {
-		return this.data.mobileStaticJoystick;
+	public IsMobileDynamicJoystickEnabled(): boolean {
+		return this.data.mobileDynamicJoystick;
 	}
 
-	public SetMobileStaticJoystick(value: boolean): void {
-		this.data.mobileStaticJoystick = value;
+	public SetMobileDynamicJoystick(value: boolean): void {
+		this.data.mobileDynamicJoystick = value;
 		this.unsavedChanges = true;
-		contextbridge.broadcast("Settings:Toggle:MobileStaticJoystick:OnChanged", value);
+		contextbridge.broadcast("Settings:Toggle:MobileDynamicJoystick:OnChanged", value);
 	}
 
 	public SetSprintToggleEnabled(value: boolean): void {

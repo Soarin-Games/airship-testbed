@@ -4414,7 +4414,7 @@ MonoBehaviour:
       serializedValue: 
       serializedObject: {fileID: 821626574425980914}
       modified: 1
-    - name: mobileStaticJoystickToggle
+    - name: mobileDynamicJoystickToggle
       type: AirshipBehaviour
       objectType: SettingsToggle
       items:
@@ -17722,7 +17722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8071052861529423068, guid: d171581bc54c741a296e6830d429b9ff, type: 3}
       propertyPath: m_text
-      value: Toggle Static Joystick
+      value: Dynamic Joystick
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

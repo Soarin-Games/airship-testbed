@@ -6,7 +6,7 @@ export interface ClientSettingsFile {
 	mouseSensitivity: number;
 	mouseSmoothing: number;
 	touchSensitivity: number;
-	mobileStaticJoystick: boolean;
+	mobileDynamicJoystick: boolean;
 	globalVolume: number;
 	ambientVolume: number;
 	musicVolume: number;

@@ -33,7 +33,7 @@ export default class SettingsPage extends AirshipBehaviour {
 	@Header("Toggles")
 	public sprintToggle: SettingsToggle;
 	public voiceToggle: SettingsToggle;
-	public mobileStaticJoystickToggle: SettingsToggle;
+	public mobileDynamicJoystickToggle: SettingsToggle;
 
 	@Header("Sliders")
 	public mouseSensitivitySlider!: SettingsSlider;
@@ -281,13 +281,13 @@ export default class SettingsPage extends AirshipBehaviour {
 			this.touchSensitibitySlider.onChange.Connect((val) => {
 				settings.SetTouchSensitivity(val);
 			});
-			this.mobileStaticJoystickToggle.Init("Toggle Static Joystick", settings.IsMobileStaticJoystickEnabled());
-			this.mobileStaticJoystickToggle.toggle.onValueChanged.Connect((val) => {
-				settings.SetMobileStaticJoystick(val);
+			this.mobileDynamicJoystickToggle.Init("Dynamic Joystick", settings.IsMobileDynamicJoystickEnabled());
+			this.mobileDynamicJoystickToggle.toggle.onValueChanged.Connect((val) => {
+				settings.SetMobileDynamicJoystick(val);
 			});
 		} else {
 			this.touchSensitibitySlider.gameObject.SetActive(false);
-			this.mobileStaticJoystickToggle.gameObject.SetActive(false);
+			this.mobileDynamicJoystickToggle.gameObject.SetActive(false);
 		}
 
 		this.volumeSlider.Init("Global Volume", settings.GetGlobalVolume(), 0, 2, 0.01);

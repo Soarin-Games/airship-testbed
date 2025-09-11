@@ -11,7 +11,7 @@ import TouchJoystick from "./TouchJoystick";
 export default class MobileControlsCanvas extends AirshipBehaviour {
 	public staticJoystick: TouchJoystick;
 	public dynamicJoystick: DynamicJoystick;
-	private isJoystickStatic = false;
+	private isJoystickDynamic = true;
 
 	private crouchGO: GameObject;
 	private crouchImg: Image;
@@ -42,14 +42,14 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 		// Listen for mobile static joystick setting changes
 		this.bin.Add(
 			contextbridge.subscribe("Settings:Loaded", () => {
-				this.isJoystickStatic = Airship.Input.IsMobileStaticJoystickEnabled();
-				this.UpdateJoystickVisibility(this.isJoystickStatic);
+				this.isJoystickDynamic = Airship.Input.IsMobileDynamicJoystickEnabled();
+				this.UpdateJoystickVisibility(this.isJoystickDynamic);
 			}),
 		);
 
 		this.bin.Add(
 			contextbridge.subscribe(
-				"Settings:Toggle:MobileStaticJoystick:OnChanged",
+				"Settings:Toggle:MobileDynamicJoystick:OnChanged",
 				(from: LuauContext, value: boolean) => {
 					this.UpdateJoystickVisibility(value);
 				},
@@ -97,10 +97,10 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 	}
 
 	public ShowCharacterControls(): void {
-		if (this.isJoystickStatic) {
-			this.staticJoystick.gameObject.SetActive(true);
-		} else {
+		if (this.isJoystickDynamic) {
 			this.dynamicJoystick.gameObject.SetActive(true);
+		} else {
+			this.staticJoystick.gameObject.SetActive(true);
 		}
 
 		for (const [, button] of pairs(CoreMobileButton)) {
@@ -109,36 +109,33 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 	}
 
 	public HideCharacterControls(): void {
-		if (this.isJoystickStatic) {
-			this.staticJoystick.gameObject.SetActive(false);
-		} else {
-			this.dynamicJoystick.gameObject.SetActive(false);
-		}
+		this.staticJoystick.gameObject.SetActive(false);
+		this.dynamicJoystick.gameObject.SetActive(false);
 
 		for (const [, button] of pairs(CoreMobileButton)) {
 			Airship.Input.HideMobileButtons(button);
 		}
 	}
 
-	public UpdateJoystickVisibility(isStaticJoystickEnabled: boolean): void {
-		this.isJoystickStatic = isStaticJoystickEnabled;
+	public UpdateJoystickVisibility(isDynamicJoystickEnabled: boolean): void {
+		this.isJoystickDynamic = isDynamicJoystickEnabled;
 		this.staticJoystick.gameObject.SetActive(false);
 		this.dynamicJoystick.gameObject.SetActive(false);
 
-		if (isStaticJoystickEnabled) {
-			this.staticJoystick.gameObject.SetActive(true);
-		} else {
+		if (isDynamicJoystickEnabled) {
 			this.dynamicJoystick.gameObject.SetActive(true);
+		} else {
+			this.staticJoystick.gameObject.SetActive(true);
 		}
 	}
 
 	protected Update(dt: number): void {
 		if (Game.IsMobile()) {
 			let input: Vector2;
-			if (this.isJoystickStatic) {
-				input = this.staticJoystick.input;
-			} else {
+			if (this.isJoystickDynamic) {
 				input = this.dynamicJoystick.input;
+			} else {
+				input = this.staticJoystick.input;
 			}
 			const inputMagnitude = input.magnitude;
 
