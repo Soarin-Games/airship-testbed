@@ -5,6 +5,7 @@ export default class TouchJoystick extends AirshipBehaviour {
 	@SerializeField() private dragTarget: RectTransform;
 	@SerializeField() private handleOuter: RectTransform;
 	@SerializeField() private handleInner: RectTransform;
+	@SerializeField() private handleOuterOutline: Image;
 	@SerializeField() private handleRange = 1;
 	@SerializeField() private deadZone = 0;
 	private handleOuterImage: Image;
@@ -42,10 +43,12 @@ export default class TouchJoystick extends AirshipBehaviour {
 				if (direction === PointerDirection.DOWN && button === PointerButton.LEFT) {
 					NativeTween.GraphicAlpha(this.handleOuterImage, 0.6, 0.2).SetUseUnscaledTime(true);
 					NativeTween.GraphicAlpha(this.handleInnerImage, 0.6, 0.2).SetUseUnscaledTime(true);
+					NativeTween.GraphicAlpha(this.handleOuterOutline, 0.4, 0.2).SetUseUnscaledTime(true);
 				}
 				if (direction === PointerDirection.UP && button === PointerButton.LEFT) {
 					NativeTween.GraphicAlpha(this.handleOuterImage, 0.2, 0.2).SetUseUnscaledTime(true);
 					NativeTween.GraphicAlpha(this.handleInnerImage, 0.2, 0.2).SetUseUnscaledTime(true);
+					NativeTween.GraphicAlpha(this.handleOuterOutline, 0.2, 0.2).SetUseUnscaledTime(true);
 				}
 			}),
 		);

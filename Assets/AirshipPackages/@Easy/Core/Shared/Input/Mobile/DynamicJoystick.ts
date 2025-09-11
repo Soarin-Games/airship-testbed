@@ -5,6 +5,7 @@ export default class DynamicJoystick extends AirshipBehaviour {
 	@SerializeField() private dragTarget: RectTransform;
 	@SerializeField() private handleOuter: RectTransform;
 	@SerializeField() private handleInner: RectTransform;
+	@SerializeField() private handleOuterOutline: Image;
 	@NonSerialized() public input = new Vector2(0, 0);
 	public handleRange = 1;
 	public deadZone = 0;
@@ -35,13 +36,15 @@ export default class DynamicJoystick extends AirshipBehaviour {
 						const localPosition = Bridge.ScreenPointToLocalPointInRectangle(this.dragTarget, touchPosition);
 						this.handleOuter.anchoredPosition = localPosition;
 						NativeTween.GraphicAlpha(this.handleOuterImage, 0.6, 0.2).SetUseUnscaledTime(true);
-						NativeTween.GraphicAlpha(this.handleInnerImage, 0.6, 0.2).SetUseUnscaledTime(true);
+						NativeTween.GraphicAlpha(this.handleInnerImage, 0.7, 0.2).SetUseUnscaledTime(true);
+						NativeTween.GraphicAlpha(this.handleOuterOutline, 0.4, 0.2).SetUseUnscaledTime(true);
 					}
 				}
 				if (direction === PointerDirection.UP) {
 					NativeTween.AnchoredPosition(this.handleInner, Vector2.zero, 0.1).SetUseUnscaledTime(true);
 					NativeTween.GraphicAlpha(this.handleOuterImage, 0, 0.2).SetUseUnscaledTime(true);
 					NativeTween.GraphicAlpha(this.handleInnerImage, 0, 0.2).SetUseUnscaledTime(true);
+					NativeTween.GraphicAlpha(this.handleOuterOutline, 0, 0.2).SetUseUnscaledTime(true);
 				}
 			}),
 		);

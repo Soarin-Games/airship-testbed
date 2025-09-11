@@ -230,6 +230,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DynamicJoystick
       objectReference: {fileID: 0}
+    - target: {fileID: 1011635385903242879, guid: d7cfda0ea30c10d41b6e65bb80b15432, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7682604231705430483, guid: d7cfda0ea30c10d41b6e65bb80b15432, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -339,34 +343,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9038067902904019132}
     m_Modifications:
-    - target: {fileID: 3741594099606890121, guid: e7cab0f199086491d962a6f60684d6ed, type: 3}
-      propertyPath: m_metadata.properties.Array.size
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3741594099606890121, guid: e7cab0f199086491d962a6f60684d6ed, type: 3}
-      propertyPath: m_metadata.properties.Array.data[5].name
-      value: input
-      objectReference: {fileID: 0}
-    - target: {fileID: 3741594099606890121, guid: e7cab0f199086491d962a6f60684d6ed, type: 3}
-      propertyPath: m_metadata.properties.Array.data[5].type
-      value: Vector2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3741594099606890121, guid: e7cab0f199086491d962a6f60684d6ed, type: 3}
-      propertyPath: m_metadata.properties.Array.data[6].name
-      value: dragging
-      objectReference: {fileID: 0}
-    - target: {fileID: 3741594099606890121, guid: e7cab0f199086491d962a6f60684d6ed, type: 3}
-      propertyPath: m_metadata.properties.Array.data[6].type
-      value: boolean
-      objectReference: {fileID: 0}
-    - target: {fileID: 3741594099606890121, guid: e7cab0f199086491d962a6f60684d6ed, type: 3}
-      propertyPath: m_metadata.properties.Array.data[5].serializedValue
-      value: '{"x":0.0,"y":0.0}'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3741594099606890121, guid: e7cab0f199086491d962a6f60684d6ed, type: 3}
-      propertyPath: m_metadata.properties.Array.data[6].serializedValue
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5592178606319822882, guid: e7cab0f199086491d962a6f60684d6ed, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
