@@ -1,37 +1,27 @@
 import { Bin } from "../../Util/Bin";
 import { CanvasAPI, PointerButton, PointerDirection } from "../../Util/CanvasAPI";
 
-export default class TouchJoystick extends AirshipBehaviour {
+export default class DynamicJoystick extends AirshipBehaviour {
 	@SerializeField() private dragTarget: RectTransform;
 	@SerializeField() private handleOuter: RectTransform;
 	@SerializeField() private handleInner: RectTransform;
 	@SerializeField() private handleOuterOutline: Image;
-	@SerializeField() private handleRange = 1;
-	@SerializeField() private deadZone = 0;
-	private handleOuterImage: Image;
-	private handleInnerImage: Image;
-
-	/**
-	 * Normalized input vector.
-	 */
 	@NonSerialized() public input = new Vector2(0, 0);
+	public handleRange = 1;
+	public deadZone = 0;
 
-	/**
-	 * True if currently being dragged.
-	 */
 	private dragging = false;
-
-	private rectTransform!: RectTransform;
+	private handleInnerImage: Image;
+	private handleOuterImage: Image;
 	private canvas!: Canvas;
-
 	private bin = new Bin();
 	private tweenBin = new Bin();
 
 	public Awake(): void {
-		this.handleOuterImage = this.handleOuter.GetComponent<Image>()!;
 		this.handleInnerImage = this.handleInner.GetComponent<Image>()!;
-		this.rectTransform = this.gameObject.GetComponent<RectTransform>()!;
+		this.handleOuterImage = this.handleOuter.GetComponent<Image>()!;
 		this.canvas = this.gameObject.GetComponentInParent<Canvas>()!;
+
 		if (this.canvas === undefined) {
 			error("TouchJoystick must be placed inside of a canvas.");
 		}
@@ -41,28 +31,35 @@ export default class TouchJoystick extends AirshipBehaviour {
 		this.bin.AddEngineEventConnection(
 			CanvasAPI.OnPointerEvent(this.dragTarget.gameObject, (direction, button) => {
 				if (direction === PointerDirection.DOWN && button === PointerButton.LEFT) {
-					NativeTween.GraphicAlpha(this.handleOuterImage, 0.6, 0.2).SetUseUnscaledTime(true);
-					NativeTween.GraphicAlpha(this.handleInnerImage, 0.6, 0.2).SetUseUnscaledTime(true);
-					NativeTween.GraphicAlpha(this.handleOuterOutline, 0.4, 0.2).SetUseUnscaledTime(true);
+					const touchPosition = this.GetCurrentTouchPosition();
+					if (touchPosition) {
+						const localPosition = Bridge.ScreenPointToLocalPointInRectangle(this.dragTarget, touchPosition);
+						this.handleOuter.anchoredPosition = localPosition;
+						NativeTween.GraphicAlpha(this.handleOuterImage, 0.6, 0.2).SetUseUnscaledTime(true);
+						NativeTween.GraphicAlpha(this.handleInnerImage, 0.7, 0.2).SetUseUnscaledTime(true);
+						NativeTween.GraphicAlpha(this.handleOuterOutline, 0.4, 0.2).SetUseUnscaledTime(true);
+					}
 				}
-				if (direction === PointerDirection.UP && button === PointerButton.LEFT) {
-					NativeTween.GraphicAlpha(this.handleOuterImage, 0.2, 0.2).SetUseUnscaledTime(true);
-					NativeTween.GraphicAlpha(this.handleInnerImage, 0.2, 0.2).SetUseUnscaledTime(true);
-					NativeTween.GraphicAlpha(this.handleOuterOutline, 0.2, 0.2).SetUseUnscaledTime(true);
+				if (direction === PointerDirection.UP) {
+					NativeTween.AnchoredPosition(this.handleInner, Vector2.zero, 0.1).SetUseUnscaledTime(true);
+					NativeTween.GraphicAlpha(this.handleOuterImage, 0, 0.2).SetUseUnscaledTime(true);
+					NativeTween.GraphicAlpha(this.handleInnerImage, 0, 0.2).SetUseUnscaledTime(true);
+					NativeTween.GraphicAlpha(this.handleOuterOutline, 0, 0.2).SetUseUnscaledTime(true);
 				}
 			}),
 		);
+
 		this.bin.AddEngineEventConnection(
 			CanvasAPI.OnBeginDragEvent(this.dragTarget.gameObject, (data) => {
 				this.tweenBin.Clean();
 				this.dragging = true;
-				this.HandleDrag(data.position, "begin");
+				this.HandleDrag(data.position);
 			}),
 		);
 		this.bin.AddEngineEventConnection(
 			CanvasAPI.OnDragEvent(this.dragTarget.gameObject, (data) => {
 				if (!this.dragging) return;
-				this.HandleDrag(data.position, "move");
+				this.HandleDrag(data.position);
 			}),
 		);
 
@@ -70,9 +67,6 @@ export default class TouchJoystick extends AirshipBehaviour {
 			CanvasAPI.OnEndDragEvent(this.dragTarget.gameObject, (data) => {
 				this.input = Vector2.zero;
 				this.dragging = false;
-
-				// todo: adjust speed by distance
-				NativeTween.AnchoredPosition(this.handleInner, Vector2.zero, 0.1).SetUseUnscaledTime(true);
 			}),
 		);
 	}
@@ -82,9 +76,16 @@ export default class TouchJoystick extends AirshipBehaviour {
 		img.raycastPadding = padding;
 	}
 
-	private HandleDrag(dragPosition: Vector2, phase: "begin" | "end" | "move") {
-		let pos = new Vector2(this.rectTransform.position.x, this.rectTransform.position.y);
-		let radius = this.rectTransform.sizeDelta.div(2);
+	private GetCurrentTouchPosition(): Vector2 | undefined {
+		if (Input.touchCount > 0) {
+			const touch = Input.GetTouch(0);
+			return new Vector2(touch.position.x, touch.position.y);
+		}
+	}
+
+	private HandleDrag(dragPosition: Vector2) {
+		let pos = new Vector2(this.handleOuter.position.x, this.handleOuter.position.y);
+		let radius = this.handleOuter.sizeDelta.div(2);
 		this.input = dragPosition.sub(pos).div(radius.mul(this.canvas.scaleFactor));
 		this.input = this.ApplyDeadZoneToInput(this.input, this.deadZone);
 		let newPos = this.input.mul(radius);
