@@ -18,6 +18,7 @@ import { InputAction, InputActionConfig, InputActionSchema, SerializableAction }
 import { InputActionEvent } from "./InputActionEvent";
 import { ActionInputType, InputUtil, KeyType, ModifierKey } from "./InputUtil";
 import AirshipMobileButton from "./Mobile/AirshipMobileButton";
+import DynamicJoystick from "./Mobile/DynamicJoystick";
 import { MobileButtonConfig } from "./Mobile/MobileButton";
 import MobileControlsCanvas from "./Mobile/MobileControlsCanvas";
 import TouchJoystick from "./Mobile/TouchJoystick";
@@ -236,6 +237,24 @@ export class AirshipInputSingleton {
 			parent,
 		);
 		const joystick = go.GetAirshipComponent<TouchJoystick>()!;
+		return joystick;
+	}
+
+	/**
+	 * Creates a dynamic joystick.
+	 *
+	 * Alternatively, you can place a `DynamicJoystick.prefab` in your scene and reference that directly.
+	 *
+	 * @param parent This should be a parent transform that you have positioned in your canvas. The joystick will be instiated as a child at (0,0,0).
+	 *
+	 * @returns The created DynamicJoystick. DynamicJoystick contains `input` and `dragging` properties you can read every frame. DynamicJoystick is an AirshipBehaviour.
+	 */
+	public CreateDynamicJoystick(parent: Transform): DynamicJoystick {
+		const go = Object.Instantiate(
+			Asset.LoadAsset("Assets/AirshipPackages/@Easy/Core/Prefabs/UI/MobileControls/DynamicJoystick.prefab"),
+			parent,
+		);
+		const joystick = go.GetAirshipComponent<DynamicJoystick>()!;
 		return joystick;
 	}
 
@@ -1240,7 +1259,7 @@ export class AirshipInputSingleton {
 	}
 
 	public IsMobileDynamicJoystickEnabled(): boolean {
-		return contextbridge.invoke<() => boolean>("ClientSettings:IsMobileDynamicJoystick", LuauContext.Protected);
+		return contextbridge.invoke<() => boolean>("ClientSettings:IsMobileStaticJoystick", LuauContext.Protected);
 	}
 
 	/**
