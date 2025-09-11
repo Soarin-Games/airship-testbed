@@ -1259,7 +1259,7 @@ export class AirshipInputSingleton {
 	}
 
 	public IsMobileDynamicJoystickEnabled(): boolean {
-		return contextbridge.invoke<() => boolean>("ClientSettings:IsMobileStaticJoystick", LuauContext.Protected);
+		return contextbridge.invoke<() => boolean>("ClientSettings:IsMobileDynamicJoystick", LuauContext.Protected);
 	}
 
 	/**
