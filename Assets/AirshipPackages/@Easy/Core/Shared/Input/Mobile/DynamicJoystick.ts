@@ -33,22 +33,15 @@ export default class DynamicJoystick extends AirshipBehaviour {
 					const touchPosition = this.GetCurrentTouchPosition();
 					if (touchPosition) {
 						const localPosition = Bridge.ScreenPointToLocalPointInRectangle(this.dragTarget, touchPosition);
-						NativeTween.AnchoredPosition(this.handleOuter, localPosition, 0.2)
-							.SetEaseQuadOut()
-							.SetUseUnscaledTime(true);
+						this.handleOuter.anchoredPosition = localPosition;
 						NativeTween.GraphicAlpha(this.handleOuterImage, 0.6, 0.2).SetUseUnscaledTime(true);
 						NativeTween.GraphicAlpha(this.handleInnerImage, 0.6, 0.2).SetUseUnscaledTime(true);
 					}
 				}
 				if (direction === PointerDirection.UP) {
 					NativeTween.AnchoredPosition(this.handleInner, Vector2.zero, 0.1).SetUseUnscaledTime(true);
-					task.delay(0.1, () => {
-						NativeTween.AnchoredPosition(this.handleOuter, Vector2.zero, 0.1)
-							.SetEaseQuadOut()
-							.SetUseUnscaledTime(true);
-					});
-					NativeTween.GraphicAlpha(this.handleOuterImage, 0.2, 0.2).SetUseUnscaledTime(true);
-					NativeTween.GraphicAlpha(this.handleInnerImage, 0.2, 0.2).SetUseUnscaledTime(true);
+					NativeTween.GraphicAlpha(this.handleOuterImage, 0, 0.2).SetUseUnscaledTime(true);
+					NativeTween.GraphicAlpha(this.handleInnerImage, 0, 0.2).SetUseUnscaledTime(true);
 				}
 			}),
 		);
