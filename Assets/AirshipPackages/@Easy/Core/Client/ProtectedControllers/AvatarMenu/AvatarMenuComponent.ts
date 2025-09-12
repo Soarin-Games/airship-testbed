@@ -181,17 +181,6 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 		this.DestroyItemButtons();
 	}
 
-	private RefreshAvatar() {
-		let avatarView = this.mainMenu?.avatarView;
-		if (avatarView) {
-			// if (this.avatarCenterRect) {
-			// 	avatarView.AlignCamera(this.avatarCenterRect.position, this.avatarCameraOffset);
-			// }
-		} else {
-			// error("no 3D avatar to render in avatar editor");
-		}
-	}
-
 	private downloadedAccessories = false;
 
 	override OpenPage(params?: unknown): void {
@@ -240,11 +229,9 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 		let rawImage = this.avatarRenderHolder?.GetComponent<RawImage>();
 		if (rawImage) {
 			rawImage.texture = mainMenuSingleton.avatarEditorRenderTexture;
-			this.RefreshAvatar();
 			this.bin.Add(
 				mainMenuSingleton.onAvatarEditorRenderTextureUpdated.Connect((texture) => {
 					rawImage.texture = texture;
-					this.RefreshAvatar();
 				}),
 			);
 		}
@@ -288,7 +275,6 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 		}
 		this.mainMenu?.avatarView?.ShowAvatar();
 		this.mainMenu?.ToggleGameBG(false);
-		this.RefreshAvatar();
 
 		this.SelectMainNav(0);
 		this.SelectSubNav(0);
