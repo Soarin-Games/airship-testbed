@@ -1,3 +1,4 @@
+import { CoreContext } from "@Easy/Core/Shared/CoreClientContext";
 import { Game } from "@Easy/Core/Shared/Game";
 import { ClientSettingsFile } from "@Easy/Core/Shared/MainMenu/Singletons/Settings/ClientSettingsFile";
 import { Keyboard } from "@Easy/Core/Shared/UserInput";
@@ -17,6 +18,7 @@ const defaultData: ClientSettingsFile = {
 	mouseSensitivity: 2,
 	mouseSmoothing: 0,
 	touchSensitivity: 0.5,
+	mobileDynamicJoystick: true,
 	globalVolume: 1,
 	ambientVolume: 0.1,
 	musicVolume: 0.11,
@@ -30,6 +32,8 @@ const defaultData: ClientSettingsFile = {
 	vsync: false,
 	shadowLevel: 0,
 	antiAliasing: 0,
+	voiceToggleEnabled: false,
+	limitFps: -1,
 };
 
 interface SavedGameSettings {
@@ -71,6 +75,10 @@ export class ProtectedSettingsSingleton {
 			return this.IsSprintToggleEnabled();
 		});
 
+		contextbridge.callback<() => boolean>("ClientSettings:IsVoiceToggleEnabled", () => {
+			return this.IsVoiceToggleEnabled();
+		});
+
 		contextbridge.callback<() => number>("ClientSettings:GetMouseSensitivity", () => {
 			return this.GetMouseSensitivity();
 		});
@@ -81,6 +89,10 @@ export class ProtectedSettingsSingleton {
 
 		contextbridge.callback<() => number>("ClientSettings:GetTouchSensitivity", () => {
 			return this.GetTouchSensitivity();
+		});
+
+		contextbridge.callback<() => boolean>("ClientSettings:IsMobileDynamicJoystick", () => {
+			return this.IsMobileDynamicJoystickEnabled();
 		});
 
 		contextbridge.callback(
@@ -253,6 +265,11 @@ export class ProtectedSettingsSingleton {
 		if (savedContents && savedContents !== "") {
 			this.data = json.decode(savedContents);
 			this.data = { ...defaultData, ...this.data };
+
+			// simple reconcile logic
+			if (this.data.limitFps === undefined) {
+				this.data.limitFps = -1;
+			}
 		} else {
 			this.data = defaultData;
 
@@ -274,10 +291,12 @@ export class ProtectedSettingsSingleton {
 		this.SetAntiAliasing(this.data.antiAliasing);
 		this.SetShadowLevel(this.data.shadowLevel);
 		this.SetVsync(this.data.vsync);
+		this.SetLimitFPS(this.data.limitFps);
 
 		task.spawn(() => {
 			this.settingsLoaded = true;
 			this.onSettingsLoaded.Fire(this.data);
+			contextbridge.broadcast("Settings:Loaded");
 		});
 
 		SetInterval(0.5, () => {
@@ -333,6 +352,20 @@ export class ProtectedSettingsSingleton {
 
 	public StartMicRecording(): void {
 		Bridge.StartMicRecording(this.micFrequency, this.micSampleLength);
+	}
+
+	public SetLimitFPS(limit: number): void {
+		this.data.limitFps = limit;
+		if (Game.coreContext === CoreContext.MAIN_MENU) {
+			return;
+		}
+		// iOS and Android needs to be set to 120 because -1 will let the OS pick and it won't be 120.
+		// todo: use screen refresh rate instead of hard coded 120
+		if (limit === -1 && (Game.platform === AirshipPlatform.iOS || Game.platform === AirshipPlatform.Android)) {
+			Application.targetFrameRate = 120;
+		} else {
+			Application.targetFrameRate = limit;
+		}
 	}
 
 	public SetAntiAliasing(level: number): void {
@@ -408,6 +441,10 @@ export class ProtectedSettingsSingleton {
 		return this.data.sprintToggleEnabled;
 	}
 
+	public IsVoiceToggleEnabled(): boolean {
+		return this.data.voiceToggleEnabled;
+	}
+
 	public GetMouseSensitivity(): number {
 		return this.data.mouseSensitivity;
 	}
@@ -416,8 +453,23 @@ export class ProtectedSettingsSingleton {
 		return this.data.mouseSmoothing;
 	}
 
+	public IsMobileDynamicJoystickEnabled(): boolean {
+		return this.data.mobileDynamicJoystick;
+	}
+
+	public SetMobileDynamicJoystick(value: boolean): void {
+		this.data.mobileDynamicJoystick = value;
+		this.unsavedChanges = true;
+		contextbridge.broadcast("Settings:Toggle:MobileDynamicJoystick:OnChanged", value);
+	}
+
 	public SetSprintToggleEnabled(value: boolean): void {
 		this.data.sprintToggleEnabled = value;
+		this.unsavedChanges = true;
+	}
+
+	public SetVoiceToggleEnabled(value: boolean): void {
+		this.data.voiceToggleEnabled = value;
 		this.unsavedChanges = true;
 	}
 

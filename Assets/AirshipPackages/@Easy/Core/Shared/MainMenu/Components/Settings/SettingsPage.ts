@@ -10,10 +10,13 @@ import {
 	InternalGameSettingType,
 	InternalSliderGameSetting,
 } from "../../Singletons/Settings/InternalGameSetting";
+import SettingsButtonGroup from "./Controls/SettingsButtonGroup";
 import SettingsSlider from "./Controls/SettingsSlider";
 import SettingsToggle from "./Controls/SettingsToggle";
 import { SettingsTab } from "./SettingsPageName";
 import SettingsSidebar from "./SettingsSidebar";
+
+const MOBILE_NAV_HEIGHT = 60;
 
 export default class SettingsPage extends AirshipBehaviour {
 	public sidebar!: SettingsSidebar;
@@ -29,12 +32,17 @@ export default class SettingsPage extends AirshipBehaviour {
 
 	@Header("Toggles")
 	public sprintToggle: SettingsToggle;
+	public voiceToggle: SettingsToggle;
+	public mobileDynamicJoystickToggle: SettingsToggle;
 
 	@Header("Sliders")
 	public mouseSensitivitySlider!: SettingsSlider;
 	public mouseSmoothingSlider!: SettingsSlider;
 	public touchSensitibitySlider!: SettingsSlider;
 	public volumeSlider!: SettingsSlider;
+
+	@Header("Video Settings")
+	public limitFpsButtonGroup!: SettingsButtonGroup;
 
 	@Header("Prefabs")
 	public sliderPrefab: GameObject;
@@ -100,11 +108,14 @@ export default class SettingsPage extends AirshipBehaviour {
 					// this.scrollView.offsetMin = new Vector2(5, 0);
 					// this.scrollView.anchoredPosition = new Vector2(0, -96);
 
-					this.scrollView.offsetMax = new Vector2(0, -notchHeight - 40);
+					this.scrollView.offsetMax = new Vector2(0, -notchHeight - MOBILE_NAV_HEIGHT);
 					this.scrollView.offsetMin = new Vector2(0, 0);
 
 					this.mobileHeader.gameObject.SetActive(true);
-					this.mobileHeader.sizeDelta = new Vector2(this.mobileHeader.sizeDelta.x, notchHeight + 60);
+					this.mobileHeader.sizeDelta = new Vector2(
+						this.mobileHeader.sizeDelta.x,
+						notchHeight + MOBILE_NAV_HEIGHT,
+					);
 
 					this.desktopCloseButtonWrapper.gameObject.SetActive(false);
 					this.rightSection.anchorMin = new Vector2(0, 0);
@@ -132,6 +143,57 @@ export default class SettingsPage extends AirshipBehaviour {
 			}),
 		);
 
+		// Limit FPS
+		if (Game.IsMobile()) {
+			this.limitFpsButtonGroup.Init("Limit FPS", Protected.Settings.data.limitFps, [
+				{
+					text: "30",
+					value: 30,
+				},
+				{
+					text: "60",
+					value: 60,
+				},
+				{
+					text: "120",
+					value: 120,
+				},
+				{
+					text: "No Limit",
+					value: -1,
+				},
+			]);
+		} else {
+			this.limitFpsButtonGroup.Init("Limit FPS", Protected.Settings.data.limitFps, [
+				{
+					text: "30",
+					value: 30,
+				},
+				{
+					text: "60",
+					value: 60,
+				},
+				{
+					text: "144",
+					value: 144,
+				},
+				{
+					text: "240",
+					value: 240,
+				},
+				{
+					text: "No Limit",
+					value: -1,
+				},
+			]);
+		}
+		this.bin.Add(
+			this.limitFpsButtonGroup.onChanged.Connect((val) => {
+				Protected.Settings.SetLimitFPS(val as number);
+				Protected.Settings.MarkAsDirty();
+			}),
+		);
+
 		this.gamePageSettingsContainer.gameObject.ClearChildren();
 		if (Protected.Settings.gameSettings.size() > 0) {
 			for (let gameSetting of Protected.Settings.gameSettingsOrdered) {
@@ -145,7 +207,13 @@ export default class SettingsPage extends AirshipBehaviour {
 					const setting = gameSetting as InternalSliderGameSetting;
 					const go = Object.Instantiate(this.sliderPrefab, this.gamePageSettingsContainer);
 					const settingsSlider = go.GetAirshipComponent<SettingsSlider>()!;
-					settingsSlider.Init(gameSetting.name, setting.value as number, setting.min, setting.max, setting.increment);
+					settingsSlider.Init(
+						gameSetting.name,
+						setting.value as number,
+						setting.min,
+						setting.max,
+						setting.increment,
+					);
 					this.bin.Add(
 						settingsSlider.onChange.Connect((val) => {
 							Protected.Settings.SetGameSetting(setting.name, val);
@@ -172,28 +240,54 @@ export default class SettingsPage extends AirshipBehaviour {
 	protected Start(): void {
 		const settings = Protected.Settings;
 
-		this.sprintToggle.Init("Toggle Sprint", settings.IsSprintToggleEnabled());
-		this.sprintToggle.toggle.onValueChanged.Connect((val) => {
-			settings.SetSprintToggleEnabled(val);
+		let voiceChat = Bridge.GetAirshipVoiceChatNetwork();
+		this.voiceToggle.Init("Toggle Mute", settings.IsVoiceToggleEnabled());
+		this.voiceToggle.toggle.onValueChanged.Connect((val) => {
+			settings.SetVoiceToggleEnabled(val);
+
+			if (!val) {
+				if (!voiceChat.agent) {
+					voiceChat = Bridge.GetAirshipVoiceChatNetwork();
+					task.unscaledWait();
+				}
+
+				voiceChat.agent.MuteSelf = true;
+			}
 		});
 
-		this.mouseSensitivitySlider.Init("Mouse Sensitivity", settings.GetMouseSensitivity(), 0.01, 2, 0.01);
-		this.mouseSensitivitySlider.onChange.Connect((val) => {
-			settings.SetMouseSensitivity(val);
-		});
+		if (!Game.IsMobile()) {
+			this.sprintToggle.Init("Toggle Sprint", settings.IsSprintToggleEnabled());
+			this.sprintToggle.toggle.onValueChanged.Connect((val) => {
+				settings.SetSprintToggleEnabled(val);
+			});
 
-		this.mouseSmoothingSlider.Init("Mouse Smoothing", settings.GetMouseSmoothing(), 0, 2, 0.01);
-		this.mouseSmoothingSlider.onChange.Connect((val) => {
-			settings.SetMouseSmoothing(val);
-		});
+			this.mouseSensitivitySlider.Init("Mouse Sensitivity", settings.GetMouseSensitivity(), 0.01, 2, 0.01);
+			this.mouseSensitivitySlider.onChange.Connect((val) => {
+				settings.SetMouseSensitivity(val);
+			});
+
+			this.mouseSmoothingSlider.Init("Mouse Smoothing", settings.GetMouseSmoothing(), 0, 2, 0.01);
+			this.mouseSmoothingSlider.onChange.Connect((val) => {
+				settings.SetMouseSmoothing(val);
+			});
+		} else {
+			this.mouseSensitivitySlider.gameObject.SetActive(false);
+			this.mouseSmoothingSlider.gameObject.SetActive(false);
+			this.sprintToggle.gameObject.SetActive(false);
+		}
 
 		if (Game.IsMobile()) {
 			this.touchSensitibitySlider.Init("Touch Sensitivity", settings.GetTouchSensitivity(), 0.01, 2, 0.01);
 			this.touchSensitibitySlider.onChange.Connect((val) => {
 				settings.SetTouchSensitivity(val);
 			});
+			this.mobileDynamicJoystickToggle.Init("Dynamic Joystick", settings.IsMobileDynamicJoystickEnabled());
+			this.mobileDynamicJoystickToggle.toggle.onValueChanged.Connect((val) => {
+				settings.SetMobileDynamicJoystick(val);
+			});
 		} else {
 			this.touchSensitibitySlider.gameObject.SetActive(false);
+			this.mobileDynamicJoystickToggle.gameObject.SetActive(false);
 		}
 
 		this.volumeSlider.Init("Global Volume", settings.GetGlobalVolume(), 0, 2, 0.01);
