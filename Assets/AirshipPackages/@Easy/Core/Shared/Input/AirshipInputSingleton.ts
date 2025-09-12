@@ -595,10 +595,14 @@ export class AirshipInputSingleton {
 	}
 
 	/**
-	 * Get the mobile touch joystick
+	 * Get the mobile touch joystick (static or dynamic based on settings)
 	 */
-	public GetMobileTouchJoystick(): TouchJoystick | undefined {
-		return this.mobileControlsContainer.GetAirshipComponentInChildren<TouchJoystick>(true);
+	public GetMobileTouchJoystick(): TouchJoystick | DynamicJoystick | undefined {
+		if (this.IsMobileDynamicJoystickEnabled()) {
+			return this.mobileControlsContainer.GetAirshipComponentInChildren<DynamicJoystick>(true);
+		} else {
+			return this.mobileControlsContainer.GetAirshipComponentInChildren<TouchJoystick>(true);
+		}
 	}
 
 	/**
