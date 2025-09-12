@@ -1121,11 +1121,11 @@ declare const enum KeyCode {
     LeftControl = 306,
     RightAlt = 307,
     LeftAlt = 308,
-    RightMeta = 309,
     RightCommand = 309,
+    RightMeta = 309,
     RightApple = 309,
-    LeftMeta = 310,
     LeftCommand = 310,
+    LeftMeta = 310,
     LeftApple = 310,
     LeftWindows = 311,
     RightWindows = 312,
@@ -1324,6 +1324,15 @@ declare const enum KeyCode {
     Joystick8Button17 = 507,
     Joystick8Button18 = 508,
     Joystick8Button19 = 509,
+    F16 = 670,
+    F17 = 671,
+    F18 = 672,
+    F19 = 673,
+    F20 = 674,
+    F21 = 675,
+    F22 = 676,
+    F23 = 677,
+    F24 = 678,
 }
 declare const enum PenStatus {
     None = 0,
@@ -1369,16 +1378,6 @@ declare const enum CanvasUpdate {
     PreRender = 3,
     LatePreRender = 4,
     MaxUpdateValue = 5,
-}
-declare const enum Edge {
-    Left = 0,
-    Right = 1,
-    Top = 2,
-    Bottom = 3,
-}
-declare const enum Axis {
-    Horizontal = 0,
-    Vertical = 1,
 }
 declare const enum RenderMode {
     ScreenSpaceOverlay = 0,
@@ -1761,151 +1760,6 @@ declare const enum InputFieldAppearance {
     AlwaysVisible = 1,
     AlwaysHidden = 2,
 }
-declare const enum Align {
-    Auto = 0,
-    FlexStart = 1,
-    Center = 2,
-    FlexEnd = 3,
-    Stretch = 4,
-}
-declare const enum BackgroundPositionKeyword {
-    Center = 0,
-    Top = 1,
-    Bottom = 2,
-    Left = 3,
-    Right = 4,
-}
-declare const enum LengthUnit {
-    Pixel = 0,
-    Percent = 1,
-}
-declare const enum Repeat {
-    NoRepeat = 0,
-    Space = 1,
-    Round = 2,
-    Repeat = 3,
-}
-declare const enum BackgroundSizeType {
-    Length = 0,
-    Cover = 1,
-    Contain = 2,
-}
-declare const enum DisplayStyle {
-    Flex = 0,
-    None = 1,
-}
-declare const enum StyleKeyword {
-    Undefined = 0,
-    Null = 1,
-    Auto = 2,
-    None = 3,
-    Initial = 4,
-}
-declare const enum FlexDirection {
-    Column = 0,
-    ColumnReverse = 1,
-    Row = 2,
-    RowReverse = 3,
-}
-declare const enum Wrap {
-    NoWrap = 0,
-    Wrap = 1,
-    WrapReverse = 2,
-}
-declare const enum Justify {
-    FlexStart = 0,
-    Center = 1,
-    FlexEnd = 2,
-    SpaceBetween = 3,
-    SpaceAround = 4,
-    SpaceEvenly = 5,
-}
-declare const enum Position {
-    Relative = 0,
-    Absolute = 1,
-}
-declare const enum AngleUnit {
-    Degree = 0,
-    Gradian = 1,
-    Radian = 2,
-    Turn = 3,
-}
-declare const enum TextOverflow {
-    Clip = 0,
-    Ellipsis = 1,
-}
-declare const enum TimeUnit {
-    Second = 0,
-    Millisecond = 1,
-}
-declare const enum EasingMode {
-    Ease = 0,
-    EaseIn = 1,
-    EaseOut = 2,
-    EaseInOut = 3,
-    Linear = 4,
-    EaseInSine = 5,
-    EaseOutSine = 6,
-    EaseInOutSine = 7,
-    EaseInCubic = 8,
-    EaseOutCubic = 9,
-    EaseInOutCubic = 10,
-    EaseInCirc = 11,
-    EaseOutCirc = 12,
-    EaseInOutCirc = 13,
-    EaseInElastic = 14,
-    EaseOutElastic = 15,
-    EaseInOutElastic = 16,
-    EaseInBack = 17,
-    EaseOutBack = 18,
-    EaseInOutBack = 19,
-    EaseInBounce = 20,
-    EaseOutBounce = 21,
-    EaseInOutBounce = 22,
-}
-declare const enum EditorTextRenderingMode {
-    SDF = 0,
-    Bitmap = 1,
-}
-declare const enum AtlasPopulationMode {
-    Static = 0,
-    Dynamic = 1,
-    DynamicOS = 2,
-}
-declare const enum TextElementType {
-    Character = 1,
-    Sprite = 2,
-}
-declare const enum TextAnchor {
-    UpperLeft = 0,
-    UpperCenter = 1,
-    UpperRight = 2,
-    MiddleLeft = 3,
-    MiddleCenter = 4,
-    MiddleRight = 5,
-    LowerLeft = 6,
-    LowerCenter = 7,
-    LowerRight = 8,
-}
-declare const enum TextGeneratorType {
-    Standard = 0,
-    Advanced = 1,
-}
-declare const enum TextOverflowPosition {
-    End = 0,
-    Start = 1,
-    Middle = 2,
-}
-declare const enum Visibility {
-    Visible = 0,
-    Hidden = 1,
-}
-declare const enum WhiteSpace {
-    Normal = 0,
-    NoWrap = 1,
-    Pre = 2,
-    PreWrap = 3,
-}
 declare const enum StylePropertyId {
     Unknown = 0,
     Color = 65536,
@@ -1966,7 +1820,8 @@ declare const enum StylePropertyId {
     UnitySliceRight = 196614,
     UnitySliceScale = 196615,
     UnitySliceTop = 196616,
-    UnityTextOverflowPosition = 196617,
+    UnitySliceType = 196617,
+    UnityTextOverflowPosition = 196618,
     All = 262144,
     BackgroundPosition = 262145,
     BorderColor = 262146,
@@ -2003,6 +1858,155 @@ declare const enum StylePropertyId {
     Opacity = 458766,
     Overflow = 458767,
     Custom = -1,
+}
+declare const enum LengthUnit {
+    Pixel = 0,
+    Percent = 1,
+}
+declare const enum AtlasPopulationMode {
+    Static = 0,
+    Dynamic = 1,
+    DynamicOS = 2,
+}
+declare const enum TextElementType {
+    Character = 1,
+    Sprite = 2,
+}
+declare const enum AngleUnit {
+    Degree = 0,
+    Gradian = 1,
+    Radian = 2,
+    Turn = 3,
+}
+declare const enum BackgroundPositionKeyword {
+    Center = 0,
+    Top = 1,
+    Bottom = 2,
+    Left = 3,
+    Right = 4,
+}
+declare const enum Repeat {
+    NoRepeat = 0,
+    Space = 1,
+    Round = 2,
+    Repeat = 3,
+}
+declare const enum BackgroundSizeType {
+    Length = 0,
+    Cover = 1,
+    Contain = 2,
+}
+declare const enum Align {
+    Auto = 0,
+    FlexStart = 1,
+    Center = 2,
+    FlexEnd = 3,
+    Stretch = 4,
+}
+declare const enum DisplayStyle {
+    Flex = 0,
+    None = 1,
+}
+declare const enum StyleKeyword {
+    Undefined = 0,
+    Null = 1,
+    Auto = 2,
+    None = 3,
+    Initial = 4,
+}
+declare const enum FlexDirection {
+    Column = 0,
+    ColumnReverse = 1,
+    Row = 2,
+    RowReverse = 3,
+}
+declare const enum Wrap {
+    NoWrap = 0,
+    Wrap = 1,
+    WrapReverse = 2,
+}
+declare const enum Justify {
+    FlexStart = 0,
+    Center = 1,
+    FlexEnd = 2,
+    SpaceBetween = 3,
+    SpaceAround = 4,
+    SpaceEvenly = 5,
+}
+declare const enum Position {
+    Relative = 0,
+    Absolute = 1,
+}
+declare const enum TextOverflow {
+    Clip = 0,
+    Ellipsis = 1,
+}
+declare const enum TimeUnit {
+    Second = 0,
+    Millisecond = 1,
+}
+declare const enum EasingMode {
+    Ease = 0,
+    EaseIn = 1,
+    EaseOut = 2,
+    EaseInOut = 3,
+    Linear = 4,
+    EaseInSine = 5,
+    EaseOutSine = 6,
+    EaseInOutSine = 7,
+    EaseInCubic = 8,
+    EaseOutCubic = 9,
+    EaseInOutCubic = 10,
+    EaseInCirc = 11,
+    EaseOutCirc = 12,
+    EaseInOutCirc = 13,
+    EaseInElastic = 14,
+    EaseOutElastic = 15,
+    EaseInOutElastic = 16,
+    EaseInBack = 17,
+    EaseOutBack = 18,
+    EaseInOutBack = 19,
+    EaseInBounce = 20,
+    EaseOutBounce = 21,
+    EaseInOutBounce = 22,
+}
+declare const enum EditorTextRenderingMode {
+    SDF = 0,
+    Bitmap = 1,
+}
+declare const enum SliceType {
+    Sliced = 0,
+    Tiled = 1,
+}
+declare const enum TextAnchor {
+    UpperLeft = 0,
+    UpperCenter = 1,
+    UpperRight = 2,
+    MiddleLeft = 3,
+    MiddleCenter = 4,
+    MiddleRight = 5,
+    LowerLeft = 6,
+    LowerCenter = 7,
+    LowerRight = 8,
+}
+declare const enum TextGeneratorType {
+    Standard = 0,
+    Advanced = 1,
+}
+declare const enum TextOverflowPosition {
+    End = 0,
+    Start = 1,
+    Middle = 2,
+}
+declare const enum Visibility {
+    Visible = 0,
+    Hidden = 1,
+}
+declare const enum WhiteSpace {
+    Normal = 0,
+    NoWrap = 1,
+    Pre = 2,
+    PreWrap = 3,
 }
 declare const enum PropagationPhase {
     None = 0,
@@ -2363,6 +2367,8 @@ declare const enum RuntimePlatform {
     QNXX86 = 49,
     VisionOS = 50,
     ReservedCFE = 51,
+    KeplerArm64 = 52,
+    KeplerX64 = 53,
     CloudRendering = -1,
     GameCoreScarlett = -1,
 }
@@ -3032,13 +3038,13 @@ declare const enum Key {
     LeftCtrl = 55,
     RightCtrl = 56,
     LeftMeta = 57,
-    LeftWindows = 57,
     LeftCommand = 57,
+    LeftWindows = 57,
     LeftApple = 57,
+    RightApple = 58,
     RightCommand = 58,
     RightMeta = 58,
     RightWindows = 58,
-    RightApple = 58,
     ContextMenu = 59,
     Escape = 60,
     LeftArrow = 61,
@@ -3092,6 +3098,18 @@ declare const enum Key {
     OEM4 = 109,
     OEM5 = 110,
     IMESelected = 111,
+    F13 = 112,
+    F14 = 113,
+    F15 = 114,
+    F16 = 115,
+    F17 = 116,
+    F18 = 117,
+    F19 = 118,
+    F20 = 119,
+    F21 = 120,
+    F22 = 121,
+    F23 = 122,
+    F24 = 123,
 }
 declare const enum AccessorySlot {
     Root = 0,
@@ -3233,10 +3251,11 @@ declare const enum BuildTarget {
     QNX = 46,
     VisionOS = 47,
     ReservedCFE = 48,
+    Kepler = 49,
     NoTarget = -2,
+    MetroPlayer = -1,
     iPhone = -1,
     BB10 = -1,
-    MetroPlayer = -1,
 }
 declare const enum BatteryStatus {
     Unknown = 0,
@@ -10693,6 +10712,8 @@ Returns NULL if there is no associated alpha Texture for the source Sprite. This
 
 }
     
+    
+    
 interface Texture extends Object {
     /**
      * How many mipmap levels are in this Texture (Read Only).
@@ -16726,7 +16747,7 @@ interface Material extends Object {
      */
     SetBuffer(nameID: number, value: GraphicsBuffer): void;
     /**
-     * Sets a color value.
+     * Sets the value of a color- or vector-type property.
      * @param name Property name. For example, &quot;_Color&quot; in Built-in Render Pipeline, &quot;_BaseColor&quot; in URP.
      * @param value Color value to set.
      * 
@@ -16734,7 +16755,7 @@ interface Material extends Object {
      */
     SetColor(name: string, value: Color): void;
     /**
-     * Sets a color value.
+     * Sets the value of a color- or vector-type property.
      * @param nameID Property name ID, use Shader.PropertyToID to get it.
      * @param value Color value to set.
      * 
@@ -19837,194 +19858,11 @@ interface RayTracingShader extends Object {
 
 }
     
-interface RectInt {
-    /**
-     * Left coordinate of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-x.html | RectInt.x}
-     */
-    x: number;
-    /**
-     * Top coordinate of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-y.html | RectInt.y}
-     */
-    y: number;
-    /**
-     * Center coordinate of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-center.html | RectInt.center}
-     */
-    readonly center: Vector2;
-    /**
-     * The lower left corner of the rectangle; which is the minimal position of the rectangle along the x- and y-axes, when it is aligned to both axes.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-min.html | RectInt.min}
-     */
-    min: Vector2Int;
-    /**
-     * The upper right corner of the rectangle; which is the maximal position of the rectangle along the x- and y-axes, when it is aligned to both axes.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-max.html | RectInt.max}
-     */
-    max: Vector2Int;
-    /**
-     * Width of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-width.html | RectInt.width}
-     */
-    width: number;
-    /**
-     * Height of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-height.html | RectInt.height}
-     */
-    height: number;
-    /**
-     * Shows the minimum X value of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-xMin.html | RectInt.xMin}
-     */
-    xMin: number;
-    /**
-     * Show the minimum Y value of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-yMin.html | RectInt.yMin}
-     */
-    yMin: number;
-    /**
-     * Shows the maximum X value of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-xMax.html | RectInt.xMax}
-     */
-    xMax: number;
-    /**
-     * Shows the maximum Y value of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-yMax.html | RectInt.yMax}
-     */
-    yMax: number;
-    /**
-     * Returns the position (x, y) of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-position.html | RectInt.position}
-     */
-    position: Vector2Int;
-    /**
-     * Returns the width and height of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-size.html | RectInt.size}
-     */
-    size: Vector2Int;
-    /**
-     * A RectInt.PositionCollection that contains all positions within the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-allPositionsWithin.html | RectInt.allPositionsWithin}
-     */
-    readonly allPositionsWithin: PositionEnumerator;
-
-
-
-    /**
-     * Clamps the position and size of the RectInt to the given bounds.
-     * @param bounds Bounds to clamp the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.ClampToBounds.html | RectInt.ClampToBounds}
-     */
-    ClampToBounds(bounds: RectInt): void;
-    /**
-     * Returns true if the given position is within the RectInt.
-     * @param position Position to check.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.Contains.html | RectInt.Contains}
-     */
-    Contains(position: Vector2Int): boolean;
-    Equals(other: unknown): boolean;
-    /**
-     * Returns true if the given RectInt is equal to this RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.Equals.html | RectInt.Equals}
-     */
-    Equals(other: RectInt): boolean;
-    GetHashCode(): number;
-    /**
-     * RectInts overlap if each RectInt Contains a shared point.
-     * @param other Other rectangle to test overlapping with.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.Overlaps.html | RectInt.Overlaps}
-     */
-    Overlaps(other: RectInt): boolean;
-    /**
-     * Sets the bounds to the min and max value of the rect.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.SetMinMax.html | RectInt.SetMinMax}
-     */
-    SetMinMax(minPosition: Vector2Int, maxPosition: Vector2Int): void;
-    /**
-     * Returns the x, y, width and height of the RectInt.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.ToString.html | RectInt.ToString}
-     */
-    ToString(): string;
-    /**
-     * Returns the x, y, width and height of the RectInt.
-     * @param format A numeric format string.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.ToString.html | RectInt.ToString}
-     */
-    ToString(format: string): string;
-    /**
-     * Returns the x, y, width and height of the RectInt.
-     * @param format A numeric format string.
-     * @param formatProvider An object that specifies culture-specific formatting.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt.ToString.html | RectInt.ToString}
-     */
-    ToString(format: string, formatProvider: IFormatProvider): string;
-
-
-}
     
     
     
-interface PositionEnumerator {
-    readonly Current: Vector2Int;
-
-
-
-    GetEnumerator(): PositionEnumerator;
-    MoveNext(): boolean;
-    Reset(): void;
-
-
-}
     
-interface PositionEnumeratorConstructor {
-
-
-    new(min: Vector2Int, max: Vector2Int): PositionEnumerator;
-
-
-
-}
-declare const PositionEnumerator: PositionEnumeratorConstructor;
     
-interface RectIntConstructor {
-    /**
-     * Shorthand for writing new RectInt(0,0,0,0).
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectInt-zero.html | RectInt.zero}
-     */
-    readonly zero: RectInt;
-
-
-    new(xMin: number, yMin: number, width: number, height: number): RectInt;
-    new(position: Vector2Int, size: Vector2Int): RectInt;
-
-
-
-}
-declare const RectInt: RectIntConstructor;
     
 interface RendererList {
     /**
@@ -21484,106 +21322,7 @@ interface Graphic extends UIBehaviour, ICanvasElement {
 
 }
     
-interface RectTransform extends Transform {
-    /**
-     * The calculated rectangle in the local space of the Transform.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-rect.html | RectTransform.rect}
-     */
-    readonly rect: Rect;
-    /**
-     * The normalized position in the parent RectTransform that the lower left corner is anchored to.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-anchorMin.html | RectTransform.anchorMin}
-     */
-    anchorMin: Vector2;
-    /**
-     * The normalized position in the parent RectTransform that the upper right corner is anchored to.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-anchorMax.html | RectTransform.anchorMax}
-     */
-    anchorMax: Vector2;
-    /**
-     * The position of the pivot of this RectTransform relative to the anchor reference point.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-anchoredPosition.html | RectTransform.anchoredPosition}
-     */
-    anchoredPosition: Vector2;
-    /**
-     * The size of this RectTransform relative to the distances between the anchors.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-sizeDelta.html | RectTransform.sizeDelta}
-     */
-    sizeDelta: Vector2;
-    /**
-     * The normalized position in this RectTransform that it rotates around.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-pivot.html | RectTransform.pivot}
-     */
-    pivot: Vector2;
-    /**
-     * The 3D position of the pivot of this RectTransform relative to the anchor reference point.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-anchoredPosition3D.html | RectTransform.anchoredPosition3D}
-     */
-    anchoredPosition3D: Vector3;
-    /**
-     * The offset of the lower left corner of the rectangle relative to the lower left anchor.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-offsetMin.html | RectTransform.offsetMin}
-     */
-    offsetMin: Vector2;
-    /**
-     * The offset of the upper right corner of the rectangle relative to the upper right anchor.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-offsetMax.html | RectTransform.offsetMax}
-     */
-    offsetMax: Vector2;
-    /**
-     * The object that is driving the values of this RectTransform. Value is null if not driven.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform-drivenByObject.html | RectTransform.drivenByObject}
-     */
-    readonly drivenByObject: Object;
-
-
-
-    /**
-     * Force the recalculation of RectTransforms internal data.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform.ForceUpdateRectTransforms.html | RectTransform.ForceUpdateRectTransforms}
-     */
-    ForceUpdateRectTransforms(): void;
-    /**
-     * Get the corners of the calculated rectangle in the local space of its Transform.
-     * @param fourCornersArray The array that corners are filled into.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform.GetLocalCorners.html | RectTransform.GetLocalCorners}
-     */
-    GetLocalCorners(fourCornersArray: Readonly<Vector3[]>): void;
-    /**
-     * Get the corners of the calculated rectangle in world space.
-     * @param fourCornersArray The array that corners are filled into.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectTransform.GetWorldCorners.html | RectTransform.GetWorldCorners}
-     */
-    GetWorldCorners(fourCornersArray: Readonly<Vector3[]>): void;
-    SetInsetAndSizeFromParentEdge(edge: Edge, inset: number, size: number): void;
-    SetSizeWithCurrentAnchors(axis: Axis, size: number): void;
-
-
-}
     
-interface RectTransformConstructor {
-
-
-    new(): RectTransform;
-
-
-
-    readonly reapplyDrivenProperties: MonoSignal<void>;
-}
-declare const RectTransform: RectTransformConstructor;
     
 interface Canvas extends Behaviour {
     /**
@@ -22001,6 +21740,22 @@ interface GraphicConstructor {
 }
 declare const Graphic: GraphicConstructor;
     
+interface ICanvasRaycastFilter {
+
+
+
+    /**
+     * Given a point and a camera is the raycast valid.
+     * @param sp Screen position.
+     * @param eventCamera Raycast camera.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/ICanvasRaycastFilter.IsRaycastLocationValid.html | ICanvasRaycastFilter.IsRaycastLocationValid}
+     */
+    IsRaycastLocationValid(sp: Vector2, eventCamera: Camera): boolean;
+
+
+}
+    
 interface ISerializationCallbackReceiver {
 
 
@@ -22017,22 +21772,6 @@ interface ISerializationCallbackReceiver {
      * More info: {@link https://docs.unity3d.com/ScriptReference/ISerializationCallbackReceiver.OnBeforeSerialize.html | ISerializationCallbackReceiver.OnBeforeSerialize}
      */
     OnBeforeSerialize(): void;
-
-
-}
-    
-interface ICanvasRaycastFilter {
-
-
-
-    /**
-     * Given a point and a camera is the raycast valid.
-     * @param sp Screen position.
-     * @param eventCamera Raycast camera.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/ICanvasRaycastFilter.IsRaycastLocationValid.html | ICanvasRaycastFilter.IsRaycastLocationValid}
-     */
-    IsRaycastLocationValid(sp: Vector2, eventCamera: Camera): boolean;
 
 
 }
@@ -22103,7 +21842,7 @@ interface MaskableGraphic extends Graphic, IClippable, IMaterialModifier, IMaska
 
 }
     
-interface Image extends MaskableGraphic, ISerializationCallbackReceiver, ICanvasRaycastFilter, ILayoutElement {
+interface Image extends MaskableGraphic, ICanvasRaycastFilter, ISerializationCallbackReceiver, ILayoutElement {
     sprite: Sprite;
     overrideSprite: Sprite;
     type: Type;
@@ -26901,7 +26640,7 @@ declare const RangeInt: RangeIntConstructor;
     
 interface TouchScreenKeyboardConstructor {
     /**
-     * Is touch screen keyboard supported.
+     * Checks if on-screen keyboards are supported.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TouchScreenKeyboard-isSupported.html | TouchScreenKeyboard.isSupported}
      */
@@ -26919,13 +26658,13 @@ interface TouchScreenKeyboardConstructor {
      */
     hideInput: boolean;
     /**
-     * Returns the status of the on-screen keyboard's input field.
+     * Returns the current visibility status of the on-screen keyboard's input field. (Read Only)
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TouchScreenKeyboard-inputFieldAppearance.html | TouchScreenKeyboard.inputFieldAppearance}
      */
     readonly inputFieldAppearance: InputFieldAppearance;
     /**
-     * Returns portion of the screen which is covered by the keyboard.
+     * Indicates the portion of the screen that is currently covered by the on-screen keyboard.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TouchScreenKeyboard-area.html | TouchScreenKeyboard.area}
      */
@@ -27205,6 +26944,670 @@ interface TimerState {
 
 
 }
+    
+interface ITransform {
+    /**
+     * The position of the VisualElement transform.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.ITransform-position.html | UIElements.ITransform.position}
+     */
+    position: Vector3;
+    /**
+     * The rotation of the VisualElement transform stored as a Quaternion.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.ITransform-rotation.html | UIElements.ITransform.rotation}
+     */
+    rotation: Quaternion;
+    /**
+     * The scale of the VisualElement transform.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.ITransform-scale.html | UIElements.ITransform.scale}
+     */
+    scale: Vector3;
+    /**
+     * Transformation matrix calculated from the position, rotation and scale of the transform (Read Only).
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.ITransform-matrix.html | UIElements.ITransform.matrix}
+     */
+    readonly matrix: Matrix4x4;
+
+
+
+
+
+}
+    
+interface IStylePropertyAnimations {
+    runningAnimationCount: number;
+    completedAnimationCount: number;
+
+
+
+    CancelAllAnimations(): void;
+    CancelAnimation(id: StylePropertyId): void;
+    GetAllAnimations(outPropertyIds: Readonly<StylePropertyId[]>): void;
+    HasRunningAnimation(id: StylePropertyId): boolean;
+    Start(id: StylePropertyId, from: number, to: number, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: number, to: number, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: Length, to: Length, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: Color, to: Color, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: Background, to: Background, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: FontDefinition, to: FontDefinition, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: Font, to: Font, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: TextShadow, to: TextShadow, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: Scale, to: Scale, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: Translate, to: Translate, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: Rotate, to: Rotate, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: TransformOrigin, to: TransformOrigin, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: BackgroundPosition, to: BackgroundPosition, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: BackgroundRepeat, to: BackgroundRepeat, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    Start(id: StylePropertyId, from: BackgroundSize, to: BackgroundSize, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    StartEnum(id: StylePropertyId, from: number, to: number, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
+    UpdateAnimation(id: StylePropertyId): void;
+
+
+}
+    
+interface Length {
+    /**
+     * The length value.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Length-value.html | UIElements.Length.value}
+     */
+    value: number;
+    /**
+     * The unit of the value property.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Length-unit.html | UIElements.Length.unit}
+     */
+    unit: LengthUnit;
+
+
+
+    Equals(other: Length): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+    /**
+     * Check if Length is Auto.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Length.IsAuto.html | UIElements.Length.IsAuto}
+     */
+    IsAuto(): boolean;
+    /**
+     * Check if Length is None.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Length.IsNone.html | UIElements.Length.IsNone}
+     */
+    IsNone(): boolean;
+    ToString(): string;
+
+
+}
+    
+interface LengthConstructor {
+
+
+    new(value: number): Length;
+    new(value: number, unit: LengthUnit): Length;
+
+
+    Auto(): Length;
+    None(): Length;
+    Percent(value: number): Length;
+
+}
+declare const Length: LengthConstructor;
+    
+interface Background {
+    /**
+     * The texture to display as a background.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Background-texture.html | UIElements.Background.texture}
+     */
+    texture: Texture2D;
+    /**
+     * The sprite to display as a background.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Background-sprite.html | UIElements.Background.sprite}
+     */
+    sprite: Sprite;
+    /**
+     * The RenderTexture to display as a background.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Background-renderTexture.html | UIElements.Background.renderTexture}
+     */
+    renderTexture: RenderTexture;
+    /**
+     * The VectorImage to display as a background.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Background-vectorImage.html | UIElements.Background.vectorImage}
+     */
+    vectorImage: VectorImage;
+
+
+
+    Equals(other: Background): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+    /**
+     * Retrieves the selected asset which can be of a type of Texture, Sprite, RenderTexture or VectorImage.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Background.GetSelectedImage.html | UIElements.Background.GetSelectedImage}
+     */
+    GetSelectedImage(): Object;
+    /**
+     * Help verify whether an asset has been assigned or not.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Background.IsEmpty.html | UIElements.Background.IsEmpty}
+     */
+    IsEmpty(): boolean;
+    ToString(): string;
+
+
+}
+    
+interface VectorImage extends ScriptableObject {
+    /**
+     * The width of the vector image.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.VectorImage-width.html | UIElements.VectorImage.width}
+     */
+    readonly width: number;
+    /**
+     * The height of the vector image.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.VectorImage-height.html | UIElements.VectorImage.height}
+     */
+    readonly height: number;
+
+
+
+
+
+}
+    
+interface VectorImageConstructor {
+
+
+    new(): VectorImage;
+
+
+
+}
+declare const VectorImage: VectorImageConstructor;
+    
+interface BackgroundConstructor {
+
+
+    new(t: Texture2D): Background;
+
+
+    FromRenderTexture(rt: RenderTexture): Background;
+    FromSprite(s: Sprite): Background;
+    FromTexture2D(t: Texture2D): Background;
+    FromVectorImage(vi: VectorImage): Background;
+
+}
+declare const Background: BackgroundConstructor;
+    
+interface FontDefinition {
+    /**
+     * Font to use to display text. You cannot set this and FontDefinition.fontAsset at the same time.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.FontDefinition-font.html | UIElements.FontDefinition.font}
+     */
+    font: Font;
+    /**
+     * SDF font to use to display text. You cannot set this and FontDefinition.font at the same time.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.FontDefinition-fontAsset.html | UIElements.FontDefinition.fontAsset}
+     */
+    fontAsset: FontAsset;
+
+
+
+    Equals(other: FontDefinition): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+    ToString(): string;
+
+
+}
+    
+interface TextAsset extends ScriptableObject {
+    readonly version: string;
+    readonly instanceID: number;
+    hashCode: number;
+    material: Material;
+    materialHashCode: number;
+
+
+
+
+
+}
+    
+interface FontAsset extends TextAsset {
+    fontAssetCreationEditorSettings: FontAssetCreationEditorSettings;
+    readonly sourceFontFile: Font;
+    atlasPopulationMode: AtlasPopulationMode;
+    faceInfo: FaceInfo;
+    readonly glyphTable: Readonly<Glyph[]>;
+    readonly glyphLookupTable: CSDictionary<number, Glyph>;
+    readonly characterTable: Readonly<Character[]>;
+    readonly characterLookupTable: CSDictionary<number, Character>;
+    readonly atlasTexture: Texture2D;
+    atlasTextures: Readonly<Texture2D[]>;
+    readonly atlasTextureCount: number;
+    isMultiAtlasTexturesEnabled: boolean;
+    getFontFeatures: boolean;
+    readonly atlasWidth: number;
+    readonly atlasHeight: number;
+    readonly atlasPadding: number;
+    readonly atlasRenderMode: GlyphRenderMode;
+    readonly fontFeatureTable: FontFeatureTable;
+    fallbackFontAssetTable: Readonly<FontAsset[]>;
+    readonly fontWeightTable: Readonly<FontWeightPair[]>;
+    regularStyleWeight: number;
+    regularStyleSpacing: number;
+    boldStyleWeight: number;
+    boldStyleSpacing: number;
+    italicStyleSlant: number;
+    tabMultiple: number;
+
+
+
+    ClearFontAssetData(setAtlasSizeToZero: boolean): void;
+    HasCharacter(character: number): boolean;
+    HasCharacter(character: string, searchFallbacks: boolean, tryAddCharacter: boolean): boolean;
+    HasCharacter(character: number, searchFallbacks: boolean, tryAddCharacter: boolean): boolean;
+    HasCharacters(text: string): boolean;
+    ReadFontAssetDefinition(): void;
+    TryAddCharacters(unicodes: Readonly<number[]>, includeFontFeatures: boolean): boolean;
+    TryAddCharacters(characters: string, includeFontFeatures: boolean): boolean;
+
+
+}
+    
+interface FontAssetCreationEditorSettings {
+    sourceFontFileGUID: string;
+    faceIndex: number;
+    pointSizeSamplingMode: number;
+    pointSize: number;
+    padding: number;
+    paddingMode: number;
+    packingMode: number;
+    atlasWidth: number;
+    atlasHeight: number;
+    characterSetSelectionMode: number;
+    characterSequence: string;
+    referencedFontAssetGUID: string;
+    referencedTextAssetGUID: string;
+    fontStyle: number;
+    fontStyleModifier: number;
+    renderMode: number;
+    includeFontFeatures: boolean;
+
+
+
+
+
+}
+    
+interface TextElement {
+    readonly elementType: TextElementType;
+    unicode: number;
+    textAsset: TextAsset;
+    glyph: Glyph;
+    glyphIndex: number;
+    scale: number;
+
+
+
+
+
+}
+    
+    
+    
+interface FontFeatureTable {
+
+
+
+    /**
+     * Sorts the glyph pair adjustment records by glyph index.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/TextCore.Text.FontFeatureTable.SortGlyphPairAdjustmentRecords.html | TextCore.Text.FontFeatureTable.SortGlyphPairAdjustmentRecords}
+     */
+    SortGlyphPairAdjustmentRecords(): void;
+    /**
+     * Sorts the Mark-to-Base Adjustment Table records.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/TextCore.Text.FontFeatureTable.SortMarkToBaseAdjustmentRecords.html | TextCore.Text.FontFeatureTable.SortMarkToBaseAdjustmentRecords}
+     */
+    SortMarkToBaseAdjustmentRecords(): void;
+    /**
+     * Sorts the Mark-to-Mark Adjustment Table records.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/TextCore.Text.FontFeatureTable.SortMarkToMarkAdjustmentRecords.html | TextCore.Text.FontFeatureTable.SortMarkToMarkAdjustmentRecords}
+     */
+    SortMarkToMarkAdjustmentRecords(): void;
+
+
+}
+    
+interface FontWeightPair {
+    regularTypeface: FontAsset;
+    italicTypeface: FontAsset;
+
+
+
+
+
+}
+    
+interface FontAssetConstructor {
+
+
+    new(): FontAsset;
+
+
+    CreateFontAsset(familyName: string, styleName: string, pointSize: number): FontAsset;
+    CreateFontAsset(fontFilePath: string, faceIndex: number, samplingPointSize: number, atlasPadding: number, renderMode: GlyphRenderMode, atlasWidth: number, atlasHeight: number): FontAsset;
+    CreateFontAsset(font: Font): FontAsset;
+    CreateFontAsset(font: Font, samplingPointSize: number, atlasPadding: number, renderMode: GlyphRenderMode, atlasWidth: number, atlasHeight: number, atlasPopulationMode: AtlasPopulationMode, enableMultiAtlasSupport: boolean): FontAsset;
+    GetCharacters(fontAsset: FontAsset): string;
+    GetCharactersArray(fontAsset: FontAsset): Readonly<number[]>;
+
+}
+declare const FontAsset: FontAssetConstructor;
+    
+interface FontDefinitionConstructor {
+
+
+
+
+    FromFont(f: Font): FontDefinition;
+    FromSDFFont(f: FontAsset): FontDefinition;
+
+}
+declare const FontDefinition: FontDefinitionConstructor;
+    
+interface TextShadow {
+    offset: Vector2;
+    blurRadius: number;
+    color: Color;
+
+
+
+    Equals(obj: unknown): boolean;
+    Equals(other: TextShadow): boolean;
+    GetHashCode(): number;
+    ToString(): string;
+
+
+}
+    
+interface Scale {
+    value: Vector3;
+
+
+
+    Equals(other: Scale): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+    ToString(): string;
+
+
+}
+    
+interface ScaleConstructor {
+
+
+    new(scale: Vector2): Scale;
+    new(scale: Vector3): Scale;
+
+
+    None(): Scale;
+
+}
+declare const Scale: ScaleConstructor;
+    
+interface Translate {
+    x: Length;
+    y: Length;
+    z: number;
+
+
+
+    Equals(other: Translate): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+    ToString(): string;
+
+
+}
+    
+interface TranslateConstructor {
+
+
+    new(x: Length, y: Length, z: number): Translate;
+    new(x: Length, y: Length): Translate;
+
+
+    None(): Translate;
+
+}
+declare const Translate: TranslateConstructor;
+    
+interface Rotate {
+    /**
+     * The angle applied by the rotation. Positive values represent clockwise rotation and negative values represent counterclockwise rotation.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Rotate-angle.html | UIElements.Rotate.angle}
+     */
+    angle: Angle;
+
+
+
+    Equals(other: Rotate): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+    ToString(): string;
+
+
+}
+    
+interface Angle {
+    /**
+     * The angle value.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Angle-value.html | UIElements.Angle.value}
+     */
+    value: number;
+    /**
+     * The unit of the value property.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Angle-unit.html | UIElements.Angle.unit}
+     */
+    unit: AngleUnit;
+
+
+
+    Equals(other: Angle): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+    /**
+     * Returns the value of the angle, expressed in degrees.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Angle.ToDegrees.html | UIElements.Angle.ToDegrees}
+     */
+    ToDegrees(): number;
+    /**
+     * Returns the value of the angle, expressed in gradians.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Angle.ToGradians.html | UIElements.Angle.ToGradians}
+     */
+    ToGradians(): number;
+    /**
+     * Returns the value of the angle, expressed in radians.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Angle.ToRadians.html | UIElements.Angle.ToRadians}
+     */
+    ToRadians(): number;
+    ToString(): string;
+    /**
+     * Returns the value of the angle, expressed in turns.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Angle.ToTurns.html | UIElements.Angle.ToTurns}
+     */
+    ToTurns(): number;
+
+
+}
+    
+interface AngleConstructor {
+
+
+    new(value: number): Angle;
+    new(value: number, unit: AngleUnit): Angle;
+
+
+    Degrees(value: number): Angle;
+    Gradians(value: number): Angle;
+    Radians(value: number): Angle;
+    Turns(value: number): Angle;
+
+}
+declare const Angle: AngleConstructor;
+    
+interface RotateConstructor {
+
+
+    new(angle: Angle): Rotate;
+
+
+    None(): Rotate;
+
+}
+declare const Rotate: RotateConstructor;
+    
+interface TransformOrigin {
+    x: Length;
+    y: Length;
+    z: number;
+
+
+
+    Equals(other: TransformOrigin): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+    ToString(): string;
+
+
+}
+    
+interface TransformOriginConstructor {
+
+
+    new(x: Length, y: Length, z: number): TransformOrigin;
+    new(x: Length, y: Length): TransformOrigin;
+
+
+    Initial(): TransformOrigin;
+
+}
+declare const TransformOrigin: TransformOriginConstructor;
+    
+interface BackgroundPosition {
+    keyword: BackgroundPositionKeyword;
+    offset: Length;
+
+
+
+    Equals(obj: unknown): boolean;
+    Equals(other: BackgroundPosition): boolean;
+    GetHashCode(): number;
+    ToString(): string;
+
+
+}
+    
+interface BackgroundPositionConstructor {
+
+
+    new(keyword: BackgroundPositionKeyword): BackgroundPosition;
+    new(keyword: BackgroundPositionKeyword, offset: Length): BackgroundPosition;
+
+
+
+}
+declare const BackgroundPosition: BackgroundPositionConstructor;
+    
+interface BackgroundRepeat {
+    x: Repeat;
+    y: Repeat;
+
+
+
+    Equals(obj: unknown): boolean;
+    Equals(other: BackgroundRepeat): boolean;
+    GetHashCode(): number;
+    ToString(): string;
+
+
+}
+    
+interface BackgroundRepeatConstructor {
+
+
+    new(repeatX: Repeat, repeatY: Repeat): BackgroundRepeat;
+
+
+
+}
+declare const BackgroundRepeat: BackgroundRepeatConstructor;
+    
+interface BackgroundSize {
+    /**
+     * Background size type
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.BackgroundSize-sizeType.html | UIElements.BackgroundSize.sizeType}
+     */
+    sizeType: BackgroundSizeType;
+    /**
+     * Background size x
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.BackgroundSize-x.html | UIElements.BackgroundSize.x}
+     */
+    x: Length;
+    /**
+     * Background size y
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.BackgroundSize-y.html | UIElements.BackgroundSize.y}
+     */
+    y: Length;
+
+
+
+    Equals(obj: unknown): boolean;
+    Equals(other: BackgroundSize): boolean;
+    GetHashCode(): number;
+    ToString(): string;
+
+
+}
+    
+interface BackgroundSizeConstructor {
+
+
+    new(sizeX: Length, sizeY: Length): BackgroundSize;
+    new(sizeType: BackgroundSizeType): BackgroundSize;
+
+
+
+}
+declare const BackgroundSize: BackgroundSizeConstructor;
     
 interface IResolvedStyle {
     /**
@@ -27628,6 +28031,12 @@ interface IResolvedStyle {
      */
     readonly unitySliceTop: number;
     /**
+     * Specifies the type of sclicing.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle-unitySliceType.html | UIElements.IResolvedStyle.unitySliceType}
+     */
+    readonly unitySliceType: SliceType;
+    /**
      * Horizontal and vertical text alignment in the element's box.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle-unityTextAlign.html | UIElements.IResolvedStyle.unityTextAlign}
@@ -27670,7 +28079,7 @@ interface IResolvedStyle {
      */
     readonly whiteSpace: WhiteSpace;
     /**
-     * Fixed width of an element for the layout.
+     * Fixed width of an element for the layout, specified in pixels.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle-width.html | UIElements.IResolvedStyle.width}
      */
@@ -27687,238 +28096,6 @@ interface IResolvedStyle {
 
 
 }
-    
-interface Background {
-    /**
-     * The texture to display as a background.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Background-texture.html | UIElements.Background.texture}
-     */
-    texture: Texture2D;
-    /**
-     * The sprite to display as a background.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Background-sprite.html | UIElements.Background.sprite}
-     */
-    sprite: Sprite;
-    /**
-     * The RenderTexture to display as a background.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Background-renderTexture.html | UIElements.Background.renderTexture}
-     */
-    renderTexture: RenderTexture;
-    /**
-     * The VectorImage to display as a background.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Background-vectorImage.html | UIElements.Background.vectorImage}
-     */
-    vectorImage: VectorImage;
-
-
-
-    Equals(other: Background): boolean;
-    Equals(obj: unknown): boolean;
-    GetHashCode(): number;
-    /**
-     * Retrieves the selected asset which can be of a type of Texture, Sprite, RenderTexture or VectorImage.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Background.GetSelectedImage.html | UIElements.Background.GetSelectedImage}
-     */
-    GetSelectedImage(): Object;
-    /**
-     * Help verify whether an asset has been assigned or not.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Background.IsEmpty.html | UIElements.Background.IsEmpty}
-     */
-    IsEmpty(): boolean;
-    ToString(): string;
-
-
-}
-    
-interface VectorImage extends ScriptableObject {
-    /**
-     * The width of the vector image.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.VectorImage-width.html | UIElements.VectorImage.width}
-     */
-    readonly width: number;
-    /**
-     * The height of the vector image.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.VectorImage-height.html | UIElements.VectorImage.height}
-     */
-    readonly height: number;
-
-
-
-
-
-}
-    
-interface VectorImageConstructor {
-
-
-    new(): VectorImage;
-
-
-
-}
-declare const VectorImage: VectorImageConstructor;
-    
-interface BackgroundConstructor {
-
-
-    new(t: Texture2D): Background;
-
-
-    FromRenderTexture(rt: RenderTexture): Background;
-    FromSprite(s: Sprite): Background;
-    FromTexture2D(t: Texture2D): Background;
-    FromVectorImage(vi: VectorImage): Background;
-
-}
-declare const Background: BackgroundConstructor;
-    
-interface BackgroundPosition {
-    keyword: BackgroundPositionKeyword;
-    offset: Length;
-
-
-
-    Equals(obj: unknown): boolean;
-    Equals(other: BackgroundPosition): boolean;
-    GetHashCode(): number;
-    ToString(): string;
-
-
-}
-    
-interface Length {
-    /**
-     * The length value.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Length-value.html | UIElements.Length.value}
-     */
-    value: number;
-    /**
-     * The unit of the value property.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Length-unit.html | UIElements.Length.unit}
-     */
-    unit: LengthUnit;
-
-
-
-    Equals(other: Length): boolean;
-    Equals(obj: unknown): boolean;
-    GetHashCode(): number;
-    /**
-     * Check if Length is Auto.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Length.IsAuto.html | UIElements.Length.IsAuto}
-     */
-    IsAuto(): boolean;
-    /**
-     * Check if Length is None.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Length.IsNone.html | UIElements.Length.IsNone}
-     */
-    IsNone(): boolean;
-    ToString(): string;
-
-
-}
-    
-interface LengthConstructor {
-
-
-    new(value: number): Length;
-    new(value: number, unit: LengthUnit): Length;
-
-
-    Auto(): Length;
-    None(): Length;
-    Percent(value: number): Length;
-
-}
-declare const Length: LengthConstructor;
-    
-interface BackgroundPositionConstructor {
-
-
-    new(keyword: BackgroundPositionKeyword): BackgroundPosition;
-    new(keyword: BackgroundPositionKeyword, offset: Length): BackgroundPosition;
-
-
-
-}
-declare const BackgroundPosition: BackgroundPositionConstructor;
-    
-interface BackgroundRepeat {
-    x: Repeat;
-    y: Repeat;
-
-
-
-    Equals(obj: unknown): boolean;
-    Equals(other: BackgroundRepeat): boolean;
-    GetHashCode(): number;
-    ToString(): string;
-
-
-}
-    
-interface BackgroundRepeatConstructor {
-
-
-    new(repeatX: Repeat, repeatY: Repeat): BackgroundRepeat;
-
-
-
-}
-declare const BackgroundRepeat: BackgroundRepeatConstructor;
-    
-interface BackgroundSize {
-    /**
-     * Background size type
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.BackgroundSize-sizeType.html | UIElements.BackgroundSize.sizeType}
-     */
-    sizeType: BackgroundSizeType;
-    /**
-     * Background size x
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.BackgroundSize-x.html | UIElements.BackgroundSize.x}
-     */
-    x: Length;
-    /**
-     * Background size y
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.BackgroundSize-y.html | UIElements.BackgroundSize.y}
-     */
-    y: Length;
-
-
-
-    Equals(obj: unknown): boolean;
-    Equals(other: BackgroundSize): boolean;
-    GetHashCode(): number;
-    ToString(): string;
-
-
-}
-    
-interface BackgroundSizeConstructor {
-
-
-    new(sizeX: Length, sizeY: Length): BackgroundSize;
-    new(sizeType: BackgroundSizeType): BackgroundSize;
-
-
-
-}
-declare const BackgroundSize: BackgroundSizeConstructor;
     
 interface IStyleValue<T> {
     value: T;
@@ -27964,123 +28141,6 @@ interface StyleFloatConstructor {
 
 }
 declare const StyleFloat: StyleFloatConstructor;
-    
-interface Rotate {
-    /**
-     * The angle applied by the rotation. Positive values represent clockwise rotation and negative values represent counterclockwise rotation.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Rotate-angle.html | UIElements.Rotate.angle}
-     */
-    angle: Angle;
-
-
-
-    Equals(other: Rotate): boolean;
-    Equals(obj: unknown): boolean;
-    GetHashCode(): number;
-    ToString(): string;
-
-
-}
-    
-interface Angle {
-    /**
-     * The angle value.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Angle-value.html | UIElements.Angle.value}
-     */
-    value: number;
-    /**
-     * The unit of the value property.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Angle-unit.html | UIElements.Angle.unit}
-     */
-    unit: AngleUnit;
-
-
-
-    Equals(other: Angle): boolean;
-    Equals(obj: unknown): boolean;
-    GetHashCode(): number;
-    /**
-     * Returns the value of the angle, expressed in degrees.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Angle.ToDegrees.html | UIElements.Angle.ToDegrees}
-     */
-    ToDegrees(): number;
-    /**
-     * Returns the value of the angle, expressed in gradians.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Angle.ToGradians.html | UIElements.Angle.ToGradians}
-     */
-    ToGradians(): number;
-    /**
-     * Returns the value of the angle, expressed in radians.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Angle.ToRadians.html | UIElements.Angle.ToRadians}
-     */
-    ToRadians(): number;
-    ToString(): string;
-    /**
-     * Returns the value of the angle, expressed in turns.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Angle.ToTurns.html | UIElements.Angle.ToTurns}
-     */
-    ToTurns(): number;
-
-
-}
-    
-interface AngleConstructor {
-
-
-    new(value: number): Angle;
-    new(value: number, unit: AngleUnit): Angle;
-
-
-    Degrees(value: number): Angle;
-    Gradians(value: number): Angle;
-    Radians(value: number): Angle;
-    Turns(value: number): Angle;
-
-}
-declare const Angle: AngleConstructor;
-    
-interface RotateConstructor {
-
-
-    new(angle: Angle): Rotate;
-
-
-    None(): Rotate;
-
-}
-declare const Rotate: RotateConstructor;
-    
-interface Scale {
-    value: Vector3;
-
-
-
-    Equals(other: Scale): boolean;
-    Equals(obj: unknown): boolean;
-    GetHashCode(): number;
-    ToString(): string;
-
-
-}
-    
-interface ScaleConstructor {
-
-
-    new(scale: Vector2): Scale;
-    new(scale: Vector3): Scale;
-
-
-    None(): Scale;
-
-}
-declare const Scale: ScaleConstructor;
     
 interface TimeValue {
     /**
@@ -28167,321 +28227,6 @@ interface EasingFunctionConstructor {
 
 }
 declare const EasingFunction: EasingFunctionConstructor;
-    
-interface FontDefinition {
-    /**
-     * Font to use to display text. You cannot set this and FontDefinition.fontAsset at the same time.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.FontDefinition-font.html | UIElements.FontDefinition.font}
-     */
-    font: Font;
-    /**
-     * SDF font to use to display text. You cannot set this and FontDefinition.font at the same time.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.FontDefinition-fontAsset.html | UIElements.FontDefinition.fontAsset}
-     */
-    fontAsset: FontAsset;
-
-
-
-    Equals(other: FontDefinition): boolean;
-    Equals(obj: unknown): boolean;
-    GetHashCode(): number;
-    ToString(): string;
-
-
-}
-    
-interface TextAsset extends ScriptableObject {
-    readonly version: string;
-    readonly instanceID: number;
-    hashCode: number;
-    material: Material;
-    materialHashCode: number;
-
-
-
-
-
-}
-    
-interface FontAsset extends TextAsset {
-    fontAssetCreationEditorSettings: FontAssetCreationEditorSettings;
-    readonly sourceFontFile: Font;
-    atlasPopulationMode: AtlasPopulationMode;
-    faceInfo: FaceInfo;
-    readonly glyphTable: Readonly<Glyph[]>;
-    readonly glyphLookupTable: CSDictionary<number, Glyph>;
-    readonly characterTable: Readonly<Character[]>;
-    readonly characterLookupTable: CSDictionary<number, Character>;
-    readonly atlasTexture: Texture2D;
-    atlasTextures: Readonly<Texture2D[]>;
-    readonly atlasTextureCount: number;
-    isMultiAtlasTexturesEnabled: boolean;
-    getFontFeatures: boolean;
-    readonly atlasWidth: number;
-    readonly atlasHeight: number;
-    readonly atlasPadding: number;
-    readonly atlasRenderMode: GlyphRenderMode;
-    readonly fontFeatureTable: FontFeatureTable;
-    fallbackFontAssetTable: Readonly<FontAsset[]>;
-    readonly fontWeightTable: Readonly<FontWeightPair[]>;
-    regularStyleWeight: number;
-    regularStyleSpacing: number;
-    boldStyleWeight: number;
-    boldStyleSpacing: number;
-    italicStyleSlant: number;
-    tabMultiple: number;
-
-
-
-    ClearFontAssetData(setAtlasSizeToZero: boolean): void;
-    HasCharacter(character: number): boolean;
-    HasCharacter(character: string, searchFallbacks: boolean, tryAddCharacter: boolean): boolean;
-    HasCharacter(character: number, searchFallbacks: boolean, tryAddCharacter: boolean): boolean;
-    HasCharacters(text: string): boolean;
-    ReadFontAssetDefinition(): void;
-    TryAddCharacters(unicodes: Readonly<number[]>, includeFontFeatures: boolean): boolean;
-    TryAddCharacters(characters: string, includeFontFeatures: boolean): boolean;
-
-
-}
-    
-interface FontAssetCreationEditorSettings {
-    sourceFontFileGUID: string;
-    faceIndex: number;
-    pointSizeSamplingMode: number;
-    pointSize: number;
-    padding: number;
-    paddingMode: number;
-    packingMode: number;
-    atlasWidth: number;
-    atlasHeight: number;
-    characterSetSelectionMode: number;
-    characterSequence: string;
-    referencedFontAssetGUID: string;
-    referencedTextAssetGUID: string;
-    fontStyle: number;
-    fontStyleModifier: number;
-    renderMode: number;
-    includeFontFeatures: boolean;
-
-
-
-
-
-}
-    
-interface TextElement {
-    readonly elementType: TextElementType;
-    unicode: number;
-    textAsset: TextAsset;
-    glyph: Glyph;
-    glyphIndex: number;
-    scale: number;
-
-
-
-
-
-}
-    
-    
-    
-interface FontFeatureTable {
-
-
-
-    /**
-     * Sorts the glyph pair adjustment records by glyph index.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/TextCore.Text.FontFeatureTable.SortGlyphPairAdjustmentRecords.html | TextCore.Text.FontFeatureTable.SortGlyphPairAdjustmentRecords}
-     */
-    SortGlyphPairAdjustmentRecords(): void;
-    /**
-     * Sorts the Mark-to-Base Adjustment Table records.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/TextCore.Text.FontFeatureTable.SortMarkToBaseAdjustmentRecords.html | TextCore.Text.FontFeatureTable.SortMarkToBaseAdjustmentRecords}
-     */
-    SortMarkToBaseAdjustmentRecords(): void;
-    /**
-     * Sorts the Mark-to-Mark Adjustment Table records.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/TextCore.Text.FontFeatureTable.SortMarkToMarkAdjustmentRecords.html | TextCore.Text.FontFeatureTable.SortMarkToMarkAdjustmentRecords}
-     */
-    SortMarkToMarkAdjustmentRecords(): void;
-
-
-}
-    
-interface FontWeightPair {
-    regularTypeface: FontAsset;
-    italicTypeface: FontAsset;
-
-
-
-
-
-}
-    
-interface FontAssetConstructor {
-
-
-    new(): FontAsset;
-
-
-    CreateFontAsset(familyName: string, styleName: string, pointSize: number): FontAsset;
-    CreateFontAsset(fontFilePath: string, faceIndex: number, samplingPointSize: number, atlasPadding: number, renderMode: GlyphRenderMode, atlasWidth: number, atlasHeight: number): FontAsset;
-    CreateFontAsset(font: Font): FontAsset;
-    CreateFontAsset(font: Font, samplingPointSize: number, atlasPadding: number, renderMode: GlyphRenderMode, atlasWidth: number, atlasHeight: number, atlasPopulationMode: AtlasPopulationMode, enableMultiAtlasSupport: boolean): FontAsset;
-    GetCharacters(fontAsset: FontAsset): string;
-    GetCharactersArray(fontAsset: FontAsset): Readonly<number[]>;
-
-}
-declare const FontAsset: FontAssetConstructor;
-    
-interface FontDefinitionConstructor {
-
-
-
-
-    FromFont(f: Font): FontDefinition;
-    FromSDFFont(f: FontAsset): FontDefinition;
-
-}
-declare const FontDefinition: FontDefinitionConstructor;
-    
-interface IStylePropertyAnimations {
-    runningAnimationCount: number;
-    completedAnimationCount: number;
-
-
-
-    CancelAllAnimations(): void;
-    CancelAnimation(id: StylePropertyId): void;
-    GetAllAnimations(outPropertyIds: Readonly<StylePropertyId[]>): void;
-    HasRunningAnimation(id: StylePropertyId): boolean;
-    Start(id: StylePropertyId, from: number, to: number, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: number, to: number, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: Length, to: Length, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: Color, to: Color, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: Background, to: Background, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: FontDefinition, to: FontDefinition, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: Font, to: Font, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: TextShadow, to: TextShadow, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: Scale, to: Scale, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: Translate, to: Translate, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: Rotate, to: Rotate, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: TransformOrigin, to: TransformOrigin, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: BackgroundPosition, to: BackgroundPosition, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: BackgroundRepeat, to: BackgroundRepeat, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    Start(id: StylePropertyId, from: BackgroundSize, to: BackgroundSize, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    StartEnum(id: StylePropertyId, from: number, to: number, durationMs: number, delayMs: number, easingCurve: Func<number, number>): boolean;
-    UpdateAnimation(id: StylePropertyId): void;
-
-
-}
-    
-interface TextShadow {
-    offset: Vector2;
-    blurRadius: number;
-    color: Color;
-
-
-
-    Equals(obj: unknown): boolean;
-    Equals(other: TextShadow): boolean;
-    GetHashCode(): number;
-    ToString(): string;
-
-
-}
-    
-interface Translate {
-    x: Length;
-    y: Length;
-    z: number;
-
-
-
-    Equals(other: Translate): boolean;
-    Equals(obj: unknown): boolean;
-    GetHashCode(): number;
-    ToString(): string;
-
-
-}
-    
-interface TranslateConstructor {
-
-
-    new(x: Length, y: Length, z: number): Translate;
-    new(x: Length, y: Length): Translate;
-
-
-    None(): Translate;
-
-}
-declare const Translate: TranslateConstructor;
-    
-interface TransformOrigin {
-    x: Length;
-    y: Length;
-    z: number;
-
-
-
-    Equals(other: TransformOrigin): boolean;
-    Equals(obj: unknown): boolean;
-    GetHashCode(): number;
-    ToString(): string;
-
-
-}
-    
-interface TransformOriginConstructor {
-
-
-    new(x: Length, y: Length, z: number): TransformOrigin;
-    new(x: Length, y: Length): TransformOrigin;
-
-
-    Initial(): TransformOrigin;
-
-}
-declare const TransformOrigin: TransformOriginConstructor;
-    
-interface ITransform {
-    /**
-     * The position of the VisualElement transform.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.ITransform-position.html | UIElements.ITransform.position}
-     */
-    position: Vector3;
-    /**
-     * The rotation of the VisualElement transform stored as a Quaternion.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.ITransform-rotation.html | UIElements.ITransform.rotation}
-     */
-    rotation: Quaternion;
-    /**
-     * The scale of the VisualElement transform.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.ITransform-scale.html | UIElements.ITransform.scale}
-     */
-    scale: Vector3;
-    /**
-     * Transformation matrix calculated from the position, rotation and scale of the transform (Read Only).
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.ITransform-matrix.html | UIElements.ITransform.matrix}
-     */
-    readonly matrix: Matrix4x4;
-
-
-
-
-
-}
     
 interface IEventHandler {
 
@@ -30533,6 +30278,12 @@ interface VisualElementStyleSheetSet {
     Equals(obj: unknown): boolean;
     GetHashCode(): number;
     /**
+     * Adds a style sheet for the owner element at a specified index
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.VisualElementStyleSheetSet.Insert.html | UIElements.VisualElementStyleSheetSet.Insert}
+     */
+    Insert(index: number, styleSheet: StyleSheet): void;
+    /**
      * Removes a style sheet for the owner element.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.VisualElementStyleSheetSet.Remove.html | UIElements.VisualElementStyleSheetSet.Remove}
@@ -30879,18 +30630,6 @@ interface ITextSelection {
      */
     isSelectable: boolean;
     /**
-     * Color of the cursor.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.ITextSelection-cursorColor.html | UIElements.ITextSelection.cursorColor}
-     */
-    cursorColor: Color;
-    /**
-     * Background color of selected text.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.ITextSelection-selectionColor.html | UIElements.ITextSelection.selectionColor}
-     */
-    selectionColor: Color;
-    /**
      * This is the cursor index in the text presented.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.ITextSelection-cursorIndex.html | UIElements.ITextSelection.cursorIndex}
@@ -30985,7 +30724,12 @@ interface TextElement extends BindableElement, ITextElement, ITextEdition, IText
      */
     emojiFallbackSupport: boolean;
     /**
-     * Specifies whether escape sequences are displayed as is or if they are replaced by the character they represent.
+     * Determines how escape sequences are displayed.
+ When set to true, escape sequences (such as \n, \t)
+ are parsed and transformed into their corresponding characters. For example,
+ '\n' will insert a new line.
+ When set to false, escape sequences are displayed as raw text
+ (for example, \n is shown as the characters '\' followed by 'n').
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.TextElement-parseEscapeSequences.html | UIElements.TextElement.parseEscapeSequences}
      */
@@ -31096,8 +30840,6 @@ interface TextInputBaseField<TValueType> extends BaseField<TValueType>, IDelayed
     maxLength: number;
     isDelayed: boolean;
     maskChar: string;
-    readonly selectionColor: Color;
-    readonly cursorColor: Color;
     cursorIndex: number;
     readonly cursorPosition: Vector2;
     selectIndex: number;
@@ -31301,7 +31043,7 @@ interface Light extends Behaviour {
      */
     innerSpotAngle: number;
     /**
-     * The color of the light.
+     * Specifies the color emitted by the light.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/Light-color.html | Light.color}
      */
@@ -31470,7 +31212,7 @@ interface Light extends Behaviour {
      */
     shadowAngle: number;
     /**
-     * How this light casts shadows
+     * Determines if this light will cast soft or hard shadows, or not cast shadows at all.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/Light-shadows.html | Light.shadows}
      */
@@ -31482,7 +31224,7 @@ interface Light extends Behaviour {
      */
     shadowStrength: number;
     /**
-     * The resolution of the shadow map.
+     * The resolution of the shadow map. Change it to balance shadow visual quality and performance.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/Light-shadowResolution.html | Light.shadowResolution}
      */
@@ -31813,6 +31555,7 @@ interface ServerBootstrap extends MonoBehaviour {
     organizationId: string;
     isShutdownEventTriggered: boolean;
     isAgonesShutdownTriggered: boolean;
+    isShutdownComplete: boolean;
     serverContext: ServerContext;
     isServerReady: boolean;
     isStartupConfigReady: boolean;
@@ -35986,7 +35729,7 @@ interface AudioSource extends AudioBehaviour {
      */
     time: number;
     /**
-     * Playback position in PCM samples.
+     * The current playback position of the AudioSource in PCM samples.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/AudioSource-timeSamples.html | AudioSource.timeSamples}
      */
@@ -36040,7 +35783,7 @@ interface AudioSource extends AudioBehaviour {
      */
     ignoreListenerVolume: boolean;
     /**
-     * If set to true, the audio source will automatically start playing on awake.
+     * Enable this property to automatically play the audio source when the component or GameObject becomes active.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/AudioSource-playOnAwake.html | AudioSource.playOnAwake}
      */
@@ -36136,7 +35879,7 @@ interface AudioSource extends AudioBehaviour {
      */
     minDistance: number;
     /**
-     * (Logarithmic rolloff) MaxDistance is the distance a sound stops attenuating at.
+     * The distance where sound either becomes inaudible or stops attenuation, depending on the rolloff mode.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/AudioSource-maxDistance.html | AudioSource.maxDistance}
      */
@@ -36222,7 +35965,7 @@ interface AudioSource extends AudioBehaviour {
      */
     PlayOneShot(clip: AudioClip, volumeScale: number): void;
     /**
-     * Enable playing of audio source though a specfic gamepad.
+     * Enable the audio source to play through a specific gamepad.
      * @param slot Slot number of the gamepad (0-3).
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/AudioSource.PlayOnGamepad.html | AudioSource.PlayOnGamepad}
@@ -36332,7 +36075,7 @@ interface AudioClip extends AudioResource {
      */
     readonly loadType: AudioClipLoadType;
     /**
-     * Preloads audio data of the clip when the clip asset is loaded. When this flag is off, scripts have to call AudioClip.LoadAudioData() to load the data before the clip can be played. Properties like length, channels and format are available before the audio data has been loaded.
+     * Enable this property in the Inspector to preload audio data from the audio clip when loading the clip Asset (Read Only).
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/AudioClip-preloadAudioData.html | AudioClip.preloadAudioData}
      */
@@ -36344,7 +36087,7 @@ interface AudioClip extends AudioResource {
      */
     readonly ambisonic: boolean;
     /**
-     * Corresponding to the &quot;Load In Background&quot; flag in the inspector, when this flag is set, the loading will happen delayed without blocking the main thread.
+     * Enable this property to load the AudioClip asynchronously in the background instead of on the main thread. Set this property in the Inspector (Read Only).
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/AudioClip-loadInBackground.html | AudioClip.loadInBackground}
      */
@@ -36360,19 +36103,23 @@ interface AudioClip extends AudioResource {
 
     GetData(data: Span<number>, offsetSamples: number): boolean;
     /**
-     * Fills an array with sample data from the clip.
+     * Fills an array with sample data from the audio clip.
+     * @param data The array you want to fill with raw data from the audio clip.
+     * @param offsetSamples The index of where to start data extraction from the array of raw data.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/AudioClip.GetData.html | AudioClip.GetData}
      */
     GetData(data: Readonly<number[]>, offsetSamples: number): boolean;
     /**
-     * Loads the audio data of a clip. Clips that have &quot;Preload Audio Data&quot; set will load the audio data automatically.
+     * Loads the asset data of an AudioClip into memory, so it will immediately be ready to play.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/AudioClip.LoadAudioData.html | AudioClip.LoadAudioData}
      */
     LoadAudioData(): boolean;
     /**
-     * Set sample data in a clip.
+     * Fills an audio clip with sample data from an array or Span. Overwrites existing data if necessary.
+     * @param data Linear buffer of samples to write to the audio clip buffer.
+     * @param offsetSamples Offset from the start of the audio clip at which to begin writing sample data.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/AudioClip.SetData.html | AudioClip.SetData}
      */
@@ -39058,7 +38805,7 @@ interface UnityWebRequest {
      */
     certificateHandler: CertificateHandler;
     /**
-     * Sets UnityWebRequest to attempt to abort after the number of seconds in timeout have passed.
+     * The number of seconds after which UnityWebRequest attempts to abort the request if no response is received.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/Networking.UnityWebRequest-timeout.html | Networking.UnityWebRequest.timeout}
      */
@@ -39396,93 +39143,7 @@ interface LayoutGroup extends UIBehaviour, ILayoutGroup, ILayoutElement {
 
 }
     
-interface RectOffset {
-    /**
-     * Left edge size.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset-left.html | RectOffset.left}
-     */
-    left: number;
-    /**
-     * Right edge size.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset-right.html | RectOffset.right}
-     */
-    right: number;
-    /**
-     * Top edge size.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset-top.html | RectOffset.top}
-     */
-    top: number;
-    /**
-     * Bottom edge size.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset-bottom.html | RectOffset.bottom}
-     */
-    bottom: number;
-    /**
-     * Shortcut for left + right. (Read Only)
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset-horizontal.html | RectOffset.horizontal}
-     */
-    readonly horizontal: number;
-    /**
-     * Shortcut for top + bottom. (Read Only)
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset-vertical.html | RectOffset.vertical}
-     */
-    readonly vertical: number;
-
-
-
-    /**
-     * Add the border offsets to a rect.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset.Add.html | RectOffset.Add}
-     */
-    Add(rect: Rect): Rect;
-    /**
-     * Remove the border offsets from a rect.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset.Remove.html | RectOffset.Remove}
-     */
-    Remove(rect: Rect): Rect;
-    /**
-     * Returns a formatted string for this RectOffset.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset.ToString.html | RectOffset.ToString}
-     */
-    ToString(): string;
-    /**
-     * Returns a formatted string for this RectOffset.
-     * @param format A numeric format string.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset.ToString.html | RectOffset.ToString}
-     */
-    ToString(format: string): string;
-    /**
-     * Returns a formatted string for this RectOffset.
-     * @param format A numeric format string.
-     * @param formatProvider An object that specifies culture-specific formatting.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/RectOffset.ToString.html | RectOffset.ToString}
-     */
-    ToString(format: string, formatProvider: IFormatProvider): string;
-
-
-}
     
-interface RectOffsetConstructor {
-
-
-    new(): RectOffset;
-    new(left: number, right: number, top: number, bottom: number): RectOffset;
-
-
-
-}
-declare const RectOffset: RectOffsetConstructor;
     
 interface HorizontalOrVerticalLayoutGroup extends LayoutGroup {
     spacing: number;
@@ -39586,33 +39247,7 @@ interface LayoutRebuilderConstructor {
 }
 declare const LayoutRebuilder: LayoutRebuilderConstructor;
     
-interface RectTransformUtility {
-
-
-
-
-
-}
     
-interface RectTransformUtilityConstructor {
-
-
-
-
-    CalculateRelativeRectTransformBounds(root: Transform, child: Transform): Bounds;
-    CalculateRelativeRectTransformBounds(trans: Transform): Bounds;
-    FlipLayoutAxes(rect: RectTransform, keepPositioning: boolean, recursive: boolean): void;
-    FlipLayoutOnAxis(rect: RectTransform, axis: number, keepPositioning: boolean, recursive: boolean): void;
-    PixelAdjustPoint(point: Vector2, elementTransform: Transform, canvas: Canvas): Vector2;
-    PixelAdjustRect(rectTransform: RectTransform, canvas: Canvas): Rect;
-    RectangleContainsScreenPoint(rect: RectTransform, screenPoint: Vector2): boolean;
-    RectangleContainsScreenPoint(rect: RectTransform, screenPoint: Vector2, cam: Camera): boolean;
-    RectangleContainsScreenPoint(rect: RectTransform, screenPoint: Vector2, cam: Camera, offset: Vector4): boolean;
-    ScreenPointToRay(cam: Camera, screenPos: Vector2): Ray;
-    WorldToScreenPoint(cam: Camera, worldPoint: Vector3): Vector2;
-
-}
-declare const RectTransformUtility: RectTransformUtilityConstructor;
     
 interface ScrollRect extends UIBehaviour, ILayoutGroup, IBeginDragHandler, IInitializePotentialDragHandler, IDragHandler, IEndDragHandler, ICanvasElement, IScrollHandler, ILayoutElement {
     content: RectTransform;
@@ -41166,7 +40801,7 @@ interface ScreenConstructor {
      */
     readonly height: number;
     /**
-     * The current DPI of the screen / device (Read Only).
+     * The current pixel density of the screen measured in dots-per-inch (DPI) (Read Only).
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/Screen-dpi.html | Screen.dpi}
      */
@@ -43582,7 +43217,7 @@ interface TerrainData extends Object {
      */
     readonly heightmapTexture: RenderTexture;
     /**
-     * The size of the heightmap in texels for either the width or the height.
+     * The size of the in texels for both the width and height. When setting the heightmap resolution, Unity clamps the value to one of 33, 65, 129, 257, 513, 1025, 2049, or 4097.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData-heightmapResolution.html | TerrainData.heightmapResolution}
      */
@@ -43612,7 +43247,7 @@ interface TerrainData extends Object {
      */
     readonly holesResolution: number;
     /**
-     * The total size in world units of the terrain.
+     * The total size in world units of the terrain: width, height, and length.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData-size.html | TerrainData.size}
      */
@@ -43708,7 +43343,7 @@ interface TerrainData extends Object {
      */
     readonly treeInstanceCount: number;
     /**
-     * The list of tree prototypes available in the inspector.
+     * The list of TreePrototypes available in the inspector.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData-treePrototypes.html | TerrainData.treePrototypes}
      */
@@ -43844,7 +43479,7 @@ interface TerrainData extends Object {
     GetDetailLayer(xBase: number, yBase: number, width: number, height: number, layer: number): Int32[][];
     GetDetailLayer(positionBase: Vector2Int, size: Vector2Int, layer: number): Int32[][];
     /**
-     * Gets the world space height of the Terrain at a certain point x,y without adding the Terrain's world position y.
+     * Calculates the height in world space units of a point on the heightmap. x and y are pixel coordinates in the heightmap, and the returned value does not take into account the heightmap's position.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetHeight.html | TerrainData.GetHeight}
      */
@@ -45403,7 +45038,7 @@ interface Terrain extends Behaviour {
     GetClosestReflectionProbes(result: Readonly<ReflectionProbeBlendInfo[]>): void;
     GetKeepUnusedCameraRenderingResources(cameraInstanceID: number): boolean;
     /**
-     * Get the position of the terrain.
+     * Get the world space position of the terrain.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/Terrain.GetPosition.html | Terrain.GetPosition}
      */
@@ -46347,27 +45982,19 @@ interface QualitySettingsConstructor {
      */
     antiAliasing: number;
     /**
-     * Async texture upload provides timesliced async texture upload on the render thread with tight control over memory and timeslicing. There are no allocations except for the ones which driver has to do. To read data and upload texture data a ringbuffer whose size can be controlled is re-used.
-
-Use asyncUploadTimeSlice to set the time-slice in milliseconds for asynchronous texture uploads per
-frame. Minimum value is 1 and maximum is 33.
+     * Sets the time-slice allocated per frame for asynchronous texture and mesh data uploads.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/QualitySettings-asyncUploadTimeSlice.html | QualitySettings.asyncUploadTimeSlice}
      */
     asyncUploadTimeSlice: number;
     /**
-     * Asynchronous texture and mesh data upload provides timesliced async texture and mesh data upload on the render thread with tight control over memory and timeslicing. There are no allocations except for the ones which driver has to do. To read data and upload texture and mesh data, Unity re-uses a ringbuffer whose size can be controlled.
-
-Use asyncUploadBufferSize to set the buffer size for asynchronous texture and mesh data uploads. The minimum value is 2 megabytes and the maximum value is 2047 megabytes. The buffer resizes automatically to fit the largest texture currently loading. To avoid a buffer resize (which can use extra system resources) set this value to the size of the largest texture in the Scene. If you have issues with excessive memory usage, you may need to reduce the value of this buffer or disable asyncUploadPersistentBuffer. Memory fragmentation can occur if you choose the latter option.
+     * Sets the ring buffer size used for asynchronous texture and mesh data uploads.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/QualitySettings-asyncUploadBufferSize.html | QualitySettings.asyncUploadBufferSize}
      */
     asyncUploadBufferSize: number;
     /**
-     * This flag controls if the async upload pipeline's ring buffer remains allocated when there are no active loading operations.
-Set this to true, to make the ring buffer allocation persist after all upload operations have completed.
-If you have issues with excessive memory usage, you can set this to false. This means you reduce the runtime memory footprint, but memory fragmentation can occur.
-The default value is true.
+     * This flag determines whether Unity retains the ring buffer allocation used for asynchronous texture and mesh uploads after all upload operations have completed.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/QualitySettings-asyncUploadPersistentBuffer.html | QualitySettings.asyncUploadPersistentBuffer}
      */
@@ -46762,6 +46389,15 @@ interface GraphicsSettingsConstructor {
 }
 declare const GraphicsSettings: GraphicsSettingsConstructor;
     
+interface IRenderGraphEnabledRenderPipeline {
+    readonly isImmediateModeSupported: boolean;
+
+
+
+
+
+}
+    
 interface IGPUResidentRenderPipeline {
     readonly gpuResidentDrawerSettings: GPUResidentDrawerSettings;
     gpuResidentDrawerMode: GPUResidentDrawerMode;
@@ -46800,15 +46436,6 @@ interface IGPUResidentRenderPipelineConstructor {
 
 }
 declare const IGPUResidentRenderPipeline: IGPUResidentRenderPipelineConstructor;
-    
-interface IRenderGraphEnabledRenderPipeline {
-    readonly isImmediateModeSupported: boolean;
-
-
-
-
-
-}
     
 interface IProbeVolumeEnabledRenderPipeline {
     readonly supportProbeVolume: boolean;
@@ -46868,7 +46495,7 @@ interface RenderPipelineAsset<TRenderPipeline extends RenderPipeline> extends Re
 
 }
     
-interface UniversalRenderPipelineAsset extends RenderPipelineAsset<UniversalRenderPipeline>, ISerializationCallbackReceiver, IGPUResidentRenderPipeline, IRenderGraphEnabledRenderPipeline, IProbeVolumeEnabledRenderPipeline, ISTPEnabledRenderPipeline {
+interface UniversalRenderPipelineAsset extends RenderPipelineAsset<UniversalRenderPipeline>, ISerializationCallbackReceiver, IRenderGraphEnabledRenderPipeline, IGPUResidentRenderPipeline, IProbeVolumeEnabledRenderPipeline, ISTPEnabledRenderPipeline {
     readonly rendererDataList: ReadOnlySpan<ScriptableRendererData>;
     readonly renderers: ReadOnlySpan<ScriptableRenderer>;
     readonly isImmediateModeSupported: boolean;
@@ -46948,12 +46575,12 @@ interface UniversalRenderPipelineAsset extends RenderPipelineAsset<UniversalRend
     readonly default2DMaskMaterial: Material;
     readonly decalMaterial: Material;
     readonly defaultShader: Shader;
-    readonly autodeskInteractiveShader: Shader;
-    readonly autodeskInteractiveTransparentShader: Shader;
-    readonly autodeskInteractiveMaskedShader: Shader;
     readonly terrainDetailLitShader: Shader;
     readonly terrainDetailGrassShader: Shader;
     readonly terrainDetailGrassBillboardShader: Shader;
+    readonly autodeskInteractiveShader: Shader;
+    readonly autodeskInteractiveTransparentShader: Shader;
+    readonly autodeskInteractiveMaskedShader: Shader;
     readonly defaultSpeedTree7Shader: Shader;
     readonly defaultSpeedTree8Shader: Shader;
     readonly defaultSpeedTree9Shader: Shader;
@@ -47431,6 +47058,7 @@ interface Panel extends IContainer {
     readonly isInactiveInEditor: boolean;
     readonly editorForceUpdate: boolean;
     readonly children: Readonly<Widget[]>;
+    documentationUrl: string;
 
     readonly onSetDirty: MonoSignal<Panel>;
 
