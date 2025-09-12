@@ -359,8 +359,9 @@ export class ProtectedSettingsSingleton {
 		if (Game.coreContext === CoreContext.MAIN_MENU) {
 			return;
 		}
-		// iOS needs to be set to 120 because -1 will let the OS pick and it won't be 120.
-		if (limit === -1 && Game.platform === AirshipPlatform.iOS) {
+		// iOS and Android needs to be set to 120 because -1 will let the OS pick and it won't be 120.
+		// todo: use screen refresh rate instead of hard coded 120
+		if (limit === -1 && (Game.platform === AirshipPlatform.iOS || Game.platform === AirshipPlatform.Android)) {
 			Application.targetFrameRate = 120;
 		} else {
 			Application.targetFrameRate = limit;
