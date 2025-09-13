@@ -96,7 +96,7 @@ export class ShutdownService {
 	public Shutdown(): void {
 		if (this.fireOnShutdownStarted) return; // No need to recall shutdown once it's been called once.
 		if (Game.IsServer() && !Game.IsEditor()) {
-			Dependency<ProtectedServerManagerService>().SetAllocationAllowed(false);
+			Dependency<ProtectedServerManagerService>().SetAllocationAllowed(false).await();
 		}
 		this.serverBootstrap.InvokeOnProcessExit();
 	}
