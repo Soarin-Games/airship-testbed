@@ -107,6 +107,10 @@ export class ShutdownService {
 		let done = false;
 
 		print("Received shutdown event in TS.");
+		// Extra call to disable joins in case the server was stopped through a direct sigint and no mark for shutdown.
+		if (Game.IsServer() && !Game.IsEditor()) {
+			Dependency<ProtectedServerManagerService>().SetAllocationAllowed(false).await();
+		}
 
 		const Done = () => {
 			if (done) return;
