@@ -24,7 +24,9 @@ export default class ProximityPrompt extends AirshipBehaviour {
 		"If true the prompt will only ever render where it was spawned (you are unable to move it). This is slightly faster in bulk.",
 	)
 	public static = false;
-	@Tooltip("If true this prompt can be activated at any time by having the activation key in the down state.")
+	@Tooltip(
+		"If true this prompt can be activated at any time by having the activation key in the down state. This has no effect on mobile.",
+	)
 	public activateWhenDown = false;
 	@Tooltip("If true the prompt will be hidden when a player is dead")
 	public hideWhenDead = false;
@@ -75,6 +77,11 @@ export default class ProximityPrompt extends AirshipBehaviour {
 
 	protected Awake(): void {
 		if (this.canvasDistanceCondition) this.canvasDistanceCondition.maxDistance = this.maxRange + 10;
+		// `activateWhenDown` is for quickly activating prompts while a key is down, and is not applicable
+		// to mobile.
+		if (Game.IsMobile()) {
+			this.activateWhenDown = false;
+		}
 	}
 
 	override OnEnable(): void {
