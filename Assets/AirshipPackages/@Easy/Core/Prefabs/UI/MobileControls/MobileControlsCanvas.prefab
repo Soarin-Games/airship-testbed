@@ -140,7 +140,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  SortOrder: -100
+  SortOrder: -90
 --- !u!114 &294958722685006519
 MonoBehaviour:
   m_ObjectHideFlags: 0
