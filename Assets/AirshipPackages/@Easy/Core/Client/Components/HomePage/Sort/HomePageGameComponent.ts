@@ -2,6 +2,7 @@ import { TransferController } from "@Easy/Core/Client/ProtectedControllers//Tran
 import { AirshipGame } from "@Easy/Core/Shared/Airship/Types/AirshipGame";
 import DateParser from "@Easy/Core/Shared/DateParser";
 import { Dependency } from "@Easy/Core/Shared/Flamework";
+import { Game } from "@Easy/Core/Shared/Game";
 import SearchSingleton from "@Easy/Core/Shared/MainMenu/Components/Search/SearchSingleton";
 import { MainMenuSingleton } from "@Easy/Core/Shared/MainMenu/Singletons/MainMenuSingleton";
 import { Protected } from "@Easy/Core/Shared/Protected";
@@ -96,6 +97,12 @@ export default class HomePageGameComponent extends AirshipBehaviour {
 		{
 			// Game image
 			let url = AirshipUrl.CDN + "/images/" + gameDto.iconImageId + ".png";
+
+			// Resolutions are 16:9 & divisble by 8 https://pacoup.com/2011/06/12/list-of-true-169-resolutions/
+			let height = 243;
+			if (Game.IsMobile()) height = 180;
+			url = Protected.Cache.ApplyHeightToUrl(url, height);
+
 			task.spawn(async () => {
 				const tex = await Protected.Cache.DownloadImage(url);
 				this.gameImg.texture = tex;
@@ -106,6 +113,7 @@ export default class HomePageGameComponent extends AirshipBehaviour {
 		if (gameDto.organization) {
 			// Org image
 			let url = AirshipUrl.CDN + "/images/" + gameDto.organization.iconImageId + ".png";
+			url = Protected.Cache.ApplyHeightToUrl(url, 128);
 			task.spawn(async () => {
 				const tex = await Protected.Cache.DownloadImage(url);
 				this.orgImg.texture = tex;
