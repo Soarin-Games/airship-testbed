@@ -10,7 +10,6 @@ import { AirshipUrl } from "@Easy/Core/Shared/Util/AirshipUrl";
 import { Bin } from "@Easy/Core/Shared/Util/Bin";
 import { CanvasAPI } from "@Easy/Core/Shared/Util/CanvasAPI";
 import { TimeUtil } from "@Easy/Core/Shared/Util/TimeUtil";
-import { AirshipUrlUtil } from "@Easy/Core/Shared/Util/UrlUtil";
 
 export default class HomePageGameComponent extends AirshipBehaviour {
 	public titleText!: TMP_Text;
@@ -100,9 +99,9 @@ export default class HomePageGameComponent extends AirshipBehaviour {
 			let url = AirshipUrl.CDN + "/images/" + gameDto.iconImageId + ".png";
 
 			// Resolutions are 16:9 & divisble by 8 https://pacoup.com/2011/06/12/list-of-true-169-resolutions/
-			let size = new Vector2(1280, 720);
-			if (Game.IsMobile()) size = new Vector2(640, 360);
-			url = AirshipUrlUtil.ApplySizeToUrl(url, size);
+			let height = 243;
+			if (Game.IsMobile()) height = 180;
+			url = Protected.Cache.ApplyHeightToUrl(url, height);
 
 			task.spawn(async () => {
 				const tex = await Protected.Cache.DownloadImage(url);
@@ -114,7 +113,7 @@ export default class HomePageGameComponent extends AirshipBehaviour {
 		if (gameDto.organization) {
 			// Org image
 			let url = AirshipUrl.CDN + "/images/" + gameDto.organization.iconImageId + ".png";
-			url = AirshipUrlUtil.ApplySizeToUrl(url, new Vector2(128, 128));
+			url = Protected.Cache.ApplyHeightToUrl(url, 128);
 			task.spawn(async () => {
 				const tex = await Protected.Cache.DownloadImage(url);
 				this.orgImg.texture = tex;

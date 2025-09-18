@@ -17,7 +17,6 @@ import { AirshipUrl } from "../../Util/AirshipUrl";
 import { ColorUtil } from "../../Util/ColorUtil";
 import { RandomUtil } from "../../Util/RandomUtil";
 import { Signal } from "../../Util/Signal";
-import { AirshipUrlUtil } from "../../Util/UrlUtil";
 
 const contentServiceClient = new ContentServiceClient(UnityMakeRequest(AirshipUrl.ContentService));
 
@@ -199,8 +198,8 @@ export class ProtectedAvatarSingleton {
 		// print("Protected.Avatar: " + message);
 	}
 
-	public GetImageUrl(imageId: string, size = new Vector2(128, 128)) {
-		return AirshipUrlUtil.ApplySizeToUrl(`${AirshipUrl.CDN}/images/${imageId}.png`, size);
+	public GetImageUrl(imageId: string, size = 128) {
+		return Protected.Cache.ApplyHeightToUrl(`${AirshipUrl.CDN}/images/${imageId}.png`, 128);
 	}
 
 	public async GetAllOutfits(): Promise<AirshipOutfit[] | undefined> {
