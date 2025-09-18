@@ -65,9 +65,9 @@ export default class HomePageComponent extends MainMenuPageComponent {
 
 		this.CreateFeaturedEvent(
 			"47c5fdbd-bf3f-4a5b-9ad3-dea11a52a762",
-			"Early access playtest of BedWars 2.\nWelcome to Airship!",
-			1755363600,
-			1755374400,
+			"The first mobile playtest of BedWars 2.\nPlay on Mac, Windows, iOS, and Android!",
+			1758387600,
+			1758398400,
 		);
 
 		this.CreateSort(SortId.Popular, "Popular");
