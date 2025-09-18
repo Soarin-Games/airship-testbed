@@ -71,6 +71,9 @@ export default class Character extends AirshipBehaviour {
 	@NonSerialized() public onEmoteEnd = new Signal<[]>();
 
 	// Inventory and related
+	/**
+	 * Can be undefined if the Inventory component is removed from Character prefab.
+	 */
 	@Header("Inventory")
 	@NonSerialized()
 	public inventory: Inventory;
@@ -240,8 +243,8 @@ export default class Character extends AirshipBehaviour {
 			bin.Clean();
 		}
 		this.observeHeldSlotBins.clear();
+		this.bin.Clean();
 		if (Game.IsClient() && !this.despawned) {
-			this.bin.Clean();
 			this.despawned = true;
 			this.onDespawn.Fire();
 			Airship.Characters.onCharacterDespawned.Fire(this);
@@ -677,6 +680,8 @@ export default class Character extends AirshipBehaviour {
 		this.maxHealth = maxHealth;
 		this.onMaxHealthChanged.Fire(this.maxHealth, oldMaxHealth);
 
+		if (this.health > maxHealth) this.SetHealth(maxHealth, false, true);
+
 		// If we're a dedicated server network max health to clients
 		if (Game.IsServer() && !Game.IsClient()) {
 			CoreNetwork.ServerToClient.Character.SetMaxHealth.server.FireAllClients(this.id, this.maxHealth);
@@ -810,7 +815,7 @@ export default class Character extends AirshipBehaviour {
 	}
 
 	public GetHeldItem(): ItemStack | undefined {
-		return this.inventory.GetItem(this.heldSlot);
+		return this.inventory?.GetItem(this.heldSlot);
 	}
 
 	public GetHeldSlot(): number {

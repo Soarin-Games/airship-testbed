@@ -6,6 +6,7 @@ import { AirshipUrl } from "@Easy/Core/Shared/Util/AirshipUrl";
 import { AppManager } from "@Easy/Core/Shared/Util/AppManager";
 import { Bin } from "@Easy/Core/Shared/Util/Bin";
 import { ColorUtil } from "@Easy/Core/Shared/Util/ColorUtil";
+import { ProtectedUtil } from "@Easy/Core/Shared/Util/ProtectedUtil";
 import { MainMenuSingleton } from "../../../Singletons/MainMenuSingleton";
 import { SettingsPageSingleton } from "../../../Singletons/SettingsPageSingleton";
 import MainMenuPageComponent from "../../MainMenuPageComponent";
@@ -46,11 +47,23 @@ export default class GameGeneralPage extends MainMenuPageComponent {
 		this.playerListPage.SetActive(false);
 
 		const mainMenu = Dependency<MainMenuSingleton>();
-		if (mainMenu.leaveMatchButtonData && !Game.IsMobile()) {
+		if (mainMenu.leaveMatchButtonData) {
 			this.leaveMatchBtn.text.text = mainMenu.leaveMatchButtonData.text;
 			this.leaveMatchBtn.gameObject.SetActive(true);
 			this.leaveMatchSpacer.gameObject.SetActive(true);
 			this.disconnectBtn.text.text = "Quit to Main Menu";
+		}
+
+		const notchHeight = ProtectedUtil.GetNotchHeight();
+
+		/**
+		 * On android we need to force the notch inset if applicable
+		 */
+		if (Game.IsLandscape()) {
+			task.defer(() => {
+				const rectTransform = this.transform as RectTransform;
+				rectTransform.anchoredPosition = new Vector2(notchHeight, rectTransform.anchoredPosition.y);
+			});
 		}
 	}
 

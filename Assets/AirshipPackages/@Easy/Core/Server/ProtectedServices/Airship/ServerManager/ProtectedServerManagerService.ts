@@ -29,6 +29,7 @@ export const enum ServerManagerServiceBridgeTopics {
 	RemoveTag = "ServerManagerService:RemoveTag",
 	GetRegions = "ServerManagerService:GetRegions",
 	GetCurrentRegion = "ServerManagerService:GetCurrentRegion",
+	AllowNewConnections = "ServerManagerService:AllowNewConnections",
 }
 
 export type ServerBridgeApiCreateServer = (config?: AirshipServerConfig) => AirshipServer;
@@ -51,6 +52,7 @@ export type ServerBridgeApiAddTag = (tag: string) => boolean;
 export type ServerBridgeApiRemoveTag = (tag: string) => boolean;
 export type ServerBridgeApiGetRegions = () => { regionIds: string[] };
 export type ServerBridgeApiGetCurrentRegion = () => string;
+export type ServerBridgeApiAllowNewConnections = (allowed: boolean) => boolean;
 
 const ALLOWED_PLAYERS_LIST_KEY = "allowedPlayers";
 const TAGS_LIST_KEY = "tags";
@@ -76,7 +78,7 @@ export class ProtectedServerManagerService {
 			},
 		);
 
-		contextbridge.callback<ServerBridgeApiShutdownServer>(ServerManagerServiceBridgeTopics.ShutdownServer, () => {
+		contextbridge.callback<ServerBridgeApiShutdownServer>(ServerManagerServiceBridgeTopics.ShutdownServer, (_) => {
 			Dependency<ShutdownService>().Shutdown();
 			return { success: true, data: undefined };
 		});
@@ -158,6 +160,13 @@ export class ProtectedServerManagerService {
 			ServerManagerServiceBridgeTopics.GetCurrentRegion,
 			(_) => {
 				return this.GetCurrentRegion();
+			},
+		);
+
+		contextbridge.callback<ServerBridgeApiAllowNewConnections>(
+			ServerManagerServiceBridgeTopics.AllowNewConnections,
+			(_, allowed) => {
+				return this.SetAllocationAllowed(allowed).expect();
 			},
 		);
 	}
@@ -270,5 +279,10 @@ export class ProtectedServerManagerService {
 			warn("Error retrieving server region:", err);
 			return "unknown";
 		}
+	}
+
+	public async SetAllocationAllowed(allowed: boolean) {
+		const res = await AgonesCore.Agones.SetLabel("AllocationAllowed", allowed ? "true" : "false");
+		return res;
 	}
 }

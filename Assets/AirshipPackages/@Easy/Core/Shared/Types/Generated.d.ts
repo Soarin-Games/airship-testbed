@@ -4066,6 +4066,15 @@ declare const enum DestroyMode {
     DESTROY = 0,
     DEACTIVATE = 1,
 }
+declare const enum VibrationFeedbackType {
+    Light = 0,
+    Medium = 1,
+    Heavy = 2,
+    Selection = 3,
+    NotificationSuccess = 4,
+    NotificationWarning = 5,
+    NotificationError = 6,
+}
 
     
 interface RaycastHit {
@@ -10693,179 +10702,7 @@ Returns NULL if there is no associated alpha Texture for the source Sprite. This
 
 }
     
-interface Rect {
-    /**
-     * The X coordinate of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-x.html | Rect.x}
-     */
-    x: number;
-    /**
-     * The Y coordinate of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-y.html | Rect.y}
-     */
-    y: number;
-    /**
-     * The X and Y position of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-position.html | Rect.position}
-     */
-    position: Vector2;
-    /**
-     * The position of the center of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-center.html | Rect.center}
-     */
-    center: Vector2;
-    /**
-     * The position of the minimum corner of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-min.html | Rect.min}
-     */
-    min: Vector2;
-    /**
-     * The position of the maximum corner of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-max.html | Rect.max}
-     */
-    max: Vector2;
-    /**
-     * The width of the rectangle, measured from the X position.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-width.html | Rect.width}
-     */
-    width: number;
-    /**
-     * The height of the rectangle, measured from the Y position.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-height.html | Rect.height}
-     */
-    height: number;
-    /**
-     * The width and height of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-size.html | Rect.size}
-     */
-    size: Vector2;
-    /**
-     * The minimum X coordinate of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-xMin.html | Rect.xMin}
-     */
-    xMin: number;
-    /**
-     * The minimum Y coordinate of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-yMin.html | Rect.yMin}
-     */
-    yMin: number;
-    /**
-     * The maximum X coordinate of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-xMax.html | Rect.xMax}
-     */
-    xMax: number;
-    /**
-     * The maximum Y coordinate of the rectangle.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-yMax.html | Rect.yMax}
-     */
-    yMax: number;
-
-
-
-    /**
-     * Returns true if the x and y components of point is a point inside this rectangle. If allowInverse is present and true, the width and height of the Rect are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.
-     * @param point Point to test.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect.Contains.html | Rect.Contains}
-     */
-    Contains(point: Vector2): boolean;
-    /**
-     * Returns true if the x and y components of point is a point inside this rectangle. If allowInverse is present and true, the width and height of the Rect are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.
-     * @param point Point to test.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect.Contains.html | Rect.Contains}
-     */
-    Contains(point: Vector3): boolean;
-    /**
-     * Returns true if the x and y components of point is a point inside this rectangle. If allowInverse is present and true, the width and height of the Rect are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.
-     * @param point Point to test.
-     * @param allowInverse Does the test allow the Rect's width and height to be negative?
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect.Contains.html | Rect.Contains}
-     */
-    Contains(point: Vector3, allowInverse: boolean): boolean;
-    Equals(other: unknown): boolean;
-    Equals(other: Rect): boolean;
-    GetHashCode(): number;
-    /**
-     * Returns true if the other rectangle overlaps this one. If allowInverse is present and true, the widths and heights of the Rects are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.
-     * @param other Other rectangle to test overlapping with.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect.Overlaps.html | Rect.Overlaps}
-     */
-    Overlaps(other: Rect): boolean;
-    /**
-     * Returns true if the other rectangle overlaps this one. If allowInverse is present and true, the widths and heights of the Rects are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.
-     * @param other Other rectangle to test overlapping with.
-     * @param allowInverse Does the test allow the widths and heights of the Rects to be negative?
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect.Overlaps.html | Rect.Overlaps}
-     */
-    Overlaps(other: Rect, allowInverse: boolean): boolean;
-    /**
-     * Set components of an existing Rect.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect.Set.html | Rect.Set}
-     */
-    Set(x: number, y: number, width: number, height: number): void;
-    /**
-     * Returns a formatted string for this Rect.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect.ToString.html | Rect.ToString}
-     */
-    ToString(): string;
-    /**
-     * Returns a formatted string for this Rect.
-     * @param format A numeric format string.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect.ToString.html | Rect.ToString}
-     */
-    ToString(format: string): string;
-    /**
-     * Returns a formatted string for this Rect.
-     * @param format A numeric format string.
-     * @param formatProvider An object that specifies culture-specific formatting.
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect.ToString.html | Rect.ToString}
-     */
-    ToString(format: string, formatProvider: IFormatProvider): string;
-
-
-}
     
-interface RectConstructor {
-    /**
-     * Shorthand for writing new Rect(0,0,0,0).
-     * 
-     * More info: {@link https://docs.unity3d.com/ScriptReference/Rect-zero.html | Rect.zero}
-     */
-    readonly zero: Rect;
-
-
-    new(x: number, y: number, width: number, height: number): Rect;
-    new(position: Vector2, size: Vector2): Rect;
-    new(source: Rect): Rect;
-
-
-    MinMaxRect(xmin: number, ymin: number, xmax: number, ymax: number): Rect;
-    NormalizedToPoint(rectangle: Rect, normalizedRectCoordinates: Vector2): Vector2;
-    PointToNormalized(rectangle: Rect, point: Vector2): Vector2;
-
-}
-declare const Rect: RectConstructor;
     
 interface Texture extends Object {
     /**
@@ -11895,7 +11732,6 @@ interface AgonesProxy extends MonoBehaviour {
 
     readonly connected: MonoSignal<void>;
     readonly ready: MonoSignal<void>;
-    readonly test: MonoSignal<void>;
 
 
     AppendListValue(list: string, value: string): boolean;
@@ -31356,6 +31192,7 @@ interface GameConfig extends ScriptableObject {
     gameLayers: Readonly<string[]>;
     gameTags: Readonly<string[]>;
     physicsMatrix: Readonly<boolean[]>;
+    physicsMatrix2D: Readonly<boolean[]>;
     gravity: Vector3;
     bounceThreshold: number;
     defaultMaxDepenetrationVelocity: number;
@@ -31366,6 +31203,26 @@ interface GameConfig extends ScriptableObject {
     queriesHitBackfaces: boolean;
     queriesHitTriggers: boolean;
     fixedDeltaTime: number;
+    gravity2D: Vector3;
+    velocityIterations2D: number;
+    positionIterations2D: number;
+    bounceThreshold2D: number;
+    maxLinearCorrection2D: number;
+    maxAngularCorrection2D: number;
+    maxTranslationSpeed2D: number;
+    maxRotationSpeed2D: number;
+    baumgarteScale2D: number;
+    baumgarteTOIScale2D: number;
+    timeToSleep2D: number;
+    linearSleepTolerance2D: number;
+    angularSleepTolerance2D: number;
+    defaultContactOffset2D: number;
+    contactThreshold2D: number;
+    queriesHitTriggers2D: boolean;
+    queriesStartInColliders2D: boolean;
+    callbacksOnDisable2D: boolean;
+    reuseCollisionCallbacks2D: boolean;
+    autoSyncTransforms2D: boolean;
     supportsMobile: boolean;
     compileURPShaders: boolean;
 
@@ -31967,6 +31824,7 @@ interface ServerBootstrap extends MonoBehaviour {
     organizationId: string;
     isShutdownEventTriggered: boolean;
     isAgonesShutdownTriggered: boolean;
+    isShutdownComplete: boolean;
     serverContext: ServerContext;
     isServerReady: boolean;
     isStartupConfigReady: boolean;
@@ -36893,6 +36751,191 @@ interface ChatroomAgentConstructor {
 declare const ChatroomAgent: ChatroomAgentConstructor;
     
     
+interface Texture2DArray extends Texture {
+    /**
+     * Number of elements in a texture array (Read Only).
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray-depth.html | Texture2DArray.depth}
+     */
+    readonly depth: number;
+    /**
+     * Texture format (Read Only).
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray-format.html | Texture2DArray.format}
+     */
+    readonly format: TextureFormat;
+    /**
+     * The name of the texture mipmap limit group that this texture is associated with. (Read Only)
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray-mipmapLimitGroup.html | Texture2DArray.mipmapLimitGroup}
+     */
+    readonly mipmapLimitGroup: string;
+    /**
+     * The number of high resolution mipmap levels from the texture that Unity doesn't upload to the GPU. (Read Only)
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray-activeMipmapLimit.html | Texture2DArray.activeMipmapLimit}
+     */
+    readonly activeMipmapLimit: number;
+    readonly isReadable: boolean;
+    /**
+     * This property causes a texture to ignore all texture mipmap limit settings.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray-ignoreMipmapLimit.html | Texture2DArray.ignoreMipmapLimit}
+     */
+    ignoreMipmapLimit: boolean;
+
+
+
+    /**
+     * Copies changes you've made in a CPU texture to the GPU.
+     * @param updateMipmaps When the value is true, Unity recalculates mipmap levels, using mipmap level 0 as the source. The default value is true.
+     * @param makeNoLongerReadable When the value is true, Unity deletes the texture in CPU memory after it uploads it to the GPU, and sets Texture.isReadable|isReadable to false. The default value is false.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.Apply.html | Texture2DArray.Apply}
+     */
+    Apply(updateMipmaps: boolean, makeNoLongerReadable: boolean): void;
+    Apply(updateMipmaps: boolean): void;
+    Apply(): void;
+    /**
+     * Copies pixel data from another texture on the CPU.
+     * @param src The source texture.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.CopyPixels.html | Texture2DArray.CopyPixels}
+     */
+    CopyPixels(src: Texture): void;
+    /**
+     * Copies pixel data from another texture on the CPU.
+     * @param src The source texture.
+     * @param srcElement The element in the source texture to copy from. For example, the CubemapFace in a Cubemap or the slice in a texture array. Set the value to 0 if src is a 2D texture.
+     * @param srcMip The mipmap level to copy from. The range is 0 through the source texture's Texture.mipmapCount. The default value is 0.
+     * @param dstElement The slice index to copy to in this texture array.
+     * @param dstMip The mipmap level to write to. The range is 0 through this texture's Texture.mipmapCount. The default value is 0.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.CopyPixels.html | Texture2DArray.CopyPixels}
+     */
+    CopyPixels(src: Texture, srcElement: number, srcMip: number, dstElement: number, dstMip: number): void;
+    /**
+     * Copies pixel data from another texture on the CPU.
+     * @param src The source texture.
+     * @param srcElement The element in the source texture to copy from. For example, the CubemapFace in a Cubemap or the slice in a texture array. Set the value to 0 if src is a 2D texture.
+     * @param srcMip The mipmap level to copy from. The range is 0 through the source texture's Texture.mipmapCount. The default value is 0.
+     * @param srcX The starting x coordinate of src to copy from. 0 is the left of the texture.
+     * @param srcY The starting y coordinate of src to copy from. 0 is the bottom of the texture.
+     * @param srcWidth The width of src to copy.
+     * @param srcHeight The height of src to copy.
+     * @param dstElement The slice index to copy to in this texture array.
+     * @param dstMip The mipmap level to write to. The range is 0 through this texture's Texture.mipmapCount. The default value is 0.
+     * @param dstX The x coordinate of this texture to copy to.
+     * @param dstY The y coordinate to this texture to copy to.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.CopyPixels.html | Texture2DArray.CopyPixels}
+     */
+    CopyPixels(src: Texture, srcElement: number, srcMip: number, srcX: number, srcY: number, srcWidth: number, srcHeight: number, dstElement: number, dstMip: number, dstX: number, dstY: number): void;
+    /**
+     * Gets the raw data from a texture.
+     * @param mipLevel The mipmap level to read from. The range is 0 through the texture's Texture.mipmapCount. The default value is 0.
+     * @param element The array slice to read from.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.GetPixelData.html | Texture2DArray.GetPixelData}
+     */
+    GetPixelData<T>(mipLevel: number, element: number): Readonly<T[]>;
+    /**
+     * Gets the pixel color data for a mipmap level of a slice as Color structs.
+     * @param arrayElement The array slice to read pixel data from.
+     * @param miplevel The mipmap level to get. The range is 0 through the texture's Texture.mipmapCount. The default value is 0.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.GetPixels.html | Texture2DArray.GetPixels}
+     */
+    GetPixels(arrayElement: number, miplevel: number): Readonly<Color[]>;
+    /**
+     * Gets the pixel color data for a mipmap level of a slice as Color structs.
+     * @param arrayElement The array slice to read pixel data from.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.GetPixels.html | Texture2DArray.GetPixels}
+     */
+    GetPixels(arrayElement: number): Readonly<Color[]>;
+    /**
+     * Gets the pixel color data for a mipmap level of a slice as Color32 structs.
+     * @param arrayElement The array slice to read pixel data from.
+     * @param miplevel The mipmap level to get. The range is 0 through the texture's Texture.mipmapCount. The default value is 0.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.GetPixels32.html | Texture2DArray.GetPixels32}
+     */
+    GetPixels32(arrayElement: number, miplevel: number): Readonly<Color32[]>;
+    /**
+     * Gets the pixel color data for a mipmap level of a slice as Color32 structs.
+     * @param arrayElement The array slice to read pixel data from.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.GetPixels32.html | Texture2DArray.GetPixels32}
+     */
+    GetPixels32(arrayElement: number): Readonly<Color32[]>;
+    SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, element: number, sourceDataStartIndex: number): void;
+    SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, element: number, sourceDataStartIndex: number): void;
+    /**
+     * Sets the pixel colors of an entire mipmap level of a slice.
+     * @param colors The array of pixel colours to use. This is a 2D image flattened to a 1D array.
+     * @param arrayElement The array slice to write to.
+     * @param miplevel The mipmap level to write colors to. The range is 0 through the texture's Texture.mipmapCount. The default value is 0.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.SetPixels.html | Texture2DArray.SetPixels}
+     */
+    SetPixels(colors: Readonly<Color[]>, arrayElement: number, miplevel: number): void;
+    /**
+     * Sets the pixel colors of an entire mipmap level of a slice.
+     * @param colors The array of pixel colours to use. This is a 2D image flattened to a 1D array.
+     * @param arrayElement The array slice to write to.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.SetPixels.html | Texture2DArray.SetPixels}
+     */
+    SetPixels(colors: Readonly<Color[]>, arrayElement: number): void;
+    /**
+     * Sets the pixel colors of an entire mipmap level of a slice.
+     * @param colors The array of pixel colours to use. This is a 2D image flattened to a 1D array.
+     * @param arrayElement The array slice to write colors to.
+     * @param miplevel The mipmap level to write colors to. The range is 0 through the texture's Texture.mipmapCount. The default value is 0.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.SetPixels32.html | Texture2DArray.SetPixels32}
+     */
+    SetPixels32(colors: Readonly<Color32[]>, arrayElement: number, miplevel: number): void;
+    /**
+     * Sets the pixel colors of an entire mipmap level of a slice.
+     * @param colors The array of pixel colours to use. This is a 2D image flattened to a 1D array.
+     * @param arrayElement The array slice to write colors to.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray.SetPixels32.html | Texture2DArray.SetPixels32}
+     */
+    SetPixels32(colors: Readonly<Color32[]>, arrayElement: number): void;
+
+
+}
+    
+interface Texture2DArrayConstructor {
+    /**
+     * Read Only. This property is used as a parameter in some overloads of the CommandBuffer.Blit, Graphics.Blit, CommandBuffer.SetRenderTarget, and Graphics.SetRenderTarget methods to indicate that all texture array slices are bound. The value of this property is -1.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Texture2DArray-allSlices.html | Texture2DArray.allSlices}
+     */
+    readonly allSlices: number;
+
+
+    new(width: number, height: number, depth: number, format: DefaultFormat, flags: TextureCreationFlags): Texture2DArray;
+    new(width: number, height: number, depth: number, format: DefaultFormat, flags: TextureCreationFlags, mipCount: number): Texture2DArray;
+    new(width: number, height: number, depth: number, format: DefaultFormat, flags: TextureCreationFlags, mipCount: number, mipmapLimitDescriptor: MipmapLimitDescriptor): Texture2DArray;
+    new(width: number, height: number, depth: number, format: GraphicsFormat, flags: TextureCreationFlags): Texture2DArray;
+    new(width: number, height: number, depth: number, format: GraphicsFormat, flags: TextureCreationFlags, mipCount: number): Texture2DArray;
+    new(width: number, height: number, depth: number, format: GraphicsFormat, flags: TextureCreationFlags, mipCount: number, mipmapLimitDescriptor: MipmapLimitDescriptor): Texture2DArray;
+    new(width: number, height: number, depth: number, textureFormat: TextureFormat, mipCount: number, linear: boolean, createUninitialized: boolean, mipmapLimitDescriptor: MipmapLimitDescriptor): Texture2DArray;
+    new(width: number, height: number, depth: number, textureFormat: TextureFormat, mipCount: number, linear: boolean, createUninitialized: boolean): Texture2DArray;
+    new(width: number, height: number, depth: number, textureFormat: TextureFormat, mipCount: number, linear: boolean): Texture2DArray;
+    new(width: number, height: number, depth: number, textureFormat: TextureFormat, mipChain: boolean, linear: boolean, createUninitialized: boolean): Texture2DArray;
+    new(width: number, height: number, depth: number, textureFormat: TextureFormat, mipChain: boolean, linear: boolean): Texture2DArray;
+    new(width: number, height: number, depth: number, textureFormat: TextureFormat, mipChain: boolean): Texture2DArray;
+
+
+
+}
+declare const Texture2DArray: Texture2DArrayConstructor;
+    
 interface float3 {
     x: number;
     y: number;
@@ -37535,7 +37578,7 @@ interface BridgeConstructor {
     MakeColorArray(size: number): Readonly<Color[]>;
     MakeDefaultRenderTexture(width: number, height: number): RenderTexture;
     MakeDefaultSprite(texture: Texture2D): Sprite;
-    MakeDefaultTexture2D(width: number, height: number): Texture2D;
+    MakeDefaultTexture2DArray(width: number, height: number, depth: number): Texture2DArray;
     MakeFloat3(v: Vector3): float3;
     MakeFloatArray(size: number): Readonly<number[]>;
     MakeIntArray(size: number): Readonly<number[]>;
@@ -37543,7 +37586,7 @@ interface BridgeConstructor {
     MakeMesh(): Mesh;
     MakeSprite(texture2D: Texture2D): Sprite;
     MakeSprite(texture: Texture2D, rect: Rect, pivot: Vector2, pixelsPerUnit: number): Sprite;
-    MakeTexture2D(width: number, height: number, format: TextureFormat, mipChain: boolean, linear: boolean): Texture2D;
+    MakeTextureFormatTexture2DArray(width: number, height: number, depth: number, format: TextureFormat, mipChain: boolean): Texture2DArray;
     MakeVector3Array(size: number): Readonly<Vector3[]>;
     MoveGameObjectToScene(gameObject: GameObject, scene: Scene): void;
     OpenDevConsole(): void;
@@ -37695,7 +37738,7 @@ interface TexturePacker {
 
     Dispose(): void;
     GetUVs(sourceTexture: Texture2D): Rect;
-    PackTextures(textures: CSDictionary<number, TextureSet>, desiredPadding: number, width: number, height: number, numMips: number, normalizedSize: number): void;
+    PackTextures(textures: CSDictionary<number, TextureSet>, desiredPadding: number, width: number, height: number, numMips: number, normalizedSize: number, packNormals: boolean): void;
 
 
 }
@@ -43785,7 +43828,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetAlphamaps.html | TerrainData.GetAlphamaps}
      */
-    GetAlphamaps(x: number, y: number, width: number, height: number): Single[,,];
+    GetAlphamaps(x: number, y: number, width: number, height: number): Single[][][];
     /**
      * Returns the alphamap texture at the specified index.
      * @param index Index of the alphamap.
@@ -43810,8 +43853,8 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetDetailLayer.html | TerrainData.GetDetailLayer}
      */
-    GetDetailLayer(xBase: number, yBase: number, width: number, height: number, layer: number): Int32[,];
-    GetDetailLayer(positionBase: Vector2Int, size: Vector2Int, layer: number): Int32[,];
+    GetDetailLayer(xBase: number, yBase: number, width: number, height: number, layer: number): Int32[][];
+    GetDetailLayer(positionBase: Vector2Int, size: Vector2Int, layer: number): Int32[][];
     /**
      * Gets the world space height of the Terrain at a certain point x,y without adding the Terrain's world position y.
      * 
@@ -43827,7 +43870,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetHeights.html | TerrainData.GetHeights}
      */
-    GetHeights(xBase: number, yBase: number, width: number, height: number): Single[,];
+    GetHeights(xBase: number, yBase: number, width: number, height: number): Single[][];
     /**
      * Gets an array of Terrain holes samples.
      * @param xBase First x index of Terrain holes samples to retrieve.
@@ -43837,7 +43880,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetHoles.html | TerrainData.GetHoles}
      */
-    GetHoles(xBase: number, yBase: number, width: number, height: number): Boolean[,];
+    GetHoles(xBase: number, yBase: number, width: number, height: number): Boolean[][];
     /**
      * Gets an interpolated height at a point x,y. The x and y coordinates are clamped to [0, 1].
      * @param x X coordinate of the point in the range of [0, 1].
@@ -43857,7 +43900,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetInterpolatedHeights.html | TerrainData.GetInterpolatedHeights}
      */
-    GetInterpolatedHeights(xBase: number, yBase: number, xCount: number, yCount: number, xInterval: number, yInterval: number): Single[,];
+    GetInterpolatedHeights(xBase: number, yBase: number, xCount: number, yCount: number, xInterval: number, yInterval: number): Single[][];
     /**
      * Fills the array with Terrain height values using normalized x,y coordinates.
      * @param results The array to fill with height values.
@@ -43872,7 +43915,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.GetInterpolatedHeights.html | TerrainData.GetInterpolatedHeights}
      */
-    GetInterpolatedHeights(results: Single[,], resultXOffset: number, resultYOffset: number, xBase: number, yBase: number, xCount: number, yCount: number, xInterval: number, yInterval: number): void;
+    GetInterpolatedHeights(results: Single[][], resultXOffset: number, resultYOffset: number, xBase: number, yBase: number, xCount: number, yCount: number, xInterval: number, yInterval: number): void;
     /**
      * Get an interpolated normal at a given location.
      * 
@@ -43954,7 +43997,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.SetAlphamaps.html | TerrainData.SetAlphamaps}
      */
-    SetAlphamaps(x: number, y: number, map: Single[,,]): void;
+    SetAlphamaps(x: number, y: number, map: Single[][][]): void;
     /**
      * Marks the terrain data as dirty to trigger an update of the terrain basemap texture.
      * 
@@ -43966,8 +44009,8 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.SetDetailLayer.html | TerrainData.SetDetailLayer}
      */
-    SetDetailLayer(xBase: number, yBase: number, layer: number, details: Int32[,]): void;
-    SetDetailLayer(basePosition: Vector2Int, layer: number, details: Int32[,]): void;
+    SetDetailLayer(xBase: number, yBase: number, layer: number, details: Int32[][]): void;
+    SetDetailLayer(basePosition: Vector2Int, layer: number, details: Int32[][]): void;
     /**
      * Sets the resolution of the detail map.
      * @param detailResolution Specifies the number of pixels in the detail resolution map. A larger detailResolution, leads to more accurate detail object painting.
@@ -43990,7 +44033,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.SetHeights.html | TerrainData.SetHeights}
      */
-    SetHeights(xBase: number, yBase: number, heights: Single[,]): void;
+    SetHeights(xBase: number, yBase: number, heights: Single[][]): void;
     /**
      * Sets an array of heightmap samples.
      * @param xBase First x index of heightmap samples to set.
@@ -43999,7 +44042,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.SetHeightsDelayLOD.html | TerrainData.SetHeightsDelayLOD}
      */
-    SetHeightsDelayLOD(xBase: number, yBase: number, heights: Single[,]): void;
+    SetHeightsDelayLOD(xBase: number, yBase: number, heights: Single[][]): void;
     /**
      * Sets an array of Terrain holes samples.
      * @param xBase First x index of Terrain holes samples to set.
@@ -44008,7 +44051,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.SetHoles.html | TerrainData.SetHoles}
      */
-    SetHoles(xBase: number, yBase: number, holes: Boolean[,]): void;
+    SetHoles(xBase: number, yBase: number, holes: Boolean[][]): void;
     /**
      * Sets an array of Terrain holes samples.
      * @param xBase First x index of Terrain holes samples to set.
@@ -44017,7 +44060,7 @@ interface TerrainData extends Object {
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TerrainData.SetHolesDelayLOD.html | TerrainData.SetHolesDelayLOD}
      */
-    SetHolesDelayLOD(xBase: number, yBase: number, holes: Boolean[,]): void;
+    SetHolesDelayLOD(xBase: number, yBase: number, holes: Boolean[][]): void;
     /**
      * This function sets the terrainLayers property, and in addition, registers the action to the Editor's undo stack.
      * @param terrainLayers The Terrain Layer assets to set.
@@ -52482,6 +52525,25 @@ interface EasyTransformAnchorConstructor {
 
 }
 declare const EasyTransformAnchor: EasyTransformAnchorConstructor;
+    
+interface VibrationManager {
+
+
+
+
+
+}
+    
+interface VibrationManagerConstructor {
+
+
+    new(): VibrationManager;
+
+
+    Play(vibrationFeedbackType: VibrationFeedbackType): void;
+
+}
+declare const VibrationManager: VibrationManagerConstructor;
     
 interface AirshipSteamFriendInfo {
     playingAirship: boolean;

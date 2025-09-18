@@ -24,7 +24,9 @@ export default class ProximityPrompt extends AirshipBehaviour {
 		"If true the prompt will only ever render where it was spawned (you are unable to move it). This is slightly faster in bulk.",
 	)
 	public static = false;
-	@Tooltip("If true this prompt can be activated at any time by having the activation key in the down state.")
+	@Tooltip(
+		"If true this prompt can be activated at any time by having the activation key in the down state. This has no effect on mobile.",
+	)
 	public activateWhenDown = false;
 	@Tooltip("If true the prompt will be hidden when a player is dead")
 	public hideWhenDead = false;
@@ -75,6 +77,11 @@ export default class ProximityPrompt extends AirshipBehaviour {
 
 	protected Awake(): void {
 		if (this.canvasDistanceCondition) this.canvasDistanceCondition.maxDistance = this.maxRange + 10;
+		// `activateWhenDown` is for quickly activating prompts while a key is down, and is not applicable
+		// to mobile.
+		if (Game.IsMobile()) {
+			this.activateWhenDown = false;
+		}
 	}
 
 	override OnEnable(): void {
@@ -118,11 +125,11 @@ export default class ProximityPrompt extends AirshipBehaviour {
 	}
 
 	private KeyDown(): void {
-		NativeTween.LocalScale(this.canvas.transform, Vector3.one.mul(0.008), 0.08).SetEaseQuadOut();
+		NativeTween.LocalScale(this.transform, Vector3.one.mul(0.8), 0.08).SetEaseQuadOut();
 	}
 
 	private KeyUp(): void {
-		NativeTween.LocalScale(this.canvas.transform, Vector3.one.mul(0.01), 0.08).SetEaseQuadOut();
+		NativeTween.LocalScale(this.transform, Vector3.one, 0.08).SetEaseQuadOut();
 	}
 
 	/**
@@ -155,7 +162,6 @@ export default class ProximityPrompt extends AirshipBehaviour {
 	public SetMaxRange(val: number): void {
 		(this.maxRange as number) = val;
 		if (this.canvasDistanceCondition) this.canvasDistanceCondition.maxDistance = val + 10;
-
 	}
 
 	/**
@@ -175,10 +181,10 @@ export default class ProximityPrompt extends AirshipBehaviour {
 
 		this.shownBin.Clean();
 		if (instant) {
-			this.canvas.transform.localScale = Vector3.zero;
+			this.transform.localScale = Vector3.zero;
 			this.canvas.enabled = false;
 		} else {
-			const tween = NativeTween.LocalScale(this.canvas.transform, Vector3.zero, 0.18).SetEaseQuadOut();
+			const tween = NativeTween.LocalScale(this.transform, Vector3.zero, 0.18).SetEaseQuadOut();
 			let interupt = false;
 			this.shownBin.Add(() => {
 				interupt = true;
@@ -201,8 +207,8 @@ export default class ProximityPrompt extends AirshipBehaviour {
 		this.shownBin.Clean();
 
 		this.canvas.enabled = true;
-		this.canvas.transform.localScale = Vector3.zero;
-		NativeTween.LocalScale(this.canvas.transform, Vector3.one.mul(0.01), 0.18).SetEaseQuadOut();
+		this.transform.localScale = Vector3.zero;
+		NativeTween.LocalScale(this.transform, Vector3.one, 0.18).SetEaseQuadOut();
 
 		// for button
 		this.backgroundImg.raycastTarget = Game.IsMobile() || this.mouseRaycastTarget;
