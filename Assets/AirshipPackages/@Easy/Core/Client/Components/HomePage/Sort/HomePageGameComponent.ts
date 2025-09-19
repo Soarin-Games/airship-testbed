@@ -107,8 +107,6 @@ export default class HomePageGameComponent extends AirshipBehaviour {
 			if (adjustedHeight <= 288) height = 288;
 			url = Protected.Cache.ApplyHeightToUrl(url, height);
 
-			print("Applied height for rect transform of " + height + " for " + adjustedHeight);
-
 			task.spawn(async () => {
 				const tex = await Protected.Cache.DownloadImage(url);
 				this.gameImg.texture = tex;
