@@ -2,7 +2,6 @@ import { TransferController } from "@Easy/Core/Client/ProtectedControllers//Tran
 import { AirshipGame } from "@Easy/Core/Shared/Airship/Types/AirshipGame";
 import DateParser from "@Easy/Core/Shared/DateParser";
 import { Dependency } from "@Easy/Core/Shared/Flamework";
-import { Game } from "@Easy/Core/Shared/Game";
 import SearchSingleton from "@Easy/Core/Shared/MainMenu/Components/Search/SearchSingleton";
 import { MainMenuSingleton } from "@Easy/Core/Shared/MainMenu/Singletons/MainMenuSingleton";
 import { Protected } from "@Easy/Core/Shared/Protected";
@@ -94,13 +93,18 @@ export default class HomePageGameComponent extends AirshipBehaviour {
 
 		this.UpdatePlayerCount(gameDto.liveStats?.playerCount ?? 0);
 
-		{
+		// Wait a little bit for the layout to render/load before starting image downloads since we need
+		// to read the desired pixel size post layout render. I think we only need to wait one frame for this, but
+		// we'll wait little longer just in case.
+		task.unscaledDelay(Time.fixedDeltaTime, () => {
 			// Game image
 			let url = AirshipUrl.CDN + "/images/" + gameDto.iconImageId + ".png";
 
 			// Resolutions are 16:9 & divisble by 8 https://pacoup.com/2011/06/12/list-of-true-169-resolutions/
-			let height = 243;
-			if (Game.IsMobile()) height = 180;
+			let height = 576;
+			const adjustedHeight = this.gameImg.GetPixelAdjustedRect().height * 1.5; // Always use a bit higher res than needed
+			if (adjustedHeight <= 432) height = 432;
+			if (adjustedHeight <= 288) height = 288;
 			url = Protected.Cache.ApplyHeightToUrl(url, height);
 
 			task.spawn(async () => {
@@ -108,7 +112,7 @@ export default class HomePageGameComponent extends AirshipBehaviour {
 				this.gameImg.texture = tex;
 				this.gameImg.color = Color.white;
 			});
-		}
+		});
 
 		if (gameDto.organization) {
 			// Org image
