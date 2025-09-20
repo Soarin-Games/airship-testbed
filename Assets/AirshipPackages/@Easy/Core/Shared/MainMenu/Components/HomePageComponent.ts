@@ -63,11 +63,12 @@ export default class HomePageComponent extends MainMenuPageComponent {
 		this.ClearSorts();
 		this.addedDiscordHero = false;
 
+		const hour = 60 * 60;
 		this.CreateFeaturedEvent(
 			"47c5fdbd-bf3f-4a5b-9ad3-dea11a52a762",
 			"The first mobile playtest of BedWars 2.\nPlay on Mac, Windows, iOS, and Android!",
-			1758387600,
-			1758398400,
+			1758992400,
+			1758992400 + 3 * hour,
 		);
 
 		this.CreateSort(SortId.Popular, "Popular");
