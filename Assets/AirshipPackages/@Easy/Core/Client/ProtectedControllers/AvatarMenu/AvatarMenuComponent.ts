@@ -13,6 +13,7 @@ import AirshipButton from "@Easy/Core/Shared/MainMenu/Components/AirshipButton";
 import { MainMenuSingleton } from "@Easy/Core/Shared/MainMenu/Singletons/MainMenuSingleton";
 import { Protected } from "@Easy/Core/Shared/Protected";
 import { Keyboard } from "@Easy/Core/Shared/UserInput";
+import { AirshipUrl } from "@Easy/Core/Shared/Util/AirshipUrl";
 import { Bin } from "@Easy/Core/Shared/Util/Bin";
 import { CanvasAPI } from "@Easy/Core/Shared/Util/CanvasAPI";
 import { ColorUtil } from "@Easy/Core/Shared/Util/ColorUtil";
@@ -511,7 +512,6 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 		}
 		cloudImage.downloadOnStart = false;
 		cloudImage.image = accessoryBtn.iconImage;
-		cloudImage.url = Protected.Avatar.GetImageUrl(clothingDto.class.imageId);
 
 		const downloadConn = cloudImage.OnFinishedLoading.Connect((success) => {
 			if (success) {
@@ -526,8 +526,22 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 			downloadConn.Disconnect();
 		});
 
-		//print("Downloading: " + cloudImage.url);
-		cloudImage.StartDownload();
+		// Wait a little bit for the layout to render/load before starting image downloads since we need
+		// to read the desired pixel size post layout render. I think we only need to wait one frame for this, but
+		// we'll wait little longer just in case.
+		task.unscaledDelay(Time.fixedDeltaTime, () => {
+			const adjustedHeight = cloudImage.image.GetPixelAdjustedRect().height * 1.5;
+			let height = 432;
+			if (adjustedHeight <= 288) height = 288;
+			if (adjustedHeight <= 144) height = 144;
+			cloudImage.url = Protected.Cache.ApplyHeightToUrl(
+				`${AirshipUrl.CDN}/images/${clothingDto.class.imageId}.png`,
+				height,
+			);
+
+			cloudImage.StartDownload();
+		});
+
 		return accessoryBtn;
 	}
 
