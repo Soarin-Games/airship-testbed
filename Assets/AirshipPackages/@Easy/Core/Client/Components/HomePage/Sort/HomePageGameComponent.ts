@@ -61,7 +61,7 @@ export default class HomePageGameComponent extends AirshipBehaviour {
 
 	private FadeIn(): void {
 		task.delay(this.index * 0.04, () => {
-			// if (this.canvasGroup) return;
+			if (this.gameObject.IsDestroyed()) return;
 			NativeTween.CanvasGroupAlpha(this.canvasGroup, 1, 0.22).SetEaseQuadOut();
 			this.transform.localScale = Vector3.one.mul(0.7);
 			NativeTween.LocalScale(this.transform, Vector3.one, 0.22).SetEaseQuadOut();

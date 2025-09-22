@@ -47,7 +47,7 @@ export default class HomePageComponent extends MainMenuPageComponent {
 		const mainMenu = Dependency<MainMenuSingleton>();
 		mainMenu.ObserveScreenSize((st) => {
 			if (Game.IsMobile() && st === "sm") {
-				this.mainSortedContentLayoutGroup.padding.top = 20;
+				this.mainSortedContentLayoutGroup.padding.top = 0;
 
 				// this.verticalLayoutGroup.padding.left = 4;
 				// this.verticalLayoutGroup.padding.right = 4;
@@ -144,6 +144,12 @@ export default class HomePageComponent extends MainMenuPageComponent {
 		sortComponent.SetTitle(title);
 		sortComponent.pageScrollRect = this.scrollRect;
 		this.sorts.set(sortId, sortComponent);
+
+		this.bin.Add(
+			sortComponent.onRequestRefresh.Connect(() => {
+				this.FetchGames();
+			}),
+		);
 	}
 
 	private CreateFeaturedEvent(gameId: string, description: string, startTime: number, endTime: number): void {
