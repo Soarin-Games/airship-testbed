@@ -28,6 +28,7 @@ export default class MenuFeaturedEvent extends AirshipBehaviour {
 	public roundedCorners: ImageWithRoundedCorners;
 	public borderBottom: GameObject;
 	public popoutImage: RawImage;
+	public contentLayoutGroup: HorizontalLayoutGroup;
 
 	@NonSerialized()
 	private popoutImageUrl: string;
@@ -78,6 +79,7 @@ export default class MenuFeaturedEvent extends AirshipBehaviour {
 			this.roundedCorners.radius = 0;
 			this.roundedCorners.Validate();
 			this.borderBottom.SetActive(true);
+			this.contentLayoutGroup.padding.left = -5;
 		} else {
 			this.borderBottom.SetActive(false);
 		}
