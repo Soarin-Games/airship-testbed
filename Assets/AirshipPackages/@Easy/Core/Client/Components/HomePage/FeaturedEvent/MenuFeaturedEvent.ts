@@ -54,6 +54,12 @@ export default class MenuFeaturedEvent extends AirshipBehaviour {
 		this.playerCountText.text = "0";
 		this.popoutImage.color = new Color(1, 1, 1, 0);
 
+		if (Game.deviceType === AirshipDeviceType.Phone) {
+			this.popoutImage.transform.localScale = new Vector3(0.85, 0.85, 0.85);
+			const rect = this.popoutImage.transform as RectTransform;
+			rect.anchoredPosition = new Vector2(24, 0);
+		}
+
 		if (eventCache) {
 			this.LoadGameImages(eventCache);
 		}
