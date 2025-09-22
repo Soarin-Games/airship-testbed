@@ -67,6 +67,7 @@ export default class HomePageComponent extends MainMenuPageComponent {
 		this.CreateFeaturedEvent(
 			"47c5fdbd-bf3f-4a5b-9ad3-dea11a52a762",
 			"The first mobile playtest of BedWars 2.\nPlay on Mac, Windows, iOS, and Android!",
+			AirshipUrl.CDN + "/airship/Barbarian.png",
 			1758992400,
 			1758992400 + 3 * hour,
 		);
@@ -152,10 +153,16 @@ export default class HomePageComponent extends MainMenuPageComponent {
 		);
 	}
 
-	private CreateFeaturedEvent(gameId: string, description: string, startTime: number, endTime: number): void {
+	private CreateFeaturedEvent(
+		gameId: string,
+		description: string,
+		popoutImageUrl: string,
+		startTime: number,
+		endTime: number,
+	): void {
 		const go = Instantiate(this.featuredEventPrefab, this.mainContent);
 		const featuredEvent = go.GetAirshipComponent<MenuFeaturedEvent>()!;
-		featuredEvent.Init(gameId, description, startTime, endTime);
+		featuredEvent.Init(gameId, description, popoutImageUrl, startTime, endTime);
 	}
 
 	private CreateSpacer(): void {

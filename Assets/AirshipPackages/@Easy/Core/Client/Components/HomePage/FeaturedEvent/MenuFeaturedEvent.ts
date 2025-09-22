@@ -27,23 +27,36 @@ export default class MenuFeaturedEvent extends AirshipBehaviour {
 	public startCountdownText: TMP_Text;
 	public roundedCorners: ImageWithRoundedCorners;
 	public borderBottom: GameObject;
+	public popoutImage: RawImage;
+
+	@NonSerialized()
+	private popoutImageUrl: string;
 
 	private startTime: number;
 	private endTime: number;
 
 	private enableBin = new Bin();
 
-	public async Init(gameId: string, description: string, startTime: number, endTime: number): Promise<void> {
+	public async Init(
+		gameId: string,
+		description: string,
+		popoutImageUrl: string,
+		startTime: number,
+		endTime: number,
+	): Promise<void> {
 		this.startTime = startTime;
 		this.endTime = endTime;
+		this.popoutImageUrl = popoutImageUrl;
 
 		this.gameThumbnailImg.color = new Color(1, 1, 1, 0);
 		this.eventImg.color = new Color(1, 1, 1, 0);
 		this.playerCountText.text = "0";
+		this.popoutImage.color = new Color(1, 1, 1, 0);
 
 		if (eventCache) {
-			this.LoadImages(eventCache);
+			this.LoadGameImages(eventCache);
 		}
+		this.LoadPopoutImages();
 
 		this.eventDescription.text = description;
 		this.FetchGame(gameId);
@@ -152,18 +165,29 @@ export default class MenuFeaturedEvent extends AirshipBehaviour {
 				playerCount,
 			);
 
-			this.LoadImages(res.game as ContentServiceGames.PublicGameWithLiveStatsAndOrg);
+			this.LoadGameImages(res.game as ContentServiceGames.PublicGameWithLiveStatsAndOrg);
 		}
 	}
 
-	private LoadImages(gameDto: ContentServiceGames.PublicGameWithLiveStatsAndOrg): void {
+	private LoadPopoutImages(): void {
+		task.spawn(async () => {
+			const url = this.popoutImageUrl;
+			const tex = await Protected.Cache.DownloadImage(url);
+			if (tex) {
+				this.popoutImage.texture = tex;
+				this.popoutImage.color = Color.white;
+			}
+		});
+	}
+
+	private LoadGameImages(gameDto: ContentServiceGames.PublicGameWithLiveStatsAndOrg): void {
 		// Game Thumbnail
 		task.spawn(async () => {
 			const url = AirshipUrl.CDN + "/images/" + gameDto.iconImageId + ".png";
 			const tex = await Protected.Cache.DownloadImage(url);
 			if (tex) {
 				this.gameThumbnailImg.texture = tex;
-				this.gameThumbnailImg.color = new Color(1, 1, 1, 1);
+				this.gameThumbnailImg.color = Color.white;
 			}
 		});
 
@@ -173,7 +197,7 @@ export default class MenuFeaturedEvent extends AirshipBehaviour {
 			const tex = await Protected.Cache.DownloadImage(url);
 			if (tex) {
 				this.eventImg.texture = tex;
-				this.eventImg.color = new Color(1, 1, 1, 1);
+				this.eventImg.color = Color.white;
 			}
 		});
 	}
