@@ -198,10 +198,6 @@ export class ProtectedAvatarSingleton {
 		// print("Protected.Avatar: " + message);
 	}
 
-	public GetImageUrl(imageId: string, size = 128) {
-		return Protected.Cache.ApplyHeightToUrl(`${AirshipUrl.CDN}/images/${imageId}.png`, 128);
-	}
-
 	public async GetAllOutfits(): Promise<AirshipOutfit[] | undefined> {
 		return await contentServiceClient.outfits.getOutfits();
 	}
