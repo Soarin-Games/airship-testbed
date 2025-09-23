@@ -22130,7 +22130,7 @@ interface MaskableGraphic extends Graphic, IClippable, IMaterialModifier, IMaska
     maskable: boolean;
     isMaskingGraphic: boolean;
 
-    readonly onCullStateChanged: MonoSignal<boolean>;
+    readonly onCullStateChanged: MonoSignal<[boolean]>;
 
 
     Cull(clipRect: Rect, validRect: boolean): void;
@@ -35495,14 +35495,14 @@ interface TMP_InputField extends Selectable, ISubmitHandler, IPointerClickHandle
     readonly flexibleHeight: number;
     readonly layoutPriority: number;
 
-    readonly onEndEdit: MonoSignal<string>;
-    readonly onSubmit: MonoSignal<string>;
-    readonly onSelect: MonoSignal<string>;
-    readonly onDeselect: MonoSignal<string>;
-    readonly onTextSelection: MonoSignal<string, number, number>;
-    readonly onEndTextSelection: MonoSignal<string, number, number>;
-    readonly onValueChanged: MonoSignal<string>;
-    readonly onTouchScreenKeyboardStatusChanged: MonoSignal<Status>;
+    readonly onEndEdit: MonoSignal<[string]>;
+    readonly onSubmit: MonoSignal<[string]>;
+    readonly onSelect: MonoSignal<[string]>;
+    readonly onDeselect: MonoSignal<[string]>;
+    readonly onTextSelection: MonoSignal<[string, number, number]>;
+    readonly onEndTextSelection: MonoSignal<[string, number, number]>;
+    readonly onValueChanged: MonoSignal<[string]>;
+    readonly onTouchScreenKeyboardStatusChanged: MonoSignal<[Status]>;
 
 
     ActivateInputField(): void;
@@ -35555,7 +35555,7 @@ interface Scrollbar extends Selectable, IBeginDragHandler, IInitializePotentialD
     size: number;
     numberOfSteps: number;
 
-    readonly onValueChanged: MonoSignal<number>;
+    readonly onValueChanged: MonoSignal<[number]>;
 
 
     FindSelectableOnDown(): Selectable;
@@ -35617,7 +35617,7 @@ interface Slider extends Selectable, IInitializePotentialDragHandler, IDragHandl
     value: number;
     normalizedValue: number;
 
-    readonly onValueChanged: MonoSignal<number>;
+    readonly onValueChanged: MonoSignal<[number]>;
 
 
     FindSelectableOnDown(): Selectable;
@@ -35647,7 +35647,7 @@ interface Dropdown extends Selectable, ISubmitHandler, IPointerClickHandler, ICa
     alphaFadeSpeed: number;
     value: number;
 
-    readonly onValueChanged: MonoSignal<number>;
+    readonly onValueChanged: MonoSignal<[number]>;
 
 
     AddOptions(options: Readonly<OptionData[]>): void;
@@ -35930,7 +35930,7 @@ interface TMP_Dropdown extends Selectable, ISubmitHandler, IPointerClickHandler,
     readonly IsExpanded: boolean;
     MultiSelect: boolean;
 
-    readonly onValueChanged: MonoSignal<number>;
+    readonly onValueChanged: MonoSignal<[number]>;
 
 
     AddOptions(options: Readonly<OptionData[]>): void;
@@ -39700,7 +39700,7 @@ interface ScrollRect extends UIBehaviour, ILayoutGroup, IBeginDragHandler, IInit
     readonly flexibleHeight: number;
     readonly layoutPriority: number;
 
-    readonly onValueChanged: MonoSignal<Vector2>;
+    readonly onValueChanged: MonoSignal<[Vector2]>;
 
 
     CalculateLayoutInputHorizontal(): void;
