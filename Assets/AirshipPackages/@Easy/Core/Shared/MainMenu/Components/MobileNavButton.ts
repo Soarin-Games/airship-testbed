@@ -40,11 +40,15 @@ export default class MobileNavButton extends AirshipBehaviour {
 		this.bin.AddEngineEventConnection(
 			CanvasAPI.OnClickEvent(this.button.gameObject, () => {
 				if (!this.selected) {
-					VibrationManager.Play(VibrationFeedbackType.Selection);
+					task.spawn(() => {
+						VibrationManager.Play(VibrationFeedbackType.Medium);
+					});
 				}
 
 				this.SetSelected(true);
-				Dependency<MainMenuController>().RouteToPage(this.page);
+				task.spawn(() => {
+					Dependency<MainMenuController>().RouteToPage(this.page);
+				});
 			}),
 		);
 	}
