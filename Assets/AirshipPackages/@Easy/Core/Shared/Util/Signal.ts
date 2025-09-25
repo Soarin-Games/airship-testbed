@@ -50,26 +50,7 @@ export class Signal<T extends unknown[] | unknown = void> {
 	public debugGameObject = false;
 	public isDestroyed = false;
 
-	/**
-	 * Connect a callback function to the signal.
-	 *
-	 * The returned function can be called to disconnect the callback.
-	 */
-	public Connect(callback: SignalCallback<T>): () => void {
-		return this.ConnectWithPriority(SignalPriority.NORMAL, callback);
-	}
-
-	/**
-	 * Connect a callback function to the signal.
-	 * Highest SignalPriority is called first.
-	 *
-	 * The returned function can be called to disconnect the callback.
-	 */
-	public ConnectWithPriority(priority: SignalPriority, callback: SignalCallback<T>): () => void {
-		assert(!this.firing, "cannot connect to signal while signal is firing");
-
-		const item: CallbackItem<T> = [callback, true];
-
+	private AddConnection(priority: SignalPriority, item: CallbackItem<T>) {
 		if (this.connections.has(priority)) {
 			this.connections.get(priority)!.push(item);
 		} else {
@@ -88,6 +69,33 @@ export class Signal<T extends unknown[] | unknown = void> {
 			if (!inserted) {
 				this.keys.push(priority);
 			}
+		}
+	}
+
+	/**
+	 * Connect a callback function to the signal.
+	 *
+	 * The returned function can be called to disconnect the callback.
+	 */
+	public Connect(callback: SignalCallback<T>): () => void {
+		return this.ConnectWithPriority(SignalPriority.NORMAL, callback);
+	}
+
+	/**
+	 * Connect a callback function to the signal.
+	 * Highest SignalPriority is called first.
+	 *
+	 * The returned function can be called to disconnect the callback.
+	 */
+	public ConnectWithPriority(priority: SignalPriority, callback: SignalCallback<T>): () => void {
+		const item: CallbackItem<T> = [callback, true];
+
+		if (this.firing) {
+			task.defer(() => {
+				this.AddConnection(priority, item);
+			});
+		} else {
+			this.AddConnection(priority, item);
 		}
 
 		const disconnect = () => {
@@ -109,6 +117,7 @@ export class Signal<T extends unknown[] | unknown = void> {
 		};
 
 		return () => {
+			if (!item[1]) return;
 			if (this.firing) {
 				item[1] = false;
 				task.defer(disconnect);
