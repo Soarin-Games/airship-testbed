@@ -7,7 +7,7 @@ type SignalParams<T> = Parameters<
 export type SignalCallback<T> = (...args: SignalParams<T>) => unknown;
 type SignalWait<T> = T extends unknown[] ? LuaTuple<T> : T;
 
-type CallbackItem<T> = [SignalCallback<T>, boolean];
+type CallbackItem<T> = [callback: SignalCallback<T>, connected: boolean];
 
 export const enum SignalPriority {
 	HIGHEST = 0,
