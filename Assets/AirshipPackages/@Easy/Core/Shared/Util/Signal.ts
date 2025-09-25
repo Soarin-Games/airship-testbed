@@ -189,9 +189,10 @@ export class Signal<T extends unknown[] | unknown = void> {
 						const thread = task.spawnDetached(entry[0], ...args);
 
 						if (coroutine.status(thread) !== "dead") {
-							warn(
-								debug.traceback(thread, "Signal callback yielded. This might be an error.") + "\n--\n",
-							);
+							// TODO: Temporarily commented out until plugin change is pushed.
+							// warn(
+							// 	debug.traceback(thread, "Signal callback yielded. This might be an error.") + "\n--\n",
+							// );
 						}
 					}
 				}
