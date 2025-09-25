@@ -1,8 +1,6 @@
 import ObjectUtils from "@Easy/Core/Shared/Util/ObjectUtils";
 import { Cancellable } from "./Cancellable";
 
-class Test {}
-
 type SignalParams<T> = Parameters<
 	[T] extends [unknown[]] ? (...args: T) => never : [T] extends [unknown] ? (arg: T) => never : () => never
 >;
@@ -11,7 +9,6 @@ export type SignalCallback<T> = (...args: SignalParams<T>) => unknown;
 type SignalWait<T> = T extends unknown[] ? LuaTuple<T> : T;
 
 interface CallbackItem<T> {
-	id: number;
 	callback: SignalCallback<T>;
 }
 
@@ -29,12 +26,32 @@ export const enum SignalPriority {
 }
 
 let idCounter = 1;
+
+let freeRunnerThread: thread | undefined;
+
+function acquireRunnerThreadAndCall(fn: Callback, ...params: unknown[]) {
+	const acquiredThread = freeRunnerThread as thread;
+	freeRunnerThread = undefined;
+	fn(...params);
+	freeRunnerThread = acquiredThread;
+}
+
+function runEventHandlerThread(...params: unknown[]) {
+	(acquireRunnerThreadAndCall as Callback)(...params);
+	while (true) {
+		(acquireRunnerThreadAndCall as Callback)(coroutine.yield() as any);
+	}
+}
+
+/**
+ * A Signal is an object that is used to dispatch and receive arbitrary events.
+ */
 export class Signal<T extends unknown[] | unknown = void> {
 	private debugLogging = false;
 	private allowYielding = false;
+	private keys: number[] = [];
 	private readonly connections: Map<number, Array<CallbackItem<T>>> = new Map();
 	public debugGameObject = false;
-	// private readonly connections: Array<CallbackItem<T>> = [];
 	public isDestroyed = false;
 
 	/**
@@ -57,29 +74,40 @@ export class Signal<T extends unknown[] | unknown = void> {
 		idCounter++;
 		const item: CallbackItem<T> = {
 			callback,
-			id,
 		};
 		if (this.connections.has(priority)) {
 			this.connections.get(priority)!.push(item);
 		} else {
 			this.connections.set(priority, [item]);
+
+			// Ordered insertion of "priority" into keys array:
+			let inserted = false;
+			for (let i = 0; i < this.keys.size(); i++) {
+				const key = this.keys[i];
+				if (key > priority) {
+					this.keys.insert(i, priority);
+					inserted = true;
+					break;
+				}
+			}
+			if (!inserted) {
+				this.keys.push(priority);
+			}
 		}
 		return () => {
-			for (const [priority, items] of this.connections) {
-				let removed = false;
-				for (const i of $range(0, items.size() - 1)) {
-					const item = items[i];
-					if (item.id === id) {
-						items.remove(i);
-						removed = true;
-						break;
+			const items = this.connections.get(priority);
+			if (!items) return;
+
+			const itemIdx = items.indexOf(item);
+			if (itemIdx !== -1) {
+				items.unorderedRemove(itemIdx);
+
+				if (items.size() === 0) {
+					this.connections.delete(priority);
+					const keyIdx = this.keys.indexOf(priority);
+					if (keyIdx !== -1) {
+						this.keys.remove(keyIdx);
 					}
-				}
-				if (removed) {
-					if (items.size() === 0) {
-						this.connections.delete(priority);
-					}
-					break;
 				}
 			}
 		};
@@ -118,13 +146,10 @@ export class Signal<T extends unknown[] | unknown = void> {
 		}
 
 		let fireCount = 0;
-		let keys = ObjectUtils.keys(this.connections).sort((a, b) => a < b);
 		let cancelled = false;
-		let isCancellable = false;
-		if (args.size() === 1 && args[0] instanceof Cancellable) {
-			isCancellable = true;
-		}
-		for (let priority of keys) {
+		const isCancellable = args.size() === 1 && args[0] instanceof Cancellable;
+
+		for (const priority of this.keys) {
 			const conns = this.connections.get(priority);
 			if (!conns) continue;
 
@@ -139,10 +164,19 @@ export class Signal<T extends unknown[] | unknown = void> {
 						warn("Error in signal callback: " + e);
 					}
 				} else {
-					const thread = task.spawnDetached(entry.callback, ...args);
+					if (!isCancellable) {
+						if (!freeRunnerThread) {
+							freeRunnerThread = coroutine.create(runEventHandlerThread);
+						}
+						task.spawnDetached(freeRunnerThread, entry.callback, ...args);
+					} else {
+						const thread = task.spawnDetached(entry.callback, ...args);
 
-					if (this.allowYielding && isCancellable && coroutine.status(thread) !== "dead") {
-						warn(debug.traceback(thread, "Signal callback yielded. This might be an error.") + "\n--\n");
+						if (coroutine.status(thread) !== "dead") {
+							warn(
+								debug.traceback(thread, "Signal callback yielded. This might be an error.") + "\n--\n",
+							);
+						}
 					}
 				}
 
@@ -192,6 +226,7 @@ export class Signal<T extends unknown[] | unknown = void> {
 	 */
 	public DisconnectAll() {
 		this.connections.clear();
+		this.keys.clear();
 	}
 
 	/**
