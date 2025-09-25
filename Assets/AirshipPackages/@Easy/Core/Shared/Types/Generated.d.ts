@@ -3448,6 +3448,98 @@ declare const enum DecalScaleMode {
     ScaleInvariant = 0,
     InheritFromHierarchy = 1,
 }
+declare const enum ColorWriteMask {
+    Alpha = 1,
+    Blue = 2,
+    Green = 4,
+    Red = 8,
+    All = 15,
+}
+declare const enum BlendMode {
+    Zero = 0,
+    One = 1,
+    DstColor = 2,
+    SrcColor = 3,
+    OneMinusDstColor = 4,
+    SrcAlpha = 5,
+    OneMinusSrcColor = 6,
+    DstAlpha = 7,
+    OneMinusDstAlpha = 8,
+    SrcAlphaSaturate = 9,
+    OneMinusSrcAlpha = 10,
+}
+declare const enum BlendOp {
+    Add = 0,
+    Subtract = 1,
+    ReverseSubtract = 2,
+    Min = 3,
+    Max = 4,
+    LogicalClear = 5,
+    LogicalSet = 6,
+    LogicalCopy = 7,
+    LogicalCopyInverted = 8,
+    LogicalNoop = 9,
+    LogicalInvert = 10,
+    LogicalAnd = 11,
+    LogicalNand = 12,
+    LogicalOr = 13,
+    LogicalNor = 14,
+    LogicalXor = 15,
+    LogicalEquivalence = 16,
+    LogicalAndReverse = 17,
+    LogicalAndInverted = 18,
+    LogicalOrReverse = 19,
+    LogicalOrInverted = 20,
+    Multiply = 21,
+    Screen = 22,
+    Overlay = 23,
+    Darken = 24,
+    Lighten = 25,
+    ColorDodge = 26,
+    ColorBurn = 27,
+    HardLight = 28,
+    SoftLight = 29,
+    Difference = 30,
+    Exclusion = 31,
+    HSLHue = 32,
+    HSLSaturation = 33,
+    HSLColor = 34,
+    HSLLuminosity = 35,
+}
+declare const enum CullMode {
+    Off = 0,
+    Front = 1,
+    Back = 2,
+}
+declare const enum CompareFunction {
+    Disabled = 0,
+    Never = 1,
+    Less = 2,
+    Equal = 3,
+    LessEqual = 4,
+    Greater = 5,
+    NotEqual = 6,
+    GreaterEqual = 7,
+    Always = 8,
+}
+declare const enum StencilOp {
+    Keep = 0,
+    Zero = 1,
+    Replace = 2,
+    IncrementSaturate = 3,
+    DecrementSaturate = 4,
+    Invert = 5,
+    IncrementWrap = 6,
+    DecrementWrap = 7,
+}
+declare const enum RenderStateMask {
+    Nothing = 0,
+    Blend = 1,
+    Raster = 2,
+    Depth = 4,
+    Stencil = 8,
+    Everything = 15,
+}
 declare const enum DetailScatterMode {
     CoverageMode = 0,
     InstanceCountMode = 1,
@@ -5886,6 +5978,42 @@ interface PhysicsScene {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.BoxCast.html | PhysicsScene.BoxCast}
      */
     BoxCast(center: Vector3, halfExtents: Vector3, direction: Vector3, results: Readonly<RaycastHit[]>, orientation: Quaternion, maxDistance: number, layerMask: number, queryTriggerInteraction: QueryTriggerInteraction): number;
+    /**
+     * Casts the box along a ray and returns detailed information on what was hit.
+     * @param center Center of the box.
+     * @param halfExtents Half the size of the box in each dimension.
+     * @param direction The direction in which to cast the box.
+     * @param results The buffer to store the results in.
+     * @param orientation Rotation of the box.
+     * @param maxDistance The max length of the cast.
+     * @param layerMask A that is used to selectively ignore colliders when casting a capsule.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.BoxCast.html | PhysicsScene.BoxCast}
+     */
+    BoxCast(center: Vector3, halfExtents: Vector3, direction: Vector3, results: Readonly<RaycastHit[]>, orientation: Quaternion, maxDistance: number, layerMask: number): number;
+    /**
+     * Casts the box along a ray and returns detailed information on what was hit.
+     * @param center Center of the box.
+     * @param halfExtents Half the size of the box in each dimension.
+     * @param direction The direction in which to cast the box.
+     * @param results The buffer to store the results in.
+     * @param orientation Rotation of the box.
+     * @param maxDistance The max length of the cast.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.BoxCast.html | PhysicsScene.BoxCast}
+     */
+    BoxCast(center: Vector3, halfExtents: Vector3, direction: Vector3, results: Readonly<RaycastHit[]>, orientation: Quaternion, maxDistance: number): number;
+    /**
+     * Casts the box along a ray and returns detailed information on what was hit.
+     * @param center Center of the box.
+     * @param halfExtents Half the size of the box in each dimension.
+     * @param direction The direction in which to cast the box.
+     * @param results The buffer to store the results in.
+     * @param orientation Rotation of the box.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.BoxCast.html | PhysicsScene.BoxCast}
+     */
+    BoxCast(center: Vector3, halfExtents: Vector3, direction: Vector3, results: Readonly<RaycastHit[]>, orientation: Quaternion): number;
     BoxCast(center: Vector3, halfExtents: Vector3, direction: Vector3, results: Readonly<RaycastHit[]>): number;
     /**
      * Casts a capsule against all colliders in this physics scene and returns detailed information on what was hit.
@@ -5901,6 +6029,42 @@ interface PhysicsScene {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.CapsuleCast.html | PhysicsScene.CapsuleCast}
      */
     CapsuleCast(point1: Vector3, point2: Vector3, radius: number, direction: Vector3, results: Readonly<RaycastHit[]>, maxDistance: number, layerMask: number, queryTriggerInteraction: QueryTriggerInteraction): number;
+    /**
+     * Casts a capsule against all colliders in this physics scene and returns detailed information on what was hit.
+     * @param point1 The center of the sphere at the start of the capsule.
+     * @param point2 The center of the sphere at the end of the capsule.
+     * @param radius The radius of the capsule.
+     * @param direction The direction into which to sweep the capsule.
+     * @param results The buffer to store the results in.
+     * @param maxDistance The max length of the sweep.
+     * @param layerMask A that is used to selectively ignore colliders when casting a capsule.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.CapsuleCast.html | PhysicsScene.CapsuleCast}
+     */
+    CapsuleCast(point1: Vector3, point2: Vector3, radius: number, direction: Vector3, results: Readonly<RaycastHit[]>, maxDistance: number, layerMask: number): number;
+    /**
+     * Casts a capsule against all colliders in this physics scene and returns detailed information on what was hit.
+     * @param point1 The center of the sphere at the start of the capsule.
+     * @param point2 The center of the sphere at the end of the capsule.
+     * @param radius The radius of the capsule.
+     * @param direction The direction into which to sweep the capsule.
+     * @param results The buffer to store the results in.
+     * @param maxDistance The max length of the sweep.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.CapsuleCast.html | PhysicsScene.CapsuleCast}
+     */
+    CapsuleCast(point1: Vector3, point2: Vector3, radius: number, direction: Vector3, results: Readonly<RaycastHit[]>, maxDistance: number): number;
+    /**
+     * Casts a capsule against all colliders in this physics scene and returns detailed information on what was hit.
+     * @param point1 The center of the sphere at the start of the capsule.
+     * @param point2 The center of the sphere at the end of the capsule.
+     * @param radius The radius of the capsule.
+     * @param direction The direction into which to sweep the capsule.
+     * @param results The buffer to store the results in.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.CapsuleCast.html | PhysicsScene.CapsuleCast}
+     */
+    CapsuleCast(point1: Vector3, point2: Vector3, radius: number, direction: Vector3, results: Readonly<RaycastHit[]>): number;
     Equals(other: unknown): boolean;
     Equals(other: PhysicsScene): boolean;
     GetHashCode(): number;
@@ -5934,6 +6098,27 @@ interface PhysicsScene {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.OverlapBox.html | PhysicsScene.OverlapBox}
      */
     OverlapBox(center: Vector3, halfExtents: Vector3, results: Readonly<Collider[]>, orientation: Quaternion, layerMask: number, queryTriggerInteraction: QueryTriggerInteraction): number;
+    /**
+     * Find all colliders touching or inside of the given box, and store them into the buffer.
+     * @param center Center of the box.
+     * @param halfExtents Half of the size of the box in each dimension.
+     * @param results The buffer to store the results in.
+     * @param orientation Rotation of the box.
+     * @param layerMask A that is used to selectively ignore colliders when casting a ray.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.OverlapBox.html | PhysicsScene.OverlapBox}
+     */
+    OverlapBox(center: Vector3, halfExtents: Vector3, results: Readonly<Collider[]>, orientation: Quaternion, layerMask: number): number;
+    /**
+     * Find all colliders touching or inside of the given box, and store them into the buffer.
+     * @param center Center of the box.
+     * @param halfExtents Half of the size of the box in each dimension.
+     * @param results The buffer to store the results in.
+     * @param orientation Rotation of the box.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.OverlapBox.html | PhysicsScene.OverlapBox}
+     */
+    OverlapBox(center: Vector3, halfExtents: Vector3, results: Readonly<Collider[]>, orientation: Quaternion): number;
     OverlapBox(center: Vector3, halfExtents: Vector3, results: Readonly<Collider[]>): number;
     /**
      * Check the given capsule against the physics world and return all overlapping colliders in the user-provided buffer.
@@ -5947,6 +6132,27 @@ interface PhysicsScene {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.OverlapCapsule.html | PhysicsScene.OverlapCapsule}
      */
     OverlapCapsule(point0: Vector3, point1: Vector3, radius: number, results: Readonly<Collider[]>, layerMask: number, queryTriggerInteraction: QueryTriggerInteraction): number;
+    /**
+     * Check the given capsule against the physics world and return all overlapping colliders in the user-provided buffer.
+     * @param point0 The center of the sphere at the start of the capsule.
+     * @param point1 The center of the sphere at the end of the capsule.
+     * @param radius The radius of the capsule.
+     * @param results The buffer to store the results into.
+     * @param layerMask A that is used to selectively ignore colliders when casting a capsule.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.OverlapCapsule.html | PhysicsScene.OverlapCapsule}
+     */
+    OverlapCapsule(point0: Vector3, point1: Vector3, radius: number, results: Readonly<Collider[]>, layerMask: number): number;
+    /**
+     * Check the given capsule against the physics world and return all overlapping colliders in the user-provided buffer.
+     * @param point0 The center of the sphere at the start of the capsule.
+     * @param point1 The center of the sphere at the end of the capsule.
+     * @param radius The radius of the capsule.
+     * @param results The buffer to store the results into.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.OverlapCapsule.html | PhysicsScene.OverlapCapsule}
+     */
+    OverlapCapsule(point0: Vector3, point1: Vector3, radius: number, results: Readonly<Collider[]>): number;
     /**
      * Computes and stores colliders touching or inside the sphere into the provided buffer.
      * @param position Center of the sphere.
@@ -5971,6 +6177,33 @@ interface PhysicsScene {
     Raycast(origin: Vector3, direction: Vector3, maxDistance: number, layerMask: number, queryTriggerInteraction: QueryTriggerInteraction): boolean;
     /**
      * Casts a ray, from point origin, in direction direction, of length maxDistance, against all colliders in the Scene.
+     * @param origin The starting point of the ray in world coordinates.
+     * @param direction The direction of the ray.
+     * @param maxDistance The max distance the ray should check for collisions.
+     * @param layerMask A that is used to selectively ignore Colliders when casting a ray.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.Raycast.html | PhysicsScene.Raycast}
+     */
+    Raycast(origin: Vector3, direction: Vector3, maxDistance: number, layerMask: number): boolean;
+    /**
+     * Casts a ray, from point origin, in direction direction, of length maxDistance, against all colliders in the Scene.
+     * @param origin The starting point of the ray in world coordinates.
+     * @param direction The direction of the ray.
+     * @param maxDistance The max distance the ray should check for collisions.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.Raycast.html | PhysicsScene.Raycast}
+     */
+    Raycast(origin: Vector3, direction: Vector3, maxDistance: number): boolean;
+    /**
+     * Casts a ray, from point origin, in direction direction, of length maxDistance, against all colliders in the Scene.
+     * @param origin The starting point of the ray in world coordinates.
+     * @param direction The direction of the ray.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.Raycast.html | PhysicsScene.Raycast}
+     */
+    Raycast(origin: Vector3, direction: Vector3): boolean;
+    /**
+     * Casts a ray, from point origin, in direction direction, of length maxDistance, against all colliders in the Scene.
      * @param origin The starting point and direction of the ray.
      * @param direction The direction of the ray.
      * @param raycastHits The buffer to store the hits into.
@@ -5981,6 +6214,36 @@ interface PhysicsScene {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.Raycast.html | PhysicsScene.Raycast}
      */
     Raycast(origin: Vector3, direction: Vector3, raycastHits: Readonly<RaycastHit[]>, maxDistance: number, layerMask: number, queryTriggerInteraction: QueryTriggerInteraction): number;
+    /**
+     * Casts a ray, from point origin, in direction direction, of length maxDistance, against all colliders in the Scene.
+     * @param origin The starting point and direction of the ray.
+     * @param direction The direction of the ray.
+     * @param raycastHits The buffer to store the hits into.
+     * @param maxDistance The max distance the rayhit is allowed to be from the start of the ray.
+     * @param layerMask A that is used to selectively ignore colliders when casting a ray.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.Raycast.html | PhysicsScene.Raycast}
+     */
+    Raycast(origin: Vector3, direction: Vector3, raycastHits: Readonly<RaycastHit[]>, maxDistance: number, layerMask: number): number;
+    /**
+     * Casts a ray, from point origin, in direction direction, of length maxDistance, against all colliders in the Scene.
+     * @param origin The starting point and direction of the ray.
+     * @param direction The direction of the ray.
+     * @param raycastHits The buffer to store the hits into.
+     * @param maxDistance The max distance the rayhit is allowed to be from the start of the ray.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.Raycast.html | PhysicsScene.Raycast}
+     */
+    Raycast(origin: Vector3, direction: Vector3, raycastHits: Readonly<RaycastHit[]>, maxDistance: number): number;
+    /**
+     * Casts a ray, from point origin, in direction direction, of length maxDistance, against all colliders in the Scene.
+     * @param origin The starting point and direction of the ray.
+     * @param direction The direction of the ray.
+     * @param raycastHits The buffer to store the hits into.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.Raycast.html | PhysicsScene.Raycast}
+     */
+    Raycast(origin: Vector3, direction: Vector3, raycastHits: Readonly<RaycastHit[]>): number;
     /**
      * Resets the Transform positions of interpolated and extrapolated Rigidbodies in this PhysicsScene to Rigidbody.position and Transform rotations to Rigidbody.rotation.
      * 
@@ -5996,6 +6259,14 @@ interface PhysicsScene {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.RunSimulationStages.html | PhysicsScene.RunSimulationStages}
      */
     RunSimulationStages(step: number, stages: SimulationStage, options: SimulationOption): void;
+    /**
+     * Runs specified physics simulation stages on this physics scene.
+     * @param step The time to advance physics by.
+     * @param stages An enum to specify which stages to run.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.RunSimulationStages.html | PhysicsScene.RunSimulationStages}
+     */
+    RunSimulationStages(step: number, stages: SimulationStage): void;
     /**
      * Simulate physics associated with this PhysicsScene.
      * @param step The time to advance physics by.
@@ -6016,6 +6287,39 @@ interface PhysicsScene {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.SphereCast.html | PhysicsScene.SphereCast}
      */
     SphereCast(origin: Vector3, radius: number, direction: Vector3, results: Readonly<RaycastHit[]>, maxDistance: number, layerMask: number, queryTriggerInteraction: QueryTriggerInteraction): number;
+    /**
+     * Cast sphere along the direction and store the results into buffer.
+     * @param origin The center of the sphere at the start of the sweep.
+     * @param radius The radius of the sphere.
+     * @param direction The direction into which to sweep the sphere.
+     * @param results The buffer to save the results to.
+     * @param maxDistance The max length of the cast.
+     * @param layerMask A that is used to selectively ignore colliders when casting a capsule.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.SphereCast.html | PhysicsScene.SphereCast}
+     */
+    SphereCast(origin: Vector3, radius: number, direction: Vector3, results: Readonly<RaycastHit[]>, maxDistance: number, layerMask: number): number;
+    /**
+     * Cast sphere along the direction and store the results into buffer.
+     * @param origin The center of the sphere at the start of the sweep.
+     * @param radius The radius of the sphere.
+     * @param direction The direction into which to sweep the sphere.
+     * @param results The buffer to save the results to.
+     * @param maxDistance The max length of the cast.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.SphereCast.html | PhysicsScene.SphereCast}
+     */
+    SphereCast(origin: Vector3, radius: number, direction: Vector3, results: Readonly<RaycastHit[]>, maxDistance: number): number;
+    /**
+     * Cast sphere along the direction and store the results into buffer.
+     * @param origin The center of the sphere at the start of the sweep.
+     * @param radius The radius of the sphere.
+     * @param direction The direction into which to sweep the sphere.
+     * @param results The buffer to save the results to.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene.SphereCast.html | PhysicsScene.SphereCast}
+     */
+    SphereCast(origin: Vector3, radius: number, direction: Vector3, results: Readonly<RaycastHit[]>): number;
     ToString(): string;
 
 
@@ -6283,6 +6587,17 @@ interface PhysicsScene2D {
      * @param angle The angle of the box (in degrees).
      * @param direction Vector representing the direction to cast the box.
      * @param distance Maximum distance over which to cast the box.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.BoxCast.html | PhysicsScene2D.BoxCast}
+     */
+    BoxCast(origin: Vector2, size: Vector2, angle: number, direction: Vector2, distance: number): RaycastHit2D;
+    /**
+     * Casts a box against colliders in the PhysicsScene2D, returning the first intersection only.
+     * @param origin The point in 2D space where the box originates.
+     * @param size The size of the box.
+     * @param angle The angle of the box (in degrees).
+     * @param direction Vector representing the direction to cast the box.
+     * @param distance Maximum distance over which to cast the box.
      * @param contactFilter The contact filter used to filter the results differently, such as by layer mask, Z depth, or normal angle.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.BoxCast.html | PhysicsScene2D.BoxCast}
@@ -6301,6 +6616,18 @@ interface PhysicsScene2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.BoxCast.html | PhysicsScene2D.BoxCast}
      */
     BoxCast(origin: Vector2, size: Vector2, angle: number, direction: Vector2, distance: number, results: Readonly<RaycastHit2D[]>, layerMask: number): number;
+    /**
+     * Casts a box against the colliders in the PhysicsScene2D, returning all intersections.
+     * @param origin The point in 2D space where the box originates.
+     * @param size The size of the box.
+     * @param angle The angle of the box (in degrees).
+     * @param direction Vector representing the direction to cast the box.
+     * @param distance Maximum distance over which to cast the box.
+     * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.BoxCast.html | PhysicsScene2D.BoxCast}
+     */
+    BoxCast(origin: Vector2, size: Vector2, angle: number, direction: Vector2, distance: number, results: Readonly<RaycastHit2D[]>): number;
     /**
      * Casts a box against the colliders in the PhysicsScene2D, returning all intersections.
      * @param origin The point in 2D space where the box originates.
@@ -6336,6 +6663,18 @@ interface PhysicsScene2D {
      * @param angle The angle of the capsule (in degrees).
      * @param direction Vector representing the direction to cast the capsule.
      * @param distance Maximum distance over which to cast the capsule.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.CapsuleCast.html | PhysicsScene2D.CapsuleCast}
+     */
+    CapsuleCast(origin: Vector2, size: Vector2, capsuleDirection: CapsuleDirection2D, angle: number, direction: Vector2, distance: number): RaycastHit2D;
+    /**
+     * Casts a capsule against colliders in the PhysicsScene2D, returning the first intersection only.
+     * @param origin The point in 2D space where the capsule originates.
+     * @param size The size of the capsule.
+     * @param capsuleDirection The direction of the capsule.
+     * @param angle The angle of the capsule (in degrees).
+     * @param direction Vector representing the direction to cast the capsule.
+     * @param distance Maximum distance over which to cast the capsule.
      * @param contactFilter The contact filter used to filter the results differently, such as by layer mask, Z depth, or normal angle.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.CapsuleCast.html | PhysicsScene2D.CapsuleCast}
@@ -6355,6 +6694,19 @@ interface PhysicsScene2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.CapsuleCast.html | PhysicsScene2D.CapsuleCast}
      */
     CapsuleCast(origin: Vector2, size: Vector2, capsuleDirection: CapsuleDirection2D, angle: number, direction: Vector2, distance: number, results: Readonly<RaycastHit2D[]>, layerMask: number): number;
+    /**
+     * Casts a capsule against the Colliders in the PhysicsScene2D, returning all intersections.
+     * @param origin The point in 2D space where the capsule originates.
+     * @param size The size of the capsule.
+     * @param capsuleDirection The direction of the capsule.
+     * @param angle The angle of the capsule (in degrees).
+     * @param direction Vector representing the direction to cast the capsule.
+     * @param distance Maximum distance over which to cast the capsule.
+     * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.CapsuleCast.html | PhysicsScene2D.CapsuleCast}
+     */
+    CapsuleCast(origin: Vector2, size: Vector2, capsuleDirection: CapsuleDirection2D, angle: number, direction: Vector2, distance: number, results: Readonly<RaycastHit2D[]>): number;
     /**
      * Casts a capsule against the Colliders in the PhysicsScene2D, returning all intersections.
      * @param origin The point in 2D space where the capsule originates.
@@ -6387,6 +6739,16 @@ interface PhysicsScene2D {
      * @param radius The radius of the circle.
      * @param direction Vector representing the direction to cast the circle.
      * @param distance Maximum distance over which to cast the circle.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.CircleCast.html | PhysicsScene2D.CircleCast}
+     */
+    CircleCast(origin: Vector2, radius: number, direction: Vector2, distance: number): RaycastHit2D;
+    /**
+     * Casts a circle against colliders in the PhysicsScene2D, returning the first intersection only.
+     * @param origin The point in 2D space where the circle originates.
+     * @param radius The radius of the circle.
+     * @param direction Vector representing the direction to cast the circle.
+     * @param distance Maximum distance over which to cast the circle.
      * @param contactFilter The contact filter used to filter the results differently, such as by layer mask, Z depth, or normal angle.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.CircleCast.html | PhysicsScene2D.CircleCast}
@@ -6404,6 +6766,17 @@ interface PhysicsScene2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.CircleCast.html | PhysicsScene2D.CircleCast}
      */
     CircleCast(origin: Vector2, radius: number, direction: Vector2, distance: number, results: Readonly<RaycastHit2D[]>, layerMask: number): number;
+    /**
+     * Casts a circle against the colliders in the PhysicsScene2D, returning all intersections.
+     * @param origin The point in 2D space where the circle originates.
+     * @param radius The radius of the circle.
+     * @param direction Vector representing the direction to cast the circle.
+     * @param distance Maximum distance over which to cast the circle.
+     * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.CircleCast.html | PhysicsScene2D.CircleCast}
+     */
+    CircleCast(origin: Vector2, radius: number, direction: Vector2, distance: number, results: Readonly<RaycastHit2D[]>): number;
     /**
      * Casts a circle against the colliders in the PhysicsScene2D, returning all intersections.
      * @param origin The point in 2D space where the circle originates.
@@ -6433,13 +6806,31 @@ interface PhysicsScene2D {
      * Cast a 3D ray against the 2D Colliders in the Scene.
      * @param ray The 3D ray defining origin and direction to test.
      * @param distance The maximum distance over which to cast the ray.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.GetRayIntersection.html | PhysicsScene2D.GetRayIntersection}
+     */
+    GetRayIntersection(ray: Ray, distance: number): RaycastHit2D;
+    /**
+     * Cast a 3D ray against the 2D Colliders in the Scene.
+     * @param ray The 3D ray defining origin and direction to test.
+     * @param distance The maximum distance over which to cast the ray.
      * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
      * @param layerMask The LayerMask filter used to select which layers to detect Colliders for.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.GetRayIntersection.html | PhysicsScene2D.GetRayIntersection}
      */
     GetRayIntersection(ray: Ray, distance: number, results: Readonly<RaycastHit2D[]>, layerMask: number): number;
+    /**
+     * Cast a 3D ray against the 2D Colliders in the Scene.
+     * @param ray The 3D ray defining origin and direction to test.
+     * @param distance The maximum distance over which to cast the ray.
+     * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.GetRayIntersection.html | PhysicsScene2D.GetRayIntersection}
+     */
+    GetRayIntersection(ray: Ray, distance: number, results: Readonly<RaycastHit2D[]>): number;
     GetRayIntersection(ray: Ray, distance: number, results: Readonly<RaycastHit2D[]>, layerMask: number): number;
+    GetRayIntersection(ray: Ray, distance: number, results: Readonly<RaycastHit2D[]>): number;
     /**
      * Determines whether the physics Scene is empty or not.
      * 
@@ -6465,6 +6856,14 @@ interface PhysicsScene2D {
      * Casts a line segment against colliders in the PhysicsScene2D, returning the first intersection only.
      * @param start The start point of the line in world space.
      * @param end The end point of the line in world space.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.Linecast.html | PhysicsScene2D.Linecast}
+     */
+    Linecast(start: Vector2, end: Vector2): RaycastHit2D;
+    /**
+     * Casts a line segment against colliders in the PhysicsScene2D, returning the first intersection only.
+     * @param start The start point of the line in world space.
+     * @param end The end point of the line in world space.
      * @param contactFilter The contact filter used to filter the results differently, such as by layer mask, Z depth, or normal angle.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.Linecast.html | PhysicsScene2D.Linecast}
@@ -6480,6 +6879,15 @@ interface PhysicsScene2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.Linecast.html | PhysicsScene2D.Linecast}
      */
     Linecast(start: Vector2, end: Vector2, results: Readonly<RaycastHit2D[]>, layerMask: number): number;
+    /**
+     * Casts a line segment against colliders in the PhysicsScene2D.
+     * @param start The start point of the line in world space.
+     * @param end The end point of the line in world space.
+     * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.Linecast.html | PhysicsScene2D.Linecast}
+     */
+    Linecast(start: Vector2, end: Vector2, results: Readonly<RaycastHit2D[]>): number;
     /**
      * Casts a line segment against colliders in the PhysicsScene2D.
      * @param start The start point of the line in world space.
@@ -6504,6 +6912,14 @@ interface PhysicsScene2D {
      * Checks an area (non-rotated box) against Colliders in the PhysicsScene2D, returning the first intersection only.
      * @param pointA One corner of the rectangle.
      * @param pointB The corner of the rectangle diagonally opposite the pointA corner.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapArea.html | PhysicsScene2D.OverlapArea}
+     */
+    OverlapArea(pointA: Vector2, pointB: Vector2): Collider2D;
+    /**
+     * Checks an area (non-rotated box) against Colliders in the PhysicsScene2D, returning the first intersection only.
+     * @param pointA One corner of the rectangle.
+     * @param pointB The corner of the rectangle diagonally opposite the pointA corner.
      * @param contactFilter The contact filter used to filter the results differently, such as by layer mask and Z depth. Note that the normal angle is not used for overlap testing.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapArea.html | PhysicsScene2D.OverlapArea}
@@ -6519,6 +6935,15 @@ interface PhysicsScene2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapArea.html | PhysicsScene2D.OverlapArea}
      */
     OverlapArea(pointA: Vector2, pointB: Vector2, results: Readonly<Collider2D[]>, layerMask: number): number;
+    /**
+     * Checks an area (non-rotated box) against Colliders in the PhysicsScene2D, returning all intersections.
+     * @param pointA One corner of the rectangle.
+     * @param pointB The corner of the rectangle diagonally opposite the pointA corner.
+     * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapArea.html | PhysicsScene2D.OverlapArea}
+     */
+    OverlapArea(pointA: Vector2, pointB: Vector2, results: Readonly<Collider2D[]>): number;
     /**
      * Checks an area (non-rotated box) against Colliders in the PhysicsScene2D, returning all intersections.
      * @param pointA One corner of the rectangle.
@@ -6545,6 +6970,15 @@ interface PhysicsScene2D {
      * @param point The center of the box.
      * @param size The size of the box.
      * @param angle The angle of the box.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapBox.html | PhysicsScene2D.OverlapBox}
+     */
+    OverlapBox(point: Vector2, size: Vector2, angle: number): Collider2D;
+    /**
+     * Checks a box against Colliders in the PhysicsScene2D, returning the first intersection only.
+     * @param point The center of the box.
+     * @param size The size of the box.
+     * @param angle The angle of the box.
      * @param contactFilter The contact filter used to filter the results differently, such as by layer mask and Z depth. Note that the normal angle is not used for overlap testing.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapBox.html | PhysicsScene2D.OverlapBox}
@@ -6561,6 +6995,16 @@ interface PhysicsScene2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapBox.html | PhysicsScene2D.OverlapBox}
      */
     OverlapBox(point: Vector2, size: Vector2, angle: number, results: Readonly<Collider2D[]>, layerMask: number): number;
+    /**
+     * Checks a box against Colliders in the PhysicsScene2D, returning all intersections.
+     * @param point The center of the box.
+     * @param size The size of the box.
+     * @param angle The angle of the box.
+     * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapBox.html | PhysicsScene2D.OverlapBox}
+     */
+    OverlapBox(point: Vector2, size: Vector2, angle: number, results: Readonly<Collider2D[]>): number;
     /**
      * Checks a box against Colliders in the PhysicsScene2D, returning all intersections.
      * @param point The center of the box.
@@ -6590,6 +7034,16 @@ interface PhysicsScene2D {
      * @param size The size of the capsule.
      * @param direction The direction of the capsule.
      * @param angle The angle of the capsule.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapCapsule.html | PhysicsScene2D.OverlapCapsule}
+     */
+    OverlapCapsule(point: Vector2, size: Vector2, direction: CapsuleDirection2D, angle: number): Collider2D;
+    /**
+     * Checks a capsule against Colliders in the PhysicsScene2D, returning the first intersection only.
+     * @param point The center of the capsule.
+     * @param size The size of the capsule.
+     * @param direction The direction of the capsule.
+     * @param angle The angle of the capsule.
      * @param contactFilter The contact filter used to filter the results differently, such as by layer mask and Z depth. Note that the normal angle is not used for overlap testing.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapCapsule.html | PhysicsScene2D.OverlapCapsule}
@@ -6607,6 +7061,17 @@ interface PhysicsScene2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapCapsule.html | PhysicsScene2D.OverlapCapsule}
      */
     OverlapCapsule(point: Vector2, size: Vector2, direction: CapsuleDirection2D, angle: number, results: Readonly<Collider2D[]>, layerMask: number): number;
+    /**
+     * Checks a capsule against Colliders in the PhysicsScene2D, returning all intersections.
+     * @param point The center of the capsule.
+     * @param size The size of the capsule.
+     * @param direction The direction of the capsule.
+     * @param angle The angle of the capsule.
+     * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapCapsule.html | PhysicsScene2D.OverlapCapsule}
+     */
+    OverlapCapsule(point: Vector2, size: Vector2, direction: CapsuleDirection2D, angle: number, results: Readonly<Collider2D[]>): number;
     /**
      * Checks a capsule against Colliders in the PhysicsScene2D, returning all intersections.
      * @param point The center of the capsule.
@@ -6633,6 +7098,14 @@ interface PhysicsScene2D {
      * Checks a circle against Colliders in the PhysicsScene2D, returning the first intersection only.
      * @param point The centre of the circle.
      * @param radius The radius of the circle.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapCircle.html | PhysicsScene2D.OverlapCircle}
+     */
+    OverlapCircle(point: Vector2, radius: number): Collider2D;
+    /**
+     * Checks a circle against Colliders in the PhysicsScene2D, returning the first intersection only.
+     * @param point The centre of the circle.
+     * @param radius The radius of the circle.
      * @param contactFilter The contact filter used to filter the results differently, such as by layer mask and Z depth. Note that the normal angle is not used for overlap testing.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapCircle.html | PhysicsScene2D.OverlapCircle}
@@ -6648,6 +7121,15 @@ interface PhysicsScene2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapCircle.html | PhysicsScene2D.OverlapCircle}
      */
     OverlapCircle(point: Vector2, radius: number, results: Readonly<Collider2D[]>, layerMask: number): number;
+    /**
+     * Checks a circle against Colliders in the PhysicsScene2D, returning all intersections.
+     * @param point The centre of the circle.
+     * @param radius The radius of the circle.
+     * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapCircle.html | PhysicsScene2D.OverlapCircle}
+     */
+    OverlapCircle(point: Vector2, radius: number, results: Readonly<Collider2D[]>): number;
     /**
      * Checks a circle against Colliders in the PhysicsScene2D, returning all intersections.
      * @param point The centre of the circle.
@@ -6670,6 +7152,13 @@ interface PhysicsScene2D {
     /**
      * Checks a point against Colliders in the PhysicsScene2D, returning the first intersection only.
      * @param point A point in world space.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapPoint.html | PhysicsScene2D.OverlapPoint}
+     */
+    OverlapPoint(point: Vector2): Collider2D;
+    /**
+     * Checks a point against Colliders in the PhysicsScene2D, returning the first intersection only.
+     * @param point A point in world space.
      * @param contactFilter The contact filter used to filter the results differently, such as by layer mask and Z depth. Note that the normal angle is not used for overlap testing.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapPoint.html | PhysicsScene2D.OverlapPoint}
@@ -6684,6 +7173,14 @@ interface PhysicsScene2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapPoint.html | PhysicsScene2D.OverlapPoint}
      */
     OverlapPoint(point: Vector2, results: Readonly<Collider2D[]>, layerMask: number): number;
+    /**
+     * Checks a point against Colliders in the PhysicsScene2D, returning all intersections.
+     * @param point A point in world space.
+     * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.OverlapPoint.html | PhysicsScene2D.OverlapPoint}
+     */
+    OverlapPoint(point: Vector2, results: Readonly<Collider2D[]>): number;
     /**
      * Checks a point against Colliders in the PhysicsScene2D, returning all intersections.
      * @param point A point in world space.
@@ -6704,6 +7201,15 @@ interface PhysicsScene2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.Raycast.html | PhysicsScene2D.Raycast}
      */
     Raycast(origin: Vector2, direction: Vector2, distance: number, layerMask: number): RaycastHit2D;
+    /**
+     * Casts a ray against colliders in the PhysicsScene2D, returning the first intersection only.
+     * @param origin The point in 2D space where the ray originates.
+     * @param direction The vector representing the direction of the ray.
+     * @param distance Maximum distance over which to cast the ray.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.Raycast.html | PhysicsScene2D.Raycast}
+     */
+    Raycast(origin: Vector2, direction: Vector2, distance: number): RaycastHit2D;
     /**
      * Casts a ray against colliders in the PhysicsScene2D, returning the first intersection only.
      * @param origin The point in 2D space where the ray originates.
@@ -6730,6 +7236,16 @@ interface PhysicsScene2D {
      * @param origin The point in 2D space where the ray originates.
      * @param direction The vector representing the direction of the ray.
      * @param distance Maximum distance over which to cast the ray.
+     * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.Raycast.html | PhysicsScene2D.Raycast}
+     */
+    Raycast(origin: Vector2, direction: Vector2, distance: number, results: Readonly<RaycastHit2D[]>): number;
+    /**
+     * Casts a ray against colliders the PhysicsScene2D, returning all intersections.
+     * @param origin The point in 2D space where the ray originates.
+     * @param direction The vector representing the direction of the ray.
+     * @param distance Maximum distance over which to cast the ray.
      * @param contactFilter The contact filter used to filter the results differently, such as by layer mask and Z depth, or normal angle.
      * @param results The array to receive results.  The size of the array determines the maximum number of results that can be returned.
      * 
@@ -6746,6 +7262,13 @@ interface PhysicsScene2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.Simulate.html | PhysicsScene2D.Simulate}
      */
     Simulate(deltaTime: number, simulationLayers: number): boolean;
+    /**
+     * Simulate physics associated with this PhysicsScene.
+     * @param deltaTime The time to advance physics by.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsScene2D.Simulate.html | PhysicsScene2D.Simulate}
+     */
+    Simulate(deltaTime: number): boolean;
     ToString(): string;
 
 
@@ -6988,9 +7511,17 @@ interface Collider2D extends Behaviour {
      */
     Cast(direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number, ignoreSiblingColliders: boolean): number;
     Cast(direction: Vector2, results: Readonly<RaycastHit2D[]>, distance: number, ignoreSiblingColliders: boolean): number;
+    Cast(direction: Vector2, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    Cast(direction: Vector2, results: Readonly<RaycastHit2D[]>): number;
     Cast(direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number, ignoreSiblingColliders: boolean): number;
+    Cast(direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    Cast(direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     Cast(position: Vector2, angle: number, direction: Vector2, results: Readonly<RaycastHit2D[]>, distance: number, ignoreSiblingColliders: boolean): number;
+    Cast(position: Vector2, angle: number, direction: Vector2, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    Cast(position: Vector2, angle: number, direction: Vector2, results: Readonly<RaycastHit2D[]>): number;
     Cast(position: Vector2, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number, ignoreSiblingColliders: boolean): number;
+    Cast(position: Vector2, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    Cast(position: Vector2, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     /**
      * Returns a point on the perimeter of this Collider that is closest to the specified position.
      * @param position The position from which to find the closest point on this Collider.
@@ -7008,6 +7539,14 @@ interface Collider2D extends Behaviour {
      * More info: {@link https://docs.unity3d.com/ScriptReference/Collider2D.CreateMesh.html | Collider2D.CreateMesh}
      */
     CreateMesh(useBodyPosition: boolean, useBodyRotation: boolean, useDelaunay: boolean): Mesh;
+    /**
+     * Creates a planar Mesh that is identical to the area defined by the Collider2D geometry.
+     * @param useBodyPosition Should the mesh be transformed by the position of the attached Rigidbody2D?
+     * @param useBodyRotation Should the mesh be transformed by the rotation of the attached Rigidbody2D?
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Collider2D.CreateMesh.html | Collider2D.CreateMesh}
+     */
+    CreateMesh(useBodyPosition: boolean, useBodyRotation: boolean): Mesh;
     /**
      * Calculates the minimum separation of this collider against another collider.
      * @param collider A collider used to calculate the minimum separation against this collider.
@@ -7083,6 +7622,14 @@ interface Collider2D extends Behaviour {
      * More info: {@link https://docs.unity3d.com/ScriptReference/Collider2D.GetShapes.html | Collider2D.GetShapes}
      */
     GetShapes(physicsShapeGroup: PhysicsShapeGroup2D, shapeIndex: number, shapeCount: number): number;
+    /**
+     * Gets the specified range of the PhysicsShape2D used by the Collider2D.
+     * @param physicsShapeGroup The PhysicsShapeGroup2D to store the retrieved PhysicsShape2D in.
+     * @param shapeIndex The index of the first shape to retrieve. This should be in the range of 0 to Collider2D.shapeCount-1.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Collider2D.GetShapes.html | Collider2D.GetShapes}
+     */
+    GetShapes(physicsShapeGroup: PhysicsShapeGroup2D, shapeIndex: number): number;
     /**
      * Check whether this collider is touching the collider or not.
      * @param collider The collider to check if it is touching this collider.
@@ -7160,6 +7707,7 @@ interface Collider2D extends Behaviour {
      */
     Raycast(direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
     Raycast(direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    Raycast(direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
 
 
 }
@@ -7440,6 +7988,13 @@ interface Rigidbody2D extends Component {
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.AddForce.html | Rigidbody2D.AddForce}
      */
     AddForce(force: Vector2, mode: ForceMode2D): void;
+    /**
+     * Apply a force to the rigidbody.
+     * @param force Components of the force in the X and Y axes.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.AddForce.html | Rigidbody2D.AddForce}
+     */
+    AddForce(force: Vector2): void;
     AddForceAtPosition(force: Vector2, position: Vector2): void;
     /**
      * Apply a force at a given position in space.
@@ -7459,6 +8014,13 @@ interface Rigidbody2D extends Component {
      */
     AddForceX(force: number, mode: ForceMode2D): void;
     /**
+     * Adds a force to the X component of the Rigidbody2D.linearVelocity only leaving the Y component of the world space Rigidbody2D.linearVelocity untouched.
+     * @param force The force to add to the X component of the Linear Velocity in the world space of the Rigidbody2D.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.AddForceX.html | Rigidbody2D.AddForceX}
+     */
+    AddForceX(force: number): void;
+    /**
      * Adds a force to the Y component of the Rigidbody2D.linearVelocity only leaving the X component of the world space Rigidbody2D.linearVelocity untouched.
      * @param force The force to add to the Y component of the Linear Velocity in the world space of the Rigidbody2D.
      * @param mode The method used to apply the specified force.
@@ -7466,6 +8028,13 @@ interface Rigidbody2D extends Component {
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.AddForceY.html | Rigidbody2D.AddForceY}
      */
     AddForceY(force: number, mode: ForceMode2D): void;
+    /**
+     * Adds a force to the Y component of the Rigidbody2D.linearVelocity only leaving the X component of the world space Rigidbody2D.linearVelocity untouched.
+     * @param force The force to add to the Y component of the Linear Velocity in the world space of the Rigidbody2D.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.AddForceY.html | Rigidbody2D.AddForceY}
+     */
+    AddForceY(force: number): void;
     AddRelativeForce(relativeForce: Vector2): void;
     /**
      * Adds a force to the local space Rigidbody2D.linearVelocity. In other words, the force is applied in the rotated coordinate space of the Rigidbody2D.
@@ -7476,6 +8045,13 @@ interface Rigidbody2D extends Component {
      */
     AddRelativeForce(relativeForce: Vector2, mode: ForceMode2D): void;
     /**
+     * Adds a force to the local space Rigidbody2D.linearVelocity. In other words, the force is applied in the rotated coordinate space of the Rigidbody2D.
+     * @param relativeForce Components of the force in the X and Y axes.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.AddRelativeForce.html | Rigidbody2D.AddRelativeForce}
+     */
+    AddRelativeForce(relativeForce: Vector2): void;
+    /**
      * Adds a force to the X component of the Rigidbody2D.linearVelocity in the local space of the Rigidbody2D only leaving the Y component of the local space Rigidbody2D.linearVelocity untouched.
      * @param force The force to add to the X component of the Linear Velocity in the local space of the Rigidbody2D.
      * @param mode The method used to apply the specified force.
@@ -7484,6 +8060,13 @@ interface Rigidbody2D extends Component {
      */
     AddRelativeForceX(force: number, mode: ForceMode2D): void;
     /**
+     * Adds a force to the X component of the Rigidbody2D.linearVelocity in the local space of the Rigidbody2D only leaving the Y component of the local space Rigidbody2D.linearVelocity untouched.
+     * @param force The force to add to the X component of the Linear Velocity in the local space of the Rigidbody2D.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.AddRelativeForceX.html | Rigidbody2D.AddRelativeForceX}
+     */
+    AddRelativeForceX(force: number): void;
+    /**
      * Adds a force to the Y component of the Rigidbody2D.linearVelocity in the local space of the Rigidbody2D only leaving the X component of the local space Rigidbody2D.linearVelocity untouched.
      * @param force The force to add to the Y component of the Linear Velocity in the local space of the Rigidbody2D.
      * @param mode The method used to apply the specified force.
@@ -7491,6 +8074,13 @@ interface Rigidbody2D extends Component {
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.AddRelativeForceY.html | Rigidbody2D.AddRelativeForceY}
      */
     AddRelativeForceY(force: number, mode: ForceMode2D): void;
+    /**
+     * Adds a force to the Y component of the Rigidbody2D.linearVelocity in the local space of the Rigidbody2D only leaving the X component of the local space Rigidbody2D.linearVelocity untouched.
+     * @param force The force to add to the Y component of the Linear Velocity in the local space of the Rigidbody2D.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.AddRelativeForceY.html | Rigidbody2D.AddRelativeForceY}
+     */
+    AddRelativeForceY(force: number): void;
     AddTorque(torque: number): void;
     /**
      * Apply a torque at the rigidbody's centre of mass.
@@ -7511,6 +8101,7 @@ interface Rigidbody2D extends Component {
      */
     Cast(direction: Vector2, results: Readonly<RaycastHit2D[]>, distance: number): number;
     Cast(direction: Vector2, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    Cast(direction: Vector2, results: Readonly<RaycastHit2D[]>): number;
     Cast(direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     /**
      * All the Collider2D shapes attached to the Rigidbody2D are cast into the Scene starting at each Collider position ignoring the Colliders attached to the same Rigidbody2D.
@@ -7522,9 +8113,21 @@ interface Rigidbody2D extends Component {
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.Cast.html | Rigidbody2D.Cast}
      */
     Cast(direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    /**
+     * All the Collider2D shapes attached to the Rigidbody2D are cast into the Scene starting at each Collider position ignoring the Colliders attached to the same Rigidbody2D.
+     * @param direction Vector representing the direction to cast each Collider2D shape.
+     * @param contactFilter Filter results defined by the contact filter.
+     * @param results Array to receive results.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.Cast.html | Rigidbody2D.Cast}
+     */
+    Cast(direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     Cast(direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    Cast(direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     Cast(position: Vector2, angle: number, direction: Vector2, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    Cast(position: Vector2, angle: number, direction: Vector2, results: Readonly<RaycastHit2D[]>): number;
     Cast(position: Vector2, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    Cast(position: Vector2, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     /**
      * Returns a point on the perimeter of all enabled Colliders attached to this Rigidbody that is closest to the specified position.
      * @param position The position from which to find the closest point on this Rigidbody.
@@ -7552,6 +8155,7 @@ interface Rigidbody2D extends Component {
     Distance(thisPosition: Vector2, thisAngle: number, collider: Collider2D, position: Vector2, angle: number): ColliderDistance2D;
     GetAttachedColliders(results: Readonly<Collider2D[]>): number;
     GetAttachedColliders(results: Readonly<Collider2D[]>, findTriggers: boolean): number;
+    GetAttachedColliders(results: Readonly<Collider2D[]>): number;
     /**
      * Retrieves all contact points for all of the Collider(s) attached to this Rigidbody.
      * @param contacts An array of ContactPoint2D used to receive the results.
@@ -7677,6 +8281,12 @@ interface Rigidbody2D extends Component {
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.IsTouchingLayers.html | Rigidbody2D.IsTouchingLayers}
      */
     IsTouchingLayers(layerMask: number): boolean;
+    /**
+     * Checks whether any of the collider(s) attached to this rigidbody are touching any colliders on the specified layerMask or not.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rigidbody2D.IsTouchingLayers.html | Rigidbody2D.IsTouchingLayers}
+     */
+    IsTouchingLayers(): boolean;
     /**
      * Moves the rigidbody to position.
      * @param position The new position for the Rigidbody object.
@@ -8087,6 +8697,23 @@ interface PhysicsShapeGroup2D {
      */
     AddBox(center: Vector2, size: Vector2, angle: number, edgeRadius: number): number;
     /**
+     * Adds a box shape (PhysicsShapeType2D.Polygon) to the shape group.
+     * @param center The center point of the box shape. This is analogous to Collider2D.offset.
+     * @param size The size of the box. This is identical to BoxCollider2D.size.
+     * @param angle The angle in degrees the box should be rotated around the center.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsShapeGroup2D.AddBox.html | PhysicsShapeGroup2D.AddBox}
+     */
+    AddBox(center: Vector2, size: Vector2, angle: number): number;
+    /**
+     * Adds a box shape (PhysicsShapeType2D.Polygon) to the shape group.
+     * @param center The center point of the box shape. This is analogous to Collider2D.offset.
+     * @param size The size of the box. This is identical to BoxCollider2D.size.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/PhysicsShapeGroup2D.AddBox.html | PhysicsShapeGroup2D.AddBox}
+     */
+    AddBox(center: Vector2, size: Vector2): number;
+    /**
      * Adds a capsule shape (PhysicsShapeType2D.Capsule) to the shape group.
      * @param vertex0 The position of one end of a capsule shape. This point represents the center point of a logical circle at the end of a capsule.
      * @param vertex1 The position of the opposite end of a capsule shape. This point represents the  center point of a logical circle at the opposite end of a capsule.
@@ -8104,7 +8731,9 @@ interface PhysicsShapeGroup2D {
      */
     AddCircle(center: Vector2, radius: number): number;
     AddEdges(vertices: Readonly<Vector2[]>, edgeRadius: number): number;
+    AddEdges(vertices: Readonly<Vector2[]>): number;
     AddEdges(vertices: Readonly<Vector2[]>, useAdjacentStart: boolean, useAdjacentEnd: boolean, adjacentStart: Vector2, adjacentEnd: Vector2, edgeRadius: number): number;
+    AddEdges(vertices: Readonly<Vector2[]>, useAdjacentStart: boolean, useAdjacentEnd: boolean, adjacentStart: Vector2, adjacentEnd: Vector2): number;
     AddPolygon(vertices: Readonly<Vector2[]>): number;
     /**
      * Clears all the vertices and shapes from the PhysicsShapeGroup.
@@ -8658,6 +9287,7 @@ interface Mesh extends Object {
     GetIndices(indices: Readonly<number[]>, submesh: number): void;
     GetIndices(indices: Readonly<number[]>, submesh: number, applyBaseVertex: boolean): void;
     GetIndices(indices: Readonly<number[]>, submesh: number, applyBaseVertex: boolean): void;
+    GetIndices(indices: Readonly<number[]>, submesh: number): void;
     /**
      * Retrieves a native (underlying graphics API) pointer to the index buffer.
      * 
@@ -8704,6 +9334,7 @@ interface Mesh extends Object {
     GetTriangles(triangles: Readonly<number[]>, submesh: number): void;
     GetTriangles(triangles: Readonly<number[]>, submesh: number, applyBaseVertex: boolean): void;
     GetTriangles(triangles: Readonly<number[]>, submesh: number, applyBaseVertex: boolean): void;
+    GetTriangles(triangles: Readonly<number[]>, submesh: number): void;
     /**
      * The UV distribution metric can be used to calculate the desired mipmap level based on the position of the camera.
      * @param uvSetIndex UV set index to return the UV distibution metric for. 0 for first.
@@ -8863,12 +9494,25 @@ interface Mesh extends Object {
      */
     RecalculateUVDistributionMetric(uvSetIndex: number, uvAreaThreshold: number): void;
     /**
+     * Recalculates the UV distribution metric of the Mesh from the vertices and uv coordinates.
+     * @param uvSetIndex The UV set index to set the UV distibution metric for. Use 0 for first index.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.RecalculateUVDistributionMetric.html | Mesh.RecalculateUVDistributionMetric}
+     */
+    RecalculateUVDistributionMetric(uvSetIndex: number): void;
+    /**
      * Recalculates the UV distribution metrics of the Mesh from the vertices and uv coordinates.
      * @param uvAreaThreshold The minimum UV area to consider. The default value is 1e-9f.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.RecalculateUVDistributionMetrics.html | Mesh.RecalculateUVDistributionMetrics}
      */
     RecalculateUVDistributionMetrics(uvAreaThreshold: number): void;
+    /**
+     * Recalculates the UV distribution metrics of the Mesh from the vertices and uv coordinates.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.RecalculateUVDistributionMetrics.html | Mesh.RecalculateUVDistributionMetrics}
+     */
+    RecalculateUVDistributionMetrics(): void;
     SetBindposes(poses: Readonly<Matrix4x4[]>): void;
     SetBoneWeights(bonesPerVertex: Readonly<number[]>, weights: Readonly<BoneWeight1[]>): void;
     SetColors(inColors: Readonly<Color[]>): void;
@@ -8933,8 +9577,11 @@ interface Mesh extends Object {
     SetColors<T>(inColors: Readonly<T[]>, start: number, length: number): void;
     SetColors<T>(inColors: Readonly<T[]>, start: number, length: number, flags: MeshUpdateFlags): void;
     SetIndexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number, flags: MeshUpdateFlags): void;
+    SetIndexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number): void;
     SetIndexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number, flags: MeshUpdateFlags): void;
+    SetIndexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number): void;
     SetIndexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number, flags: MeshUpdateFlags): void;
+    SetIndexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number): void;
     /**
      * Sets the index buffer size and format.
      * @param indexCount Size of index buffer.
@@ -8990,6 +9637,30 @@ Use false when you want to use the existing bounding box and reduce the CPU cost
      */
     SetIndices(indices: Readonly<number[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number, calculateBounds: boolean, baseVertex: number): void;
     /**
+     * Sets the index buffer of a sub-mesh, using a part of the input array.
+     * @param indices The array of indices that define the mesh faces.
+     * @param indicesStart Index of the first element to take from the input array.
+     * @param indicesLength Number of elements to take from the input array.
+     * @param topology The topology of the Mesh, e.g: Triangles, Lines, Quads, Points, etc. See MeshTopology.
+     * @param submesh The sub-mesh to modify.
+     * @param calculateBounds Calculate the bounding box of the sub-mesh after setting the indices. Unity does this by default.
+Use false when you want to use the existing bounding box and reduce the CPU cost of setting the indices.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html | Mesh.SetIndices}
+     */
+    SetIndices(indices: Readonly<number[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number, calculateBounds: boolean): void;
+    /**
+     * Sets the index buffer of a sub-mesh, using a part of the input array.
+     * @param indices The array of indices that define the mesh faces.
+     * @param indicesStart Index of the first element to take from the input array.
+     * @param indicesLength Number of elements to take from the input array.
+     * @param topology The topology of the Mesh, e.g: Triangles, Lines, Quads, Points, etc. See MeshTopology.
+     * @param submesh The sub-mesh to modify.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html | Mesh.SetIndices}
+     */
+    SetIndices(indices: Readonly<number[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number): void;
+    /**
      * Sets the index buffer for the sub-mesh.
      * @param indices The array of indices that define the mesh faces.
      * @param topology The topology of the Mesh, e.g: Triangles, Lines, Quads, Points, etc. See MeshTopology.
@@ -9001,6 +9672,26 @@ Use false when you want to use the existing bounding box and reduce the CPU cost
      * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html | Mesh.SetIndices}
      */
     SetIndices(indices: Readonly<number[]>, topology: MeshTopology, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    /**
+     * Sets the index buffer for the sub-mesh.
+     * @param indices The array of indices that define the mesh faces.
+     * @param topology The topology of the Mesh, e.g: Triangles, Lines, Quads, Points, etc. See MeshTopology.
+     * @param submesh The sub-mesh to modify.
+     * @param calculateBounds Calculate the bounding box of the sub-mesh after setting the indices. Unity does this by default.
+Use false when you want to use the existing bounding box and reduce the CPU cost of setting the indices.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html | Mesh.SetIndices}
+     */
+    SetIndices(indices: Readonly<number[]>, topology: MeshTopology, submesh: number, calculateBounds: boolean): void;
+    /**
+     * Sets the index buffer for the sub-mesh.
+     * @param indices The array of indices that define the mesh faces.
+     * @param topology The topology of the Mesh, e.g: Triangles, Lines, Quads, Points, etc. See MeshTopology.
+     * @param submesh The sub-mesh to modify.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html | Mesh.SetIndices}
+     */
+    SetIndices(indices: Readonly<number[]>, topology: MeshTopology, submesh: number): void;
     /**
      * Sets the index buffer of a sub-mesh, using a part of the input array.
      * @param indices The array of indices that define the mesh faces.
@@ -9015,12 +9706,48 @@ Use false when you want to use the existing bounding box and reduce the CPU cost
      * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html | Mesh.SetIndices}
      */
     SetIndices(indices: Readonly<number[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    /**
+     * Sets the index buffer of a sub-mesh, using a part of the input array.
+     * @param indices The array of indices that define the mesh faces.
+     * @param indicesStart Index of the first element to take from the input array.
+     * @param indicesLength Number of elements to take from the input array.
+     * @param topology The topology of the Mesh, e.g: Triangles, Lines, Quads, Points, etc. See MeshTopology.
+     * @param submesh The sub-mesh to modify.
+     * @param calculateBounds Calculate the bounding box of the sub-mesh after setting the indices. Unity does this by default.
+Use false when you want to use the existing bounding box and reduce the CPU cost of setting the indices.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html | Mesh.SetIndices}
+     */
+    SetIndices(indices: Readonly<number[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number, calculateBounds: boolean): void;
+    /**
+     * Sets the index buffer of a sub-mesh, using a part of the input array.
+     * @param indices The array of indices that define the mesh faces.
+     * @param indicesStart Index of the first element to take from the input array.
+     * @param indicesLength Number of elements to take from the input array.
+     * @param topology The topology of the Mesh, e.g: Triangles, Lines, Quads, Points, etc. See MeshTopology.
+     * @param submesh The sub-mesh to modify.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetIndices.html | Mesh.SetIndices}
+     */
+    SetIndices(indices: Readonly<number[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number): void;
     SetIndices<T>(indices: Readonly<T[]>, topology: MeshTopology, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    SetIndices<T>(indices: Readonly<T[]>, topology: MeshTopology, submesh: number, calculateBounds: boolean): void;
+    SetIndices<T>(indices: Readonly<T[]>, topology: MeshTopology, submesh: number): void;
     SetIndices<T>(indices: Readonly<T[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    SetIndices<T>(indices: Readonly<T[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number, calculateBounds: boolean): void;
+    SetIndices<T>(indices: Readonly<T[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number): void;
     SetIndices(indices: Readonly<number[]>, topology: MeshTopology, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    SetIndices(indices: Readonly<number[]>, topology: MeshTopology, submesh: number, calculateBounds: boolean): void;
+    SetIndices(indices: Readonly<number[]>, topology: MeshTopology, submesh: number): void;
     SetIndices(indices: Readonly<number[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    SetIndices(indices: Readonly<number[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number, calculateBounds: boolean): void;
+    SetIndices(indices: Readonly<number[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number): void;
     SetIndices(indices: Readonly<number[]>, topology: MeshTopology, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    SetIndices(indices: Readonly<number[]>, topology: MeshTopology, submesh: number, calculateBounds: boolean): void;
+    SetIndices(indices: Readonly<number[]>, topology: MeshTopology, submesh: number): void;
     SetIndices(indices: Readonly<number[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    SetIndices(indices: Readonly<number[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number, calculateBounds: boolean): void;
+    SetIndices(indices: Readonly<number[]>, indicesStart: number, indicesLength: number, topology: MeshTopology, submesh: number): void;
     SetNormals(inNormals: Readonly<Vector3[]>): void;
     SetNormals(inNormals: Readonly<Vector3[]>, start: number, length: number): void;
     SetNormals(inNormals: Readonly<Vector3[]>, start: number, length: number, flags: MeshUpdateFlags): void;
@@ -9063,6 +9790,14 @@ Use false when you want to use the existing bounding box and reduce the CPU cost
      */
     SetSubMesh(index: number, desc: SubMeshDescriptor, flags: MeshUpdateFlags): void;
     /**
+     * Sets the information about a sub-mesh of the Mesh.
+     * @param index Sub-mesh index. See subMeshCount. Out of range indices throw an exception.
+     * @param desc Sub-mesh data.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetSubMesh.html | Mesh.SetSubMesh}
+     */
+    SetSubMesh(index: number, desc: SubMeshDescriptor): void;
+    /**
      * Sets information defining all sub-meshes in this Mesh, replacing any existing sub-meshes.
      * @param desc An array or list of sub-mesh data descriptors.
      * @param start Index of the first element to take from the array or list in desc.
@@ -9075,15 +9810,35 @@ Use false when you want to use the existing bounding box and reduce the CPU cost
     /**
      * Sets information defining all sub-meshes in this Mesh, replacing any existing sub-meshes.
      * @param desc An array or list of sub-mesh data descriptors.
+     * @param start Index of the first element to take from the array or list in desc.
+     * @param count Number of elements to take from the array or list in desc.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetSubMeshes.html | Mesh.SetSubMeshes}
+     */
+    SetSubMeshes(desc: Readonly<SubMeshDescriptor[]>, start: number, count: number): void;
+    /**
+     * Sets information defining all sub-meshes in this Mesh, replacing any existing sub-meshes.
+     * @param desc An array or list of sub-mesh data descriptors.
      * @param flags (Optional) Flags controlling the function behavior, see MeshUpdateFlags.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetSubMeshes.html | Mesh.SetSubMeshes}
      */
     SetSubMeshes(desc: Readonly<SubMeshDescriptor[]>, flags: MeshUpdateFlags): void;
+    /**
+     * Sets information defining all sub-meshes in this Mesh, replacing any existing sub-meshes.
+     * @param desc An array or list of sub-mesh data descriptors.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetSubMeshes.html | Mesh.SetSubMeshes}
+     */
+    SetSubMeshes(desc: Readonly<SubMeshDescriptor[]>): void;
     SetSubMeshes(desc: Readonly<SubMeshDescriptor[]>, start: number, count: number, flags: MeshUpdateFlags): void;
+    SetSubMeshes(desc: Readonly<SubMeshDescriptor[]>, start: number, count: number): void;
     SetSubMeshes(desc: Readonly<SubMeshDescriptor[]>, flags: MeshUpdateFlags): void;
+    SetSubMeshes(desc: Readonly<SubMeshDescriptor[]>): void;
     SetSubMeshes<T>(desc: Readonly<T[]>, start: number, count: number, flags: MeshUpdateFlags): void;
+    SetSubMeshes<T>(desc: Readonly<T[]>, start: number, count: number): void;
     SetSubMeshes<T>(desc: Readonly<T[]>, flags: MeshUpdateFlags): void;
+    SetSubMeshes<T>(desc: Readonly<T[]>): void;
     SetTangents(inTangents: Readonly<Vector4[]>): void;
     SetTangents(inTangents: Readonly<Vector4[]>, start: number, length: number): void;
     SetTangents(inTangents: Readonly<Vector4[]>, start: number, length: number, flags: MeshUpdateFlags): void;
@@ -9159,6 +9914,28 @@ Use false when you want to use the existing bounding box and reduce the CPU cost
      */
     SetTriangles(triangles: Readonly<number[]>, trianglesStart: number, trianglesLength: number, submesh: number, calculateBounds: boolean, baseVertex: number): void;
     /**
+     * Sets the triangle list of the Mesh, using a part of the input array.
+     * @param triangles The list of indices that define the triangles.
+     * @param trianglesStart Index of the first element to take from the input array.
+     * @param trianglesLength Number of elements to take from the input array.
+     * @param submesh The sub-mesh to modify.
+     * @param calculateBounds Calculate the bounding box of the Mesh after setting the triangles. This is done by default.
+Use false when you want to use the existing bounding box and reduce the CPU cost of setting the triangles.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetTriangles.html | Mesh.SetTriangles}
+     */
+    SetTriangles(triangles: Readonly<number[]>, trianglesStart: number, trianglesLength: number, submesh: number, calculateBounds: boolean): void;
+    /**
+     * Sets the triangle list of the Mesh, using a part of the input array.
+     * @param triangles The list of indices that define the triangles.
+     * @param trianglesStart Index of the first element to take from the input array.
+     * @param trianglesLength Number of elements to take from the input array.
+     * @param submesh The sub-mesh to modify.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetTriangles.html | Mesh.SetTriangles}
+     */
+    SetTriangles(triangles: Readonly<number[]>, trianglesStart: number, trianglesLength: number, submesh: number): void;
+    /**
      * Sets the triangle list for the sub-mesh.
      * @param triangles The list of indices that define the triangles.
      * @param submesh The sub-mesh to modify.
@@ -9169,6 +9946,24 @@ Use false when you want to use the existing bounding box and reduce the CPU cost
      * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetTriangles.html | Mesh.SetTriangles}
      */
     SetTriangles(triangles: Readonly<number[]>, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    /**
+     * Sets the triangle list for the sub-mesh.
+     * @param triangles The list of indices that define the triangles.
+     * @param submesh The sub-mesh to modify.
+     * @param calculateBounds Calculate the bounding box of the Mesh after setting the triangles. This is done by default.
+Use false when you want to use the existing bounding box and reduce the CPU cost of setting the triangles.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetTriangles.html | Mesh.SetTriangles}
+     */
+    SetTriangles(triangles: Readonly<number[]>, submesh: number, calculateBounds: boolean): void;
+    /**
+     * Sets the triangle list for the sub-mesh.
+     * @param triangles The list of indices that define the triangles.
+     * @param submesh The sub-mesh to modify.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetTriangles.html | Mesh.SetTriangles}
+     */
+    SetTriangles(triangles: Readonly<number[]>, submesh: number): void;
     /**
      * Sets the triangle list of the Mesh, using a part of the input array.
      * @param triangles The list of indices that define the triangles.
@@ -9182,12 +9977,40 @@ Use false when you want to use the existing bounding box and reduce the CPU cost
      * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetTriangles.html | Mesh.SetTriangles}
      */
     SetTriangles(triangles: Readonly<number[]>, trianglesStart: number, trianglesLength: number, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    /**
+     * Sets the triangle list of the Mesh, using a part of the input array.
+     * @param triangles The list of indices that define the triangles.
+     * @param trianglesStart Index of the first element to take from the input array.
+     * @param trianglesLength Number of elements to take from the input array.
+     * @param submesh The sub-mesh to modify.
+     * @param calculateBounds Calculate the bounding box of the Mesh after setting the triangles. This is done by default.
+Use false when you want to use the existing bounding box and reduce the CPU cost of setting the triangles.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetTriangles.html | Mesh.SetTriangles}
+     */
+    SetTriangles(triangles: Readonly<number[]>, trianglesStart: number, trianglesLength: number, submesh: number, calculateBounds: boolean): void;
+    /**
+     * Sets the triangle list of the Mesh, using a part of the input array.
+     * @param triangles The list of indices that define the triangles.
+     * @param trianglesStart Index of the first element to take from the input array.
+     * @param trianglesLength Number of elements to take from the input array.
+     * @param submesh The sub-mesh to modify.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Mesh.SetTriangles.html | Mesh.SetTriangles}
+     */
+    SetTriangles(triangles: Readonly<number[]>, trianglesStart: number, trianglesLength: number, submesh: number): void;
     SetTriangles(triangles: Readonly<number[]>, submesh: number): void;
     SetTriangles(triangles: Readonly<number[]>, submesh: number, calculateBounds: boolean): void;
     SetTriangles(triangles: Readonly<number[]>, submesh: number, calculateBounds: boolean, baseVertex: number): void;
     SetTriangles(triangles: Readonly<number[]>, trianglesStart: number, trianglesLength: number, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    SetTriangles(triangles: Readonly<number[]>, trianglesStart: number, trianglesLength: number, submesh: number, calculateBounds: boolean): void;
+    SetTriangles(triangles: Readonly<number[]>, trianglesStart: number, trianglesLength: number, submesh: number): void;
     SetTriangles(triangles: Readonly<number[]>, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    SetTriangles(triangles: Readonly<number[]>, submesh: number, calculateBounds: boolean): void;
+    SetTriangles(triangles: Readonly<number[]>, submesh: number): void;
     SetTriangles(triangles: Readonly<number[]>, trianglesStart: number, trianglesLength: number, submesh: number, calculateBounds: boolean, baseVertex: number): void;
+    SetTriangles(triangles: Readonly<number[]>, trianglesStart: number, trianglesLength: number, submesh: number, calculateBounds: boolean): void;
+    SetTriangles(triangles: Readonly<number[]>, trianglesStart: number, trianglesLength: number, submesh: number): void;
     SetUVs(channel: number, uvs: Readonly<Vector2[]>): void;
     SetUVs(channel: number, uvs: Readonly<Vector3[]>): void;
     SetUVs(channel: number, uvs: Readonly<Vector4[]>): void;
@@ -9288,8 +10111,14 @@ Use false when you want to use the existing bounding box and reduce the CPU cost
     SetUVs<T>(channel: number, uvs: Readonly<T[]>, start: number, length: number): void;
     SetUVs<T>(channel: number, uvs: Readonly<T[]>, start: number, length: number, flags: MeshUpdateFlags): void;
     SetVertexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number, stream: number, flags: MeshUpdateFlags): void;
+    SetVertexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number, stream: number): void;
+    SetVertexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number): void;
     SetVertexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number, stream: number, flags: MeshUpdateFlags): void;
+    SetVertexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number, stream: number): void;
+    SetVertexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number): void;
     SetVertexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number, stream: number, flags: MeshUpdateFlags): void;
+    SetVertexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number, stream: number): void;
+    SetVertexBufferData<T>(data: Readonly<T[]>, dataStart: number, meshBufferStart: number, count: number): void;
     /**
      * Sets the vertex buffer size and layout.
      * @param vertexCount The number of vertices in the Mesh.
@@ -9932,7 +10761,9 @@ interface MeshData {
     GetColors(outColors: Readonly<Color32[]>): void;
     GetIndexData<T>(): Readonly<T[]>;
     GetIndices(outIndices: Readonly<number[]>, submesh: number, applyBaseVertex: boolean): void;
+    GetIndices(outIndices: Readonly<number[]>, submesh: number): void;
     GetIndices(outIndices: Readonly<number[]>, submesh: number, applyBaseVertex: boolean): void;
+    GetIndices(outIndices: Readonly<number[]>, submesh: number): void;
     GetNormals(outNormals: Readonly<Vector3[]>): void;
     GetSubMesh(index: number): SubMeshDescriptor;
     GetTangents(outTangents: Readonly<Vector4[]>): void;
@@ -9945,10 +10776,12 @@ interface MeshData {
     GetVertexAttributeStream(attr: VertexAttribute): number;
     GetVertexBufferStride(stream: number): number;
     GetVertexData<T>(stream: number): Readonly<T[]>;
+    GetVertexData<T>(): Readonly<T[]>;
     GetVertices(outVertices: Readonly<Vector3[]>): void;
     HasVertexAttribute(attr: VertexAttribute): boolean;
     SetIndexBufferParams(indexCount: number, format: IndexFormat): void;
     SetSubMesh(index: number, desc: SubMeshDescriptor, flags: MeshUpdateFlags): void;
+    SetSubMesh(index: number, desc: SubMeshDescriptor): void;
     SetVertexBufferParams(vertexCount: number, attributes: Readonly<VertexAttributeDescriptor[]>): void;
     SetVertexBufferParams(vertexCount: number, attributes: Readonly<VertexAttributeDescriptor[]>): void;
 
@@ -9969,8 +10802,11 @@ interface MeshConstructor {
     AllocateWritableMeshData(meshes: Readonly<Mesh[]>): MeshDataArray;
     AllocateWritableMeshData(meshes: Readonly<Mesh[]>): MeshDataArray;
     ApplyAndDisposeWritableMeshData(data: MeshDataArray, mesh: Mesh, flags: MeshUpdateFlags): void;
+    ApplyAndDisposeWritableMeshData(data: MeshDataArray, mesh: Mesh): void;
     ApplyAndDisposeWritableMeshData(data: MeshDataArray, meshes: Readonly<Mesh[]>, flags: MeshUpdateFlags): void;
+    ApplyAndDisposeWritableMeshData(data: MeshDataArray, meshes: Readonly<Mesh[]>): void;
     ApplyAndDisposeWritableMeshData(data: MeshDataArray, meshes: Readonly<Mesh[]>, flags: MeshUpdateFlags): void;
+    ApplyAndDisposeWritableMeshData(data: MeshDataArray, meshes: Readonly<Mesh[]>): void;
 
 }
 declare const Mesh: MeshConstructor;
@@ -9991,6 +10827,7 @@ interface PhysicsScene2DConstructor {
 
 
     OverlapCollider(collider: Collider2D, results: Readonly<Collider2D[]>, layerMask: number): number;
+    OverlapCollider(collider: Collider2D, results: Readonly<Collider2D[]>): number;
     OverlapCollider(collider: Collider2D, contactFilter: ContactFilter2D, results: Readonly<Collider2D[]>): number;
     OverlapCollider(collider: Collider2D, results: Readonly<Collider2D[]>): number;
     OverlapCollider(collider: Collider2D, contactFilter: ContactFilter2D, results: Readonly<Collider2D[]>): number;
@@ -10296,6 +11133,7 @@ interface Physics2DConstructor {
     BoxCast(origin: Vector2, size: Vector2, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     BoxCast(origin: Vector2, size: Vector2, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
     BoxCast(origin: Vector2, size: Vector2, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    BoxCast(origin: Vector2, size: Vector2, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     BoxCastAll(origin: Vector2, size: Vector2, angle: number, direction: Vector2): Readonly<RaycastHit2D[]>;
     BoxCastAll(origin: Vector2, size: Vector2, angle: number, direction: Vector2, distance: number): Readonly<RaycastHit2D[]>;
     BoxCastAll(origin: Vector2, size: Vector2, angle: number, direction: Vector2, distance: number, layerMask: number): Readonly<RaycastHit2D[]>;
@@ -10309,6 +11147,7 @@ interface Physics2DConstructor {
     CapsuleCast(origin: Vector2, size: Vector2, capsuleDirection: CapsuleDirection2D, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     CapsuleCast(origin: Vector2, size: Vector2, capsuleDirection: CapsuleDirection2D, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
     CapsuleCast(origin: Vector2, size: Vector2, capsuleDirection: CapsuleDirection2D, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    CapsuleCast(origin: Vector2, size: Vector2, capsuleDirection: CapsuleDirection2D, angle: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     CapsuleCastAll(origin: Vector2, size: Vector2, capsuleDirection: CapsuleDirection2D, angle: number, direction: Vector2): Readonly<RaycastHit2D[]>;
     CapsuleCastAll(origin: Vector2, size: Vector2, capsuleDirection: CapsuleDirection2D, angle: number, direction: Vector2, distance: number): Readonly<RaycastHit2D[]>;
     CapsuleCastAll(origin: Vector2, size: Vector2, capsuleDirection: CapsuleDirection2D, angle: number, direction: Vector2, distance: number, layerMask: number): Readonly<RaycastHit2D[]>;
@@ -10322,6 +11161,7 @@ interface Physics2DConstructor {
     CircleCast(origin: Vector2, radius: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     CircleCast(origin: Vector2, radius: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
     CircleCast(origin: Vector2, radius: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    CircleCast(origin: Vector2, radius: number, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     CircleCastAll(origin: Vector2, radius: number, direction: Vector2): Readonly<RaycastHit2D[]>;
     CircleCastAll(origin: Vector2, radius: number, direction: Vector2, distance: number): Readonly<RaycastHit2D[]>;
     CircleCastAll(origin: Vector2, radius: number, direction: Vector2, distance: number, layerMask: number): Readonly<RaycastHit2D[]>;
@@ -10356,6 +11196,7 @@ interface Physics2DConstructor {
     GetRayIntersection(ray: Ray, distance: number): RaycastHit2D;
     GetRayIntersection(ray: Ray, distance: number, layerMask: number): RaycastHit2D;
     GetRayIntersection(ray: Ray, distance: number, results: Readonly<RaycastHit2D[]>, layerMask: number): number;
+    GetRayIntersection(ray: Ray, distance: number, results: Readonly<RaycastHit2D[]>): number;
     GetRayIntersectionAll(ray: Ray): Readonly<RaycastHit2D[]>;
     GetRayIntersectionAll(ray: Ray, distance: number): Readonly<RaycastHit2D[]>;
     GetRayIntersectionAll(ray: Ray, distance: number, layerMask: number): Readonly<RaycastHit2D[]>;
@@ -10440,6 +11281,7 @@ interface Physics2DConstructor {
     Raycast(origin: Vector2, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     Raycast(origin: Vector2, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
     Raycast(origin: Vector2, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>, distance: number): number;
+    Raycast(origin: Vector2, direction: Vector2, contactFilter: ContactFilter2D, results: Readonly<RaycastHit2D[]>): number;
     RaycastAll(origin: Vector2, direction: Vector2): Readonly<RaycastHit2D[]>;
     RaycastAll(origin: Vector2, direction: Vector2, distance: number): Readonly<RaycastHit2D[]>;
     RaycastAll(origin: Vector2, direction: Vector2, distance: number, layerMask: number): Readonly<RaycastHit2D[]>;
@@ -10449,6 +11291,7 @@ interface Physics2DConstructor {
     SetLayerCollisionMask(layer: number, layerMask: number): void;
     Simulate(deltaTime: number): boolean;
     Simulate(deltaTime: number, simulationLayers: number): boolean;
+    Simulate(deltaTime: number): boolean;
     SyncTransforms(): void;
 
 }
@@ -11460,7 +12303,9 @@ interface Texture2D extends Texture {
      */
     SetPixel(x: number, y: number, color: Color, mipLevel: number): void;
     SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, sourceDataStartIndex: number): void;
+    SetPixelData<T>(data: Readonly<T[]>, mipLevel: number): void;
     SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, sourceDataStartIndex: number): void;
+    SetPixelData<T>(data: Readonly<T[]>, mipLevel: number): void;
     /**
      * Sets the pixel colors of part of a mipmap level.
      * @param x The x coordinate to place the block of pixels at. The range is 0 through (texture width - 1).
@@ -12703,6 +13548,7 @@ Currently, most platforms only support R8_UInt (DirectX11, DirectX12).
      */
     ApplyDynamicScale(): void;
     ConvertToEquirect(equirect: RenderTexture, eye: MonoOrStereoscopicEye): void;
+    ConvertToEquirect(equirect: RenderTexture): void;
     /**
      * Actually creates the RenderTexture.
      * 
@@ -13211,6 +14057,25 @@ interface CommandBuffer {
     ClearRenderTarget(clearDepth: boolean, clearColor: boolean, backgroundColor: Color, depth: number, stencil: number): void;
     /**
      * Adds a &quot;clear render target&quot; command.
+     * @param clearDepth Whether to clear both the depth buffer and the stencil buffer.
+     * @param clearColor Whether to clear the color buffer.
+     * @param backgroundColor Color to clear with.
+     * @param depth Depth to clear with (default is 1.0).
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.ClearRenderTarget.html | Rendering.CommandBuffer.ClearRenderTarget}
+     */
+    ClearRenderTarget(clearDepth: boolean, clearColor: boolean, backgroundColor: Color, depth: number): void;
+    /**
+     * Adds a &quot;clear render target&quot; command.
+     * @param clearDepth Whether to clear both the depth buffer and the stencil buffer.
+     * @param clearColor Whether to clear the color buffer.
+     * @param backgroundColor Color to clear with.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.ClearRenderTarget.html | Rendering.CommandBuffer.ClearRenderTarget}
+     */
+    ClearRenderTarget(clearDepth: boolean, clearColor: boolean, backgroundColor: Color): void;
+    /**
+     * Adds a &quot;clear render target&quot; command.
      * @param clearFlags Which render targets to clear, defined using a bitwise OR combination of RTClearFlags values.
      * @param backgroundColor Color to clear with.
      * @param depth Depth to clear with (default is 1.0).
@@ -13222,6 +14087,23 @@ interface CommandBuffer {
     /**
      * Adds a &quot;clear render target&quot; command.
      * @param clearFlags Which render targets to clear, defined using a bitwise OR combination of RTClearFlags values.
+     * @param backgroundColor Color to clear with.
+     * @param depth Depth to clear with (default is 1.0).
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.ClearRenderTarget.html | Rendering.CommandBuffer.ClearRenderTarget}
+     */
+    ClearRenderTarget(clearFlags: RTClearFlags, backgroundColor: Color, depth: number): void;
+    /**
+     * Adds a &quot;clear render target&quot; command.
+     * @param clearFlags Which render targets to clear, defined using a bitwise OR combination of RTClearFlags values.
+     * @param backgroundColor Color to clear with.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.ClearRenderTarget.html | Rendering.CommandBuffer.ClearRenderTarget}
+     */
+    ClearRenderTarget(clearFlags: RTClearFlags, backgroundColor: Color): void;
+    /**
+     * Adds a &quot;clear render target&quot; command.
+     * @param clearFlags Which render targets to clear, defined using a bitwise OR combination of RTClearFlags values.
      * @param backgroundColors Colors to clear with.
      * @param depth Depth to clear with (default is 1.0).
      * @param stencil Stencil to clear with (default is 0).
@@ -13229,6 +14111,23 @@ interface CommandBuffer {
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.ClearRenderTarget.html | Rendering.CommandBuffer.ClearRenderTarget}
      */
     ClearRenderTarget(clearFlags: RTClearFlags, backgroundColors: Readonly<Color[]>, depth: number, stencil: number): void;
+    /**
+     * Adds a &quot;clear render target&quot; command.
+     * @param clearFlags Which render targets to clear, defined using a bitwise OR combination of RTClearFlags values.
+     * @param backgroundColors Colors to clear with.
+     * @param depth Depth to clear with (default is 1.0).
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.ClearRenderTarget.html | Rendering.CommandBuffer.ClearRenderTarget}
+     */
+    ClearRenderTarget(clearFlags: RTClearFlags, backgroundColors: Readonly<Color[]>, depth: number): void;
+    /**
+     * Adds a &quot;clear render target&quot; command.
+     * @param clearFlags Which render targets to clear, defined using a bitwise OR combination of RTClearFlags values.
+     * @param backgroundColors Colors to clear with.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.ClearRenderTarget.html | Rendering.CommandBuffer.ClearRenderTarget}
+     */
+    ClearRenderTarget(clearFlags: RTClearFlags, backgroundColors: Readonly<Color[]>): void;
     /**
      * Adds a command to configure foveated rendering.
      * @param platformData The native pointer from XR.XRDisplaySubsystem.XRRenderPass.foveatedRenderingInfo.
@@ -13450,6 +14349,17 @@ interface CommandBuffer {
      * Adds a command to execute a RayTracingShader.
      * @param rayTracingShader RayTracingShader to execute.
      * @param rayGenName The name of the ray generation shader.
+     * @param width The width of the ray generation shader thread grid.
+     * @param height The height of the ray generation shader thread grid.
+     * @param depth The depth of the ray generation shader thread grid.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.DispatchRays.html | Rendering.CommandBuffer.DispatchRays}
+     */
+    DispatchRays(rayTracingShader: RayTracingShader, rayGenName: string, width: number, height: number, depth: number): void;
+    /**
+     * Adds a command to execute a RayTracingShader.
+     * @param rayTracingShader RayTracingShader to execute.
+     * @param rayGenName The name of the ray generation shader.
      * @param argsBuffer Buffer containing dispatch dimensions for indirect DispatchRays.
      * @param argsOffset The byte offset into argsBuffer where the dispatch dimensions start.
      * @param camera Optional parameter used to setup camera-related built-in shader variables.
@@ -13457,6 +14367,16 @@ interface CommandBuffer {
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.DispatchRays.html | Rendering.CommandBuffer.DispatchRays}
      */
     DispatchRays(rayTracingShader: RayTracingShader, rayGenName: string, argsBuffer: GraphicsBuffer, argsOffset: number, camera: Camera): void;
+    /**
+     * Adds a command to execute a RayTracingShader.
+     * @param rayTracingShader RayTracingShader to execute.
+     * @param rayGenName The name of the ray generation shader.
+     * @param argsBuffer Buffer containing dispatch dimensions for indirect DispatchRays.
+     * @param argsOffset The byte offset into argsBuffer where the dispatch dimensions start.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.DispatchRays.html | Rendering.CommandBuffer.DispatchRays}
+     */
+    DispatchRays(rayTracingShader: RayTracingShader, rayGenName: string, argsBuffer: GraphicsBuffer, argsOffset: number): void;
     Dispose(): void;
     /**
      * Add a &quot;draw mesh&quot; command.
@@ -13643,6 +14563,22 @@ InvalidOperationException will be thrown if the current platform doesn't support
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.DrawMeshInstancedProcedural.html | Rendering.CommandBuffer.DrawMeshInstancedProcedural}
      */
     DrawMeshInstancedProcedural(mesh: Mesh, submeshIndex: number, material: Material, shaderPass: number, count: number, properties: MaterialPropertyBlock): void;
+    /**
+     * Add a &quot;draw mesh with instancing&quot; command.
+
+Draw a mesh using Procedural Instancing. This is similar to Graphics.DrawMeshInstancedIndirect, except that when the instance count is known from script, it can be supplied directly using this method, rather than via a ComputeBuffer.
+If Material.enableInstancing is false, the command logs an error and skips rendering each time the command is executed; the command does not immediately fail and throw an exception.
+
+InvalidOperationException will be thrown if the current platform doesn't support this API (for example, if GPU instancing is not available). See SystemInfo.supportsInstancing.
+     * @param mesh The Mesh to draw.
+     * @param submeshIndex Which subset of the mesh to draw. This only applies to meshes that are composed of several materials.
+     * @param material Material to use.
+     * @param shaderPass Which pass of the shader to use, or -1 which renders all passes.
+     * @param count The number of instances to be drawn.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.DrawMeshInstancedProcedural.html | Rendering.CommandBuffer.DrawMeshInstancedProcedural}
+     */
+    DrawMeshInstancedProcedural(mesh: Mesh, submeshIndex: number, material: Material, shaderPass: number, count: number): void;
     DrawMultipleMeshes(matrices: Readonly<Matrix4x4[]>, meshes: Readonly<Mesh[]>, subsetIndices: Readonly<number[]>, count: number, material: Material, shaderPass: number, properties: MaterialPropertyBlock): void;
     /**
      * Adds a command onto the commandbuffer to draw the VR Device's occlusion mesh to the current render target.
@@ -14466,6 +15402,13 @@ InvalidOperationException will be thrown if the current platform doesn't support
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.ResolveAntiAliasedSurface.html | Rendering.CommandBuffer.ResolveAntiAliasedSurface}
      */
     ResolveAntiAliasedSurface(rt: RenderTexture, target: RenderTexture): void;
+    /**
+     * Force an antialiased render texture to be resolved.
+     * @param rt The antialiased render texture to resolve.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.CommandBuffer.ResolveAntiAliasedSurface.html | Rendering.CommandBuffer.ResolveAntiAliasedSurface}
+     */
+    ResolveAntiAliasedSurface(rt: RenderTexture): void;
     /**
      * Adds a command to set the counter value of append/consume buffer.
      * @param buffer The destination buffer.
@@ -15798,6 +16741,18 @@ interface AttachmentDescriptor {
      */
     ConfigureClear(clearColor: Color, clearDepth: number, clearStencil: number): void;
     /**
+     * When the RenderPass starts, clear this attachment into the color or depth/stencil values given (depending on the format of this attachment). Changes loadAction to RenderBufferLoadAction.Clear.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.AttachmentDescriptor.ConfigureClear.html | Rendering.AttachmentDescriptor.ConfigureClear}
+     */
+    ConfigureClear(clearColor: Color, clearDepth: number): void;
+    /**
+     * When the RenderPass starts, clear this attachment into the color or depth/stencil values given (depending on the format of this attachment). Changes loadAction to RenderBufferLoadAction.Clear.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.AttachmentDescriptor.ConfigureClear.html | Rendering.AttachmentDescriptor.ConfigureClear}
+     */
+    ConfigureClear(clearColor: Color): void;
+    /**
      * When the renderpass that uses this attachment ends, resolve the MSAA surface into the given target.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.AttachmentDescriptor.ConfigureResolveTarget.html | Rendering.AttachmentDescriptor.ConfigureResolveTarget}
@@ -16037,6 +16992,7 @@ interface CustomSamplerConstructor {
 
 
     Create(name: string, collectGpuData: boolean): CustomSampler;
+    Create(name: string): CustomSampler;
 
 }
 declare const CustomSampler: CustomSamplerConstructor;
@@ -16200,12 +17156,28 @@ interface Material extends Object {
     /**
      * Applies an override associated with a Material Variant to a target.
      * @param destination The Material to which the Editor applies the override.
+     * @param nameID Property name ID, use Shader.PropertyToID to get it.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Material.ApplyPropertyOverride.html | Material.ApplyPropertyOverride}
+     */
+    ApplyPropertyOverride(destination: Material, nameID: number): void;
+    /**
+     * Applies an override associated with a Material Variant to a target.
+     * @param destination The Material to which the Editor applies the override.
      * @param name Property name, e.g. &quot;_SrcBlend&quot;.
      * @param recordUndo Wheter the editor should record an undo operation for this action.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/Material.ApplyPropertyOverride.html | Material.ApplyPropertyOverride}
      */
     ApplyPropertyOverride(destination: Material, name: string, recordUndo: boolean): void;
+    /**
+     * Applies an override associated with a Material Variant to a target.
+     * @param destination The Material to which the Editor applies the override.
+     * @param name Property name, e.g. &quot;_SrcBlend&quot;.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Material.ApplyPropertyOverride.html | Material.ApplyPropertyOverride}
+     */
+    ApplyPropertyOverride(destination: Material, name: string): void;
     /**
      * Computes a CRC hash value from the content of the material.
      * 
@@ -17435,6 +18407,44 @@ interface RayTracingAccelerationStructure {
      */
     AddInstance(targetRenderer: Renderer, subMeshFlags: Readonly<number[]>, enableTriangleCulling: boolean, frontTriangleCounterClockwise: boolean, mask: number, id: number): number;
     /**
+     * Adds a ray tracing instance to the RayTracingAccelerationStructure.
+     * @param targetRenderer The Renderer to add to the RayTracingAccelerationStructure.
+     * @param subMeshFlags A list of flags that control the shader execution behaviour when a ray intersects a sub-mesh geometry. See RayTracingSubMeshFlags for additional information.
+     * @param enableTriangleCulling A bool that indicates whether front/back face culling for this ray tracing instance is enabled. The culling takes place when the GPU performs a ray-triangle intersection test. Culling is enabled (true) by default.
+     * @param frontTriangleCounterClockwise A bool that indicates whether to flip the way triangles face in this ray tracing instance. If this is set to true, front-facing triangles will become back-facing and vice versa. Set to false by default.
+     * @param mask An 8-bit mask you can use to selectively intersect the ray tracing instance associated with the target Renderer with rays that only pass the mask. All rays are enabled (0xff) by default.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RayTracingAccelerationStructure.AddInstance.html | Rendering.RayTracingAccelerationStructure.AddInstance}
+     */
+    AddInstance(targetRenderer: Renderer, subMeshFlags: Readonly<number[]>, enableTriangleCulling: boolean, frontTriangleCounterClockwise: boolean, mask: number): number;
+    /**
+     * Adds a ray tracing instance to the RayTracingAccelerationStructure.
+     * @param targetRenderer The Renderer to add to the RayTracingAccelerationStructure.
+     * @param subMeshFlags A list of flags that control the shader execution behaviour when a ray intersects a sub-mesh geometry. See RayTracingSubMeshFlags for additional information.
+     * @param enableTriangleCulling A bool that indicates whether front/back face culling for this ray tracing instance is enabled. The culling takes place when the GPU performs a ray-triangle intersection test. Culling is enabled (true) by default.
+     * @param frontTriangleCounterClockwise A bool that indicates whether to flip the way triangles face in this ray tracing instance. If this is set to true, front-facing triangles will become back-facing and vice versa. Set to false by default.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RayTracingAccelerationStructure.AddInstance.html | Rendering.RayTracingAccelerationStructure.AddInstance}
+     */
+    AddInstance(targetRenderer: Renderer, subMeshFlags: Readonly<number[]>, enableTriangleCulling: boolean, frontTriangleCounterClockwise: boolean): number;
+    /**
+     * Adds a ray tracing instance to the RayTracingAccelerationStructure.
+     * @param targetRenderer The Renderer to add to the RayTracingAccelerationStructure.
+     * @param subMeshFlags A list of flags that control the shader execution behaviour when a ray intersects a sub-mesh geometry. See RayTracingSubMeshFlags for additional information.
+     * @param enableTriangleCulling A bool that indicates whether front/back face culling for this ray tracing instance is enabled. The culling takes place when the GPU performs a ray-triangle intersection test. Culling is enabled (true) by default.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RayTracingAccelerationStructure.AddInstance.html | Rendering.RayTracingAccelerationStructure.AddInstance}
+     */
+    AddInstance(targetRenderer: Renderer, subMeshFlags: Readonly<number[]>, enableTriangleCulling: boolean): number;
+    /**
+     * Adds a ray tracing instance to the RayTracingAccelerationStructure.
+     * @param targetRenderer The Renderer to add to the RayTracingAccelerationStructure.
+     * @param subMeshFlags A list of flags that control the shader execution behaviour when a ray intersects a sub-mesh geometry. See RayTracingSubMeshFlags for additional information.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RayTracingAccelerationStructure.AddInstance.html | Rendering.RayTracingAccelerationStructure.AddInstance}
+     */
+    AddInstance(targetRenderer: Renderer, subMeshFlags: Readonly<number[]>): number;
+    /**
      * Adds a ray tracing instance associated with a list of axis-aligned bounding boxes (AABBs) to the RayTracingAccelerationStructure for procedural geometry generation using intersection shaders.
      * @param config The common parameters that this AABBs ray tracing instance uses.
      * @param matrix The transformation matrix of the ray tracing instance.
@@ -17443,12 +18453,34 @@ interface RayTracingAccelerationStructure {
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RayTracingAccelerationStructure.AddInstance.html | Rendering.RayTracingAccelerationStructure.AddInstance}
      */
     AddInstance(config: RayTracingAABBsInstanceConfig, matrix: Matrix4x4, id: number): number;
+    /**
+     * Adds a ray tracing instance associated with a list of axis-aligned bounding boxes (AABBs) to the RayTracingAccelerationStructure for procedural geometry generation using intersection shaders.
+     * @param config The common parameters that this AABBs ray tracing instance uses.
+     * @param matrix The transformation matrix of the ray tracing instance.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RayTracingAccelerationStructure.AddInstance.html | Rendering.RayTracingAccelerationStructure.AddInstance}
+     */
+    AddInstance(config: RayTracingAABBsInstanceConfig, matrix: Matrix4x4): number;
     AddInstance(config: RayTracingMeshInstanceConfig, matrix: Matrix4x4, prevMatrix: Nullable<Matrix4x4>, id: number): number;
+    AddInstance(config: RayTracingMeshInstanceConfig, matrix: Matrix4x4, prevMatrix: Nullable<Matrix4x4>): number;
+    AddInstance(config: RayTracingMeshInstanceConfig, matrix: Matrix4x4): number;
     AddInstance(config: RayTracingGeometryInstanceConfig, matrix: Matrix4x4, prevMatrix: Nullable<Matrix4x4>, id: number): number;
+    AddInstance(config: RayTracingGeometryInstanceConfig, matrix: Matrix4x4, prevMatrix: Nullable<Matrix4x4>): number;
+    AddInstance(config: RayTracingGeometryInstanceConfig, matrix: Matrix4x4): number;
     AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>, instanceCount: number, startInstance: number, id: number): number;
+    AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>, instanceCount: number, startInstance: number): number;
+    AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>, instanceCount: number): number;
+    AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>): number;
     AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>, instanceCount: number, startInstance: number, id: number): number;
+    AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>, instanceCount: number, startInstance: number): number;
+    AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>, instanceCount: number): number;
+    AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>): number;
     AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>, instanceCount: number, startInstance: number, id: number): number;
+    AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>, instanceCount: number, startInstance: number): number;
+    AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>, instanceCount: number): number;
+    AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>): number;
     AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>, id: number): number;
+    AddInstances<T>(config: RayTracingMeshInstanceConfig, instanceData: Readonly<T[]>): number;
     /**
      * Adds the ray tracing instances associated with a VFXRenderer to the RayTracingAccelerationStructure.
      * @param targetRenderer The Renderer to add to the RayTracingAccelerationStructure.
@@ -19584,6 +20616,16 @@ interface RayTracingShader extends Object {
     /**
      * Dispatches this RayTracingShader.
      * @param rayGenFunctionName The name of the ray generation shader.
+     * @param width The width of the ray generation shader thread grid.
+     * @param height The height of the ray generation shader thread grid.
+     * @param depth The depth of the ray generation shader thread grid.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RayTracingShader.Dispatch.html | Rendering.RayTracingShader.Dispatch}
+     */
+    Dispatch(rayGenFunctionName: string, width: number, height: number, depth: number): void;
+    /**
+     * Dispatches this RayTracingShader.
+     * @param rayGenFunctionName The name of the ray generation shader.
      * @param argsBuffer Buffer containing dispatch dimensions.
      * @param argsOffset The byte offset into the buffer where the dispatch dimensions start.
      * @param camera If you pass this parameter, Unity sets up built-in shader variables related to that camera.
@@ -19591,6 +20633,23 @@ interface RayTracingShader extends Object {
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RayTracingShader.DispatchIndirect.html | Rendering.RayTracingShader.DispatchIndirect}
      */
     DispatchIndirect(rayGenFunctionName: string, argsBuffer: GraphicsBuffer, argsOffset: number, camera: Camera): void;
+    /**
+     * Dispatches this RayTracingShader.
+     * @param rayGenFunctionName The name of the ray generation shader.
+     * @param argsBuffer Buffer containing dispatch dimensions.
+     * @param argsOffset The byte offset into the buffer where the dispatch dimensions start.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RayTracingShader.DispatchIndirect.html | Rendering.RayTracingShader.DispatchIndirect}
+     */
+    DispatchIndirect(rayGenFunctionName: string, argsBuffer: GraphicsBuffer, argsOffset: number): void;
+    /**
+     * Dispatches this RayTracingShader.
+     * @param rayGenFunctionName The name of the ray generation shader.
+     * @param argsBuffer Buffer containing dispatch dimensions.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RayTracingShader.DispatchIndirect.html | Rendering.RayTracingShader.DispatchIndirect}
+     */
+    DispatchIndirect(rayGenFunctionName: string, argsBuffer: GraphicsBuffer): void;
     /**
      * Sets the value for RayTracingAccelerationStructure property of this RayTracingShader.
      * @param nameID The ID of the RayTracingAccelerationStructure as given by Shader.PropertyToID.
@@ -20155,6 +21214,12 @@ interface AsyncGPUReadbackRequest {
      */
     GetData<T>(layer: number): Readonly<T[]>;
     /**
+     * Fetches the data of a successful request.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.AsyncGPUReadbackRequest.GetData.html | Rendering.AsyncGPUReadbackRequest.GetData}
+     */
+    GetData<T>(): Readonly<T[]>;
+    /**
      * Triggers an update of the request.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.AsyncGPUReadbackRequest.Update.html | Rendering.AsyncGPUReadbackRequest.Update}
@@ -20385,7 +21450,9 @@ interface Cubemap extends Texture {
      */
     SetPixel(face: CubemapFace, x: number, y: number, color: Color, mip: number): void;
     SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, face: CubemapFace, sourceDataStartIndex: number): void;
+    SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, face: CubemapFace): void;
     SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, face: CubemapFace, sourceDataStartIndex: number): void;
+    SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, face: CubemapFace): void;
     /**
      * Sets the pixel colors of an entire mipmap level of a face.
      * @param colors The array of pixel colours to use. This is a 2D image flattened to a 1D array.
@@ -24233,6 +25300,7 @@ interface PlayableConstructor {
 
 
     Create(graph: PlayableGraph, inputCount: number): Playable;
+    Create(graph: PlayableGraph): Playable;
 
 }
 declare const Playable: PlayableConstructor;
@@ -24912,6 +25980,8 @@ interface TMP_Text extends MaskableGraphic {
     CrossFadeAlpha(alpha: number, duration: number, ignoreTimeScale: boolean): void;
     CrossFadeColor(targetColor: Color, duration: number, ignoreTimeScale: boolean, useAlpha: boolean): void;
     ForceMeshUpdate(ignoreActiveState: boolean, forceTextReparsing: boolean): void;
+    ForceMeshUpdate(ignoreActiveState: boolean): void;
+    ForceMeshUpdate(): void;
     GetParsedText(): string;
     GetPreferredValues(): Vector2;
     GetPreferredValues(width: number, height: number): Vector2;
@@ -25126,12 +26196,17 @@ interface TMP_FontAsset extends TMP_Asset {
 
 
     ClearFontAssetData(setAtlasSizeToZero: boolean): void;
+    ClearFontAssetData(): void;
     HasCharacter(character: number): boolean;
     HasCharacter(character: string, searchFallbacks: boolean, tryAddCharacter: boolean): boolean;
+    HasCharacter(character: string, searchFallbacks: boolean): boolean;
+    HasCharacter(character: string): boolean;
     HasCharacters(text: string): boolean;
     ReadFontAssetDefinition(): void;
     TryAddCharacters(unicodes: Readonly<number[]>, includeFontFeatures: boolean): boolean;
+    TryAddCharacters(unicodes: Readonly<number[]>): boolean;
     TryAddCharacters(characters: string, includeFontFeatures: boolean): boolean;
+    TryAddCharacters(characters: string): boolean;
 
 
 }
@@ -25765,9 +26840,12 @@ interface TMP_FontAssetConstructor {
 
 
     CreateFontAsset(familyName: string, styleName: string, pointSize: number): TMP_FontAsset;
+    CreateFontAsset(familyName: string, styleName: string): TMP_FontAsset;
     CreateFontAsset(fontFilePath: string, faceIndex: number, samplingPointSize: number, atlasPadding: number, renderMode: GlyphRenderMode, atlasWidth: number, atlasHeight: number): TMP_FontAsset;
     CreateFontAsset(font: Font): TMP_FontAsset;
     CreateFontAsset(font: Font, samplingPointSize: number, atlasPadding: number, renderMode: GlyphRenderMode, atlasWidth: number, atlasHeight: number, atlasPopulationMode: AtlasPopulationMode, enableMultiAtlasSupport: boolean): TMP_FontAsset;
+    CreateFontAsset(font: Font, samplingPointSize: number, atlasPadding: number, renderMode: GlyphRenderMode, atlasWidth: number, atlasHeight: number, atlasPopulationMode: AtlasPopulationMode): TMP_FontAsset;
+    CreateFontAsset(font: Font, samplingPointSize: number, atlasPadding: number, renderMode: GlyphRenderMode, atlasWidth: number, atlasHeight: number): TMP_FontAsset;
     GetCharacters(fontAsset: TMP_FontAsset): string;
     GetCharactersArray(fontAsset: TMP_FontAsset): Readonly<number[]>;
 
@@ -26339,6 +27417,8 @@ interface TextMeshProUGUI extends TMP_Text, ILayoutElement {
     ComputeMarginSize(): void;
     Cull(clipRect: Rect, validRect: boolean): void;
     ForceMeshUpdate(ignoreActiveState: boolean, forceTextReparsing: boolean): void;
+    ForceMeshUpdate(ignoreActiveState: boolean): void;
+    ForceMeshUpdate(): void;
     GetModifiedMaterial(baseMaterial: Material): Material;
     GetTextInfo(text: string): TMP_TextInfo;
     Rebuild(update: CanvasUpdate): void;
@@ -28281,13 +29361,20 @@ interface FontAsset extends TextAsset {
 
 
     ClearFontAssetData(setAtlasSizeToZero: boolean): void;
+    ClearFontAssetData(): void;
     HasCharacter(character: number): boolean;
     HasCharacter(character: string, searchFallbacks: boolean, tryAddCharacter: boolean): boolean;
+    HasCharacter(character: string, searchFallbacks: boolean): boolean;
+    HasCharacter(character: string): boolean;
     HasCharacter(character: number, searchFallbacks: boolean, tryAddCharacter: boolean): boolean;
+    HasCharacter(character: number, searchFallbacks: boolean): boolean;
+    HasCharacter(character: number): boolean;
     HasCharacters(text: string): boolean;
     ReadFontAssetDefinition(): void;
     TryAddCharacters(unicodes: Readonly<number[]>, includeFontFeatures: boolean): boolean;
+    TryAddCharacters(unicodes: Readonly<number[]>): boolean;
     TryAddCharacters(characters: string, includeFontFeatures: boolean): boolean;
+    TryAddCharacters(characters: string): boolean;
 
 
 }
@@ -28376,9 +29463,12 @@ interface FontAssetConstructor {
 
 
     CreateFontAsset(familyName: string, styleName: string, pointSize: number): FontAsset;
+    CreateFontAsset(familyName: string, styleName: string): FontAsset;
     CreateFontAsset(fontFilePath: string, faceIndex: number, samplingPointSize: number, atlasPadding: number, renderMode: GlyphRenderMode, atlasWidth: number, atlasHeight: number): FontAsset;
     CreateFontAsset(font: Font): FontAsset;
     CreateFontAsset(font: Font, samplingPointSize: number, atlasPadding: number, renderMode: GlyphRenderMode, atlasWidth: number, atlasHeight: number, atlasPopulationMode: AtlasPopulationMode, enableMultiAtlasSupport: boolean): FontAsset;
+    CreateFontAsset(font: Font, samplingPointSize: number, atlasPadding: number, renderMode: GlyphRenderMode, atlasWidth: number, atlasHeight: number, atlasPopulationMode: AtlasPopulationMode): FontAsset;
+    CreateFontAsset(font: Font, samplingPointSize: number, atlasPadding: number, renderMode: GlyphRenderMode, atlasWidth: number, atlasHeight: number): FontAsset;
     GetCharacters(fontAsset: FontAsset): string;
     GetCharactersArray(fontAsset: FontAsset): Readonly<number[]>;
 
@@ -28873,9 +29963,13 @@ interface CallbackEventHandler extends IEventHandler {
      */
     HasTrickleDownHandlers(): boolean;
     RegisterCallback<TEventType extends EventBase<TEventType>>(callback: EventCallback<TEventType>, useTrickleDown: TrickleDown): void;
+    RegisterCallback<TEventType extends EventBase<TEventType>>(callback: EventCallback<TEventType>): void;
     RegisterCallback<TEventType extends EventBase<TEventType>, TUserArgsType>(callback: EventCallback<TEventType, TUserArgsType>, userArgs: TUserArgsType, useTrickleDown: TrickleDown): void;
+    RegisterCallback<TEventType extends EventBase<TEventType>, TUserArgsType>(callback: EventCallback<TEventType, TUserArgsType>, userArgs: TUserArgsType): void;
     RegisterCallbackOnce<TEventType extends EventBase<TEventType>>(callback: EventCallback<TEventType>, useTrickleDown: TrickleDown): void;
+    RegisterCallbackOnce<TEventType extends EventBase<TEventType>>(callback: EventCallback<TEventType>): void;
     RegisterCallbackOnce<TEventType extends EventBase<TEventType>, TUserArgsType>(callback: EventCallback<TEventType, TUserArgsType>, userArgs: TUserArgsType, useTrickleDown: TrickleDown): void;
+    RegisterCallbackOnce<TEventType extends EventBase<TEventType>, TUserArgsType>(callback: EventCallback<TEventType, TUserArgsType>, userArgs: TUserArgsType): void;
     /**
      * Sends an event to the event handler.
      * @param e The event to send.
@@ -28884,7 +29978,9 @@ interface CallbackEventHandler extends IEventHandler {
      */
     SendEvent(e: EventBase): void;
     UnregisterCallback<TEventType extends EventBase<TEventType>>(callback: EventCallback<TEventType>, useTrickleDown: TrickleDown): void;
+    UnregisterCallback<TEventType extends EventBase<TEventType>>(callback: EventCallback<TEventType>): void;
     UnregisterCallback<TEventType extends EventBase<TEventType>, TUserArgsType>(callback: EventCallback<TEventType, TUserArgsType>, useTrickleDown: TrickleDown): void;
+    UnregisterCallback<TEventType extends EventBase<TEventType>, TUserArgsType>(callback: EventCallback<TEventType, TUserArgsType>): void;
 
 
 }
@@ -29067,7 +30163,16 @@ interface MeshGenerationContext {
      * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.MeshGenerationContext.Allocate.html | UIElements.MeshGenerationContext.Allocate}
      */
     Allocate(vertexCount: number, indexCount: number, texture: Texture): MeshWriteData;
+    /**
+     * Allocates and draws the specified number of vertices and indices required to express geometry for drawing the content of a VisualElement.
+     * @param vertexCount The number of vertices to allocate. The maximum is 65535 (or UInt16.MaxValue).
+     * @param indexCount The number of triangle list indices to allocate. Each 3 indices represent one triangle, so this value should be multiples of 3.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.MeshGenerationContext.Allocate.html | UIElements.MeshGenerationContext.Allocate}
+     */
+    Allocate(vertexCount: number, indexCount: number): MeshWriteData;
     DrawMesh(vertices: Readonly<Vertex[]>, indices: Readonly<number[]>, texture: Texture): void;
+    DrawMesh(vertices: Readonly<Vertex[]>, indices: Readonly<number[]>): void;
     /**
      * Draw a string of text.
      * @param text The text to display.
@@ -29079,6 +30184,16 @@ interface MeshGenerationContext {
      * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.MeshGenerationContext.DrawText.html | UIElements.MeshGenerationContext.DrawText}
      */
     DrawText(text: string, pos: Vector2, fontSize: number, color: Color, font: FontAsset): void;
+    /**
+     * Draw a string of text.
+     * @param text The text to display.
+     * @param pos The start position where the text will be displayed.
+     * @param fontSize The font size to use.
+     * @param color The text color.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.MeshGenerationContext.DrawText.html | UIElements.MeshGenerationContext.DrawText}
+     */
+    DrawText(text: string, pos: Vector2, fontSize: number, color: Color): void;
     /**
      * Draws a VectorImage asset.
      * @param vectorImage The vector image to draw.
@@ -29151,6 +30266,16 @@ interface Painter2D {
      */
     Arc(center: Vector2, radius: number, startAngle: Angle, endAngle: Angle, direction: ArcDirection): void;
     /**
+     * Adds an arc to the current sub-path to the provided position, radius and angles.
+     * @param center The center position of the arc.
+     * @param radius The radius of the arc.
+     * @param startAngle The starting angle the arc.
+     * @param endAngle The ending angle of the arc.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Painter2D.Arc.html | UIElements.Painter2D.Arc}
+     */
+    Arc(center: Vector2, radius: number, startAngle: Angle, endAngle: Angle): void;
+    /**
      * Adds an arc to the current sub-path to the provided position using a control point.
      * @param p1 The first control point of the arc.
      * @param p2 The final point of the arc.
@@ -29199,6 +30324,12 @@ interface Painter2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Painter2D.Fill.html | UIElements.Painter2D.Fill}
      */
     Fill(fillRule: FillRule): void;
+    /**
+     * Fills the currently defined path.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/UIElements.Painter2D.Fill.html | UIElements.Painter2D.Fill}
+     */
+    Fill(): void;
     /**
      * Adds a straight line to the current sub-path to the provided position.
      * @param pos The end position of the line.
@@ -32171,6 +33302,7 @@ interface NetworkConnection {
     Cleanup(): void;
     Disconnect(): void;
     Send<T extends NetworkMessage>(message: T, channelId: number): void;
+    Send<T extends NetworkMessage>(message: T): void;
     ToString(): string;
 
 
@@ -32633,12 +33765,22 @@ interface GizmoUtilsConstructor {
 
 
     DrawArc(startAngle: number, endAngle: number, position: Vector3, orientation: Quaternion, radius: number, color: Color, drawChord: boolean, drawSector: boolean, arcSegments: number, durationSec: number): void;
+    DrawArc(startAngle: number, endAngle: number, position: Vector3, orientation: Quaternion, radius: number, color: Color, drawChord: boolean, drawSector: boolean, arcSegments: number): void;
+    DrawArc(startAngle: number, endAngle: number, position: Vector3, orientation: Quaternion, radius: number, color: Color, drawChord: boolean, drawSector: boolean): void;
+    DrawArc(startAngle: number, endAngle: number, position: Vector3, orientation: Quaternion, radius: number, color: Color, drawChord: boolean): void;
+    DrawArc(startAngle: number, endAngle: number, position: Vector3, orientation: Quaternion, radius: number, color: Color): void;
     DrawBox(position: Vector3, orientation: Quaternion, halfSize: Vector3, color: Color, durationSec: number): void;
+    DrawBox(position: Vector3, orientation: Quaternion, halfSize: Vector3, color: Color): void;
     DrawCircle(position: Vector3, rotation: Quaternion, radius: number, segments: number, color: Color, durationSec: number): void;
     DrawQuad(pointA: Vector3, pointB: Vector3, pointC: Vector3, pointD: Vector3, color: Color, durationSec: number): void;
+    DrawQuad(pointA: Vector3, pointB: Vector3, pointC: Vector3, pointD: Vector3, color: Color): void;
     DrawRect(origin: Vector3, orientation: Quaternion, extent: Vector2, color: Color, durationSec: number): void;
+    DrawRect(origin: Vector3, orientation: Quaternion, extent: Vector2, color: Color): void;
     DrawSingleLine(startPosition: Vector3, endPosition: Vector3, color: Color, durationSec: number): void;
+    DrawSingleLine(startPosition: Vector3, endPosition: Vector3, color: Color): void;
     DrawSphere(position: Vector3, radius: number, color: Color, segments: number, durationSec: number): void;
+    DrawSphere(position: Vector3, radius: number, color: Color, segments: number): void;
+    DrawSphere(position: Vector3, radius: number, color: Color): void;
     TogglePauseEngine(): void;
 
 }
@@ -34530,7 +35672,9 @@ interface Texture3D extends Texture {
      */
     SetPixel(x: number, y: number, z: number, color: Color, mipLevel: number): void;
     SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, sourceDataStartIndex: number): void;
+    SetPixelData<T>(data: Readonly<T[]>, mipLevel: number): void;
     SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, sourceDataStartIndex: number): void;
+    SetPixelData<T>(data: Readonly<T[]>, mipLevel: number): void;
     /**
      * Sets the pixel colors of an entire mipmap level.
      * @param colors The array of pixel colours to use. This is a 3D texture flattened to a 1D array.
@@ -35511,6 +36655,7 @@ interface TMP_InputField extends Selectable, ISubmitHandler, IPointerClickHandle
     CalculateLayoutInputHorizontal(): void;
     CalculateLayoutInputVertical(): void;
     DeactivateInputField(clearSelection: boolean): void;
+    DeactivateInputField(): void;
     ForceLabelUpdate(): void;
     GraphicUpdateComplete(): void;
     LayoutComplete(): void;
@@ -36598,6 +37743,7 @@ interface ITween {
 
     Cancel(): void;
     GetTotalDuration(includeDelay: boolean): number;
+    GetTotalDuration(): number;
 
 
 }
@@ -36609,10 +37755,12 @@ interface Tween<DriverValueType> extends MonoBehaviour, ITween {
     Await(): void;
     Cancel(): void;
     GetTotalDuration(includeDelay: boolean): number;
+    GetTotalDuration(): number;
     OnGetFrom(): DriverValueType;
     OnInitialize(): boolean;
     OnUpdate(easedTime: number): void;
     SetDelay(delay: number, goToFirstFrameImmediately: boolean): Tween<DriverValueType>;
+    SetDelay(delay: number): Tween<DriverValueType>;
     SetEase(ease: EaseType): Tween<DriverValueType>;
     SetEaseBackIn(): Tween<DriverValueType>;
     SetEaseBackInOut(): Tween<DriverValueType>;
@@ -36684,9 +37832,13 @@ interface IChatroomNetwork {
 
     BroadcastAudioSegment(data: ChatroomAudioSegment): void;
     CloseChatroom(data: unknown): void;
+    CloseChatroom(): void;
     HostChatroom(data: unknown): void;
+    HostChatroom(): void;
     JoinChatroom(data: unknown): void;
+    JoinChatroom(): void;
     LeaveChatroom(data: unknown): void;
+    LeaveChatroom(): void;
 
 
 }
@@ -36904,7 +38056,9 @@ interface Texture2DArray extends Texture {
      */
     GetPixels32(arrayElement: number): Readonly<Color32[]>;
     SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, element: number, sourceDataStartIndex: number): void;
+    SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, element: number): void;
     SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, element: number, sourceDataStartIndex: number): void;
+    SetPixelData<T>(data: Readonly<T[]>, mipLevel: number, element: number): void;
     /**
      * Sets the pixel colors of an entire mipmap level of a slice.
      * @param colors The array of pixel colours to use. This is a 2D image flattened to a 1D array.
@@ -37756,7 +38910,9 @@ interface VoxelBlocks extends MonoBehaviour {
     GetBlockIdFromStringId(stringId: string): number;
     GetStringIdFromBlockId(blockVoxelId: number): string;
     Load(loadTexturesDirectlyFromDisk: boolean): void;
+    Load(): void;
     Reload(useTexturesDirectlyFromDisk: boolean): void;
+    Reload(): void;
     SearchForBlockIdByString(stringId: string): number;
     UpdateVoxelBlockId(voxelValue: number, blockId: number): number;
     WaitForLoaded(): void;
@@ -37812,6 +38968,10 @@ interface TexturePackerConstructor {
 
 
     CustomBlit(renderTarget: RenderTexture, sourceTexture: Texture, material: Material, destX: number, destY: number, destWidth: number, destHeight: number, srcX: number, srcY: number, srcWidth: number, srcHeight: number): void;
+    CustomBlit(renderTarget: RenderTexture, sourceTexture: Texture, material: Material, destX: number, destY: number, destWidth: number, destHeight: number, srcX: number, srcY: number, srcWidth: number): void;
+    CustomBlit(renderTarget: RenderTexture, sourceTexture: Texture, material: Material, destX: number, destY: number, destWidth: number, destHeight: number, srcX: number, srcY: number): void;
+    CustomBlit(renderTarget: RenderTexture, sourceTexture: Texture, material: Material, destX: number, destY: number, destWidth: number, destHeight: number, srcX: number): void;
+    CustomBlit(renderTarget: RenderTexture, sourceTexture: Texture, material: Material, destX: number, destY: number, destWidth: number, destHeight: number): void;
     DoPadding(target: RenderTexture, source: Texture2D, rect: Rect, pad: number, flipMaterial: Material): void;
 
 }
@@ -38402,12 +39562,27 @@ interface TrailRenderer extends Renderer {
     /**
      * Creates a snapshot of TrailRenderer and stores it in mesh.
      * @param mesh A static mesh that will receive the snapshot of the trail.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/TrailRenderer.BakeMesh.html | TrailRenderer.BakeMesh}
+     */
+    BakeMesh(mesh: Mesh): void;
+    /**
+     * Creates a snapshot of TrailRenderer and stores it in mesh.
+     * @param mesh A static mesh that will receive the snapshot of the trail.
      * @param camera The camera used for determining which way camera-space trails will face.
      * @param useTransform Include the rotation and scale of the Transform in the baked mesh.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/TrailRenderer.BakeMesh.html | TrailRenderer.BakeMesh}
      */
     BakeMesh(mesh: Mesh, camera: Camera, useTransform: boolean): void;
+    /**
+     * Creates a snapshot of TrailRenderer and stores it in mesh.
+     * @param mesh A static mesh that will receive the snapshot of the trail.
+     * @param camera The camera used for determining which way camera-space trails will face.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/TrailRenderer.BakeMesh.html | TrailRenderer.BakeMesh}
+     */
+    BakeMesh(mesh: Mesh, camera: Camera): void;
     /**
      * Removes all points from the TrailRenderer.
 Useful for restarting a trail from a new position.
@@ -39406,8 +40581,10 @@ interface ToggleGroup extends UIBehaviour {
     EnsureValidState(): void;
     GetFirstActiveToggle(): Toggle;
     NotifyToggleOn(toggle: Toggle, sendCallback: boolean): void;
+    NotifyToggleOn(toggle: Toggle): void;
     RegisterToggle(toggle: Toggle): void;
     SetAllTogglesOff(sendCallback: boolean): void;
+    SetAllTogglesOff(): void;
     UnregisterToggle(toggle: Toggle): void;
 
 
@@ -39739,6 +40916,9 @@ interface DevConsoleMono extends MonoBehaviour {
     OnClientTabClick(): void;
     OnLogMessageCallback(logString: string, stackTrace: string, type: LogType): void;
     OnLogMessageReceived(logString: string, stackTrace: string, type: LogType, context: LogContext, time: string, prepend: boolean): void;
+    OnLogMessageReceived(logString: string, stackTrace: string, type: LogType, context: LogContext, time: string): void;
+    OnLogMessageReceived(logString: string, stackTrace: string, type: LogType, context: LogContext): void;
+    OnLogMessageReceived(logString: string, stackTrace: string, type: LogType): void;
     OnMemoryTabClick(): void;
     OnRepositionButtonPointerDown(eventData: BaseEventData): void;
     OnRepositionButtonPointerUp(_: BaseEventData): void;
@@ -39809,10 +40989,15 @@ interface CommandConstructor {
 
     Create(name: string, aliases: string, helpText: string, callback: Action): Command;
     Create<T1>(name: string, aliases: string, helpText: string, p1: Parameter, callback: Action<T1>, defaultCallback: Action): Command;
+    Create<T1>(name: string, aliases: string, helpText: string, p1: Parameter, callback: Action<T1>): Command;
     Create<T1, T2>(name: string, aliases: string, helpText: string, p1: Parameter, p2: Parameter, callback: Action<T1, T2>, defaultCallback: Action): Command;
+    Create<T1, T2>(name: string, aliases: string, helpText: string, p1: Parameter, p2: Parameter, callback: Action<T1, T2>): Command;
     Create<T1, T2, T3>(name: string, aliases: string, helpText: string, p1: Parameter, p2: Parameter, p3: Parameter, callback: Action<T1, T2, T3>, defaultCallback: Action): Command;
+    Create<T1, T2, T3>(name: string, aliases: string, helpText: string, p1: Parameter, p2: Parameter, p3: Parameter, callback: Action<T1, T2, T3>): Command;
     Create<T1, T2, T3, T4>(name: string, aliases: string, helpText: string, p1: Parameter, p2: Parameter, p3: Parameter, p4: Parameter, callback: Action<T1, T2, T3, T4>, defaultCallback: Action): Command;
+    Create<T1, T2, T3, T4>(name: string, aliases: string, helpText: string, p1: Parameter, p2: Parameter, p3: Parameter, p4: Parameter, callback: Action<T1, T2, T3, T4>): Command;
     Create<T1, T2, T3, T4, T5>(name: string, aliases: string, helpText: string, p1: Parameter, p2: Parameter, p3: Parameter, p4: Parameter, p5: Parameter, callback: Action<T1, T2, T3, T4, T5>, defaultCallback: Action): Command;
+    Create<T1, T2, T3, T4, T5>(name: string, aliases: string, helpText: string, p1: Parameter, p2: Parameter, p3: Parameter, p4: Parameter, p5: Parameter, callback: Action<T1, T2, T3, T4, T5>): Command;
 
 }
 declare const Command: CommandConstructor;
@@ -39832,6 +41017,7 @@ interface DevConsoleConstructor {
 
 
     AddCommand(command: Command, onlyInDevBuild: boolean): boolean;
+    AddCommand(command: Command): boolean;
     AddParameterType<T>(parseFunc: Func<string, T>): boolean;
     ClearActiveConsoleContext(): void;
     ClearConsole(): void;
@@ -39843,22 +41029,38 @@ interface DevConsoleConstructor {
     InvokeCoroutine(enumerator: IEnumerator): Coroutine;
     InvokeDelayed(action: Action, delay: number): Coroutine;
     Log(message: unknown, context: LogContext, prepend: boolean): void;
+    Log(message: unknown, context: LogContext): void;
+    Log(message: unknown): void;
     Log(message: unknown, colour: Color, context: LogContext, prepend: boolean): void;
+    Log(message: unknown, colour: Color, context: LogContext): void;
     LogCollection<T>(collection: Readonly<T[]>, toString: Func<T, string>, prefix: string, suffix: string): void;
+    LogCollection<T>(collection: Readonly<T[]>, toString: Func<T, string>, prefix: string): void;
+    LogCollection<T>(collection: Readonly<T[]>, toString: Func<T, string>): void;
+    LogCollection<T>(collection: Readonly<T[]>): void;
     LogCommand(): void;
     LogCommand(name: string): void;
     LogError(message: unknown, context: LogContext, prepend: boolean): void;
+    LogError(message: unknown, context: LogContext): void;
+    LogError(message: unknown): void;
     LogException(exception: Exception, context: LogContext, prepend: boolean): void;
+    LogException(exception: Exception, context: LogContext): void;
+    LogException(exception: Exception): void;
     LogSeperator(message: unknown): void;
+    LogSeperator(): void;
     LogSuccess(message: unknown, context: LogContext): void;
+    LogSuccess(message: unknown): void;
     LogVariable(variableName: string, value: unknown, suffix: string): void;
+    LogVariable(variableName: string, value: unknown): void;
     LogWarning(message: unknown, context: LogContext, prepend: boolean): void;
+    LogWarning(message: unknown, context: LogContext): void;
+    LogWarning(message: unknown): void;
     OpenConsole(): void;
     RemoveCommand(name: string): boolean;
     RemoveTrackedStat(name: string): boolean;
     RunCommand(input: string): boolean;
     SetToggleKey(toggleKey: Nullable<Key>): void;
     SetTrackedStat(name: string, func: Func<unknown>, startEnabled: boolean): void;
+    SetTrackedStat(name: string, func: Func<unknown>): void;
 
     readonly OnConsoleEnabled: MonoSignal<void>;
     readonly OnConsoleDisabled: MonoSignal<void>;
@@ -39881,6 +41083,7 @@ interface CloudImage extends MonoBehaviour {
 
 
     ReleaseImage(notifyCache: boolean): void;
+    ReleaseImage(): void;
     StartDownload(): void;
 
 
@@ -40123,12 +41326,27 @@ interface LineRenderer extends Renderer {
     /**
      * Creates a snapshot of LineRenderer and stores it in mesh.
      * @param mesh A static mesh that will receive the snapshot of the line.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/LineRenderer.BakeMesh.html | LineRenderer.BakeMesh}
+     */
+    BakeMesh(mesh: Mesh): void;
+    /**
+     * Creates a snapshot of LineRenderer and stores it in mesh.
+     * @param mesh A static mesh that will receive the snapshot of the line.
      * @param camera The camera used for determining which way camera-space lines will face.
      * @param useTransform Include the rotation and scale of the Transform in the baked mesh.
      * 
      * More info: {@link https://docs.unity3d.com/ScriptReference/LineRenderer.BakeMesh.html | LineRenderer.BakeMesh}
      */
     BakeMesh(mesh: Mesh, camera: Camera, useTransform: boolean): void;
+    /**
+     * Creates a snapshot of LineRenderer and stores it in mesh.
+     * @param mesh A static mesh that will receive the snapshot of the line.
+     * @param camera The camera used for determining which way camera-space lines will face.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/LineRenderer.BakeMesh.html | LineRenderer.BakeMesh}
+     */
+    BakeMesh(mesh: Mesh, camera: Camera): void;
     /**
      * Get the position of a vertex in the line.
      * @param index The index of the position to retrieve.
@@ -42927,6 +44145,691 @@ interface FrameTimingManagerConstructor {
 }
 declare const FrameTimingManager: FrameTimingManagerConstructor;
     
+interface GraphicsStateCollection extends Object {
+    /**
+     * Flag indicating if the collection is actively tracing shader variants and graphics states.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection-isTracing.html | Experimental.Rendering.GraphicsStateCollection.isTracing}
+     */
+    readonly isTracing: boolean;
+    /**
+     * The current version of the collection.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection-version.html | Experimental.Rendering.GraphicsStateCollection.version}
+     */
+    version: number;
+    /**
+     * The graphics device API type the collection is intended to be used with.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection-graphicsDeviceType.html | Experimental.Rendering.GraphicsStateCollection.graphicsDeviceType}
+     */
+    graphicsDeviceType: GraphicsDeviceType;
+    /**
+     * The platform that the collection is intended to be used with.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection-runtimePlatform.html | Experimental.Rendering.GraphicsStateCollection.runtimePlatform}
+     */
+    runtimePlatform: RuntimePlatform;
+    /**
+     * The quality level the collection is intended to be used with.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection-qualityLevelName.html | Experimental.Rendering.GraphicsStateCollection.qualityLevelName}
+     */
+    qualityLevelName: string;
+    /**
+     * The total number of graphics states across all shader variants in the collection.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection-totalGraphicsStateCount.html | Experimental.Rendering.GraphicsStateCollection.totalGraphicsStateCount}
+     */
+    readonly totalGraphicsStateCount: number;
+    /**
+     * The number of shader variant permutations that have been warmed up.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection-completedWarmupCount.html | Experimental.Rendering.GraphicsStateCollection.completedWarmupCount}
+     */
+    readonly completedWarmupCount: number;
+    /**
+     * Flag indicating if the collection is warmed up.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection-isWarmedUp.html | Experimental.Rendering.GraphicsStateCollection.isWarmedUp}
+     */
+    readonly isWarmedUp: boolean;
+    /**
+     * The number of shader variants contained in this collection.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection-variantCount.html | Experimental.Rendering.GraphicsStateCollection.variantCount}
+     */
+    readonly variantCount: number;
+
+
+
+    AddGraphicsStateForVariant(shader: Shader, passId: PassIdentifier, keywords: Readonly<LocalKeyword[]>, setup: GraphicsState): boolean;
+    /**
+     * Adds a new shader variant to the collection.
+     * @param shader Shader used in the variant.
+     * @param passId PassIdentifier used in the variant.
+     * @param keywords Array of keywords used in the variant.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.AddVariant.html | Experimental.Rendering.GraphicsStateCollection.AddVariant}
+     */
+    AddVariant(shader: Shader, passId: PassIdentifier, keywords: Readonly<LocalKeyword[]>): boolean;
+    /**
+     * Start tracing shader variants and graphics states encountered at runtime.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.BeginTrace.html | Experimental.Rendering.GraphicsStateCollection.BeginTrace}
+     */
+    BeginTrace(): boolean;
+    /**
+     * Clears all shader variants and associated graphics states from collection.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.ClearVariants.html | Experimental.Rendering.GraphicsStateCollection.ClearVariants}
+     */
+    ClearVariants(): void;
+    /**
+     * Check if variant exists in collection.
+     * @param shader Shader used in the variant.
+     * @param passId PassIdentifier used in the variant.
+     * @param keywords Array of keywords used in the variant.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.ContainsVariant.html | Experimental.Rendering.GraphicsStateCollection.ContainsVariant}
+     */
+    ContainsVariant(shader: Shader, passId: PassIdentifier, keywords: Readonly<LocalKeyword[]>): boolean;
+    /**
+     * Stop tracing shader variants and graphics states encountered at runtime.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.EndTrace.html | Experimental.Rendering.GraphicsStateCollection.EndTrace}
+     */
+    EndTrace(): void;
+    /**
+     * Get the number of graphics states associated to a shader variant.
+     * @param shader Shader used in the variant.
+     * @param passId PassIdentifier used in the variant.
+     * @param keywords Array of keywords used in the variant.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.GetGraphicsStateCountForVariant.html | Experimental.Rendering.GraphicsStateCollection.GetGraphicsStateCountForVariant}
+     */
+    GetGraphicsStateCountForVariant(shader: Shader, passId: PassIdentifier, keywords: Readonly<LocalKeyword[]>): number;
+    GetGraphicsStateCountForVariant(variant: ShaderVariant): number;
+    GetGraphicsStatesForVariant(shader: Shader, passId: PassIdentifier, keywords: Readonly<LocalKeyword[]>, results: Readonly<GraphicsState[]>): void;
+    GetGraphicsStatesForVariant(variant: ShaderVariant, results: Readonly<GraphicsState[]>): void;
+    GetVariants(results: Readonly<ShaderVariant[]>): void;
+    /**
+     * Load the GraphicsStateCollection at the given path.
+     * @param filePath Location of the GraphicsStateCollection file.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.LoadFromFile.html | Experimental.Rendering.GraphicsStateCollection.LoadFromFile}
+     */
+    LoadFromFile(filePath: string): boolean;
+    /**
+     * Remove all associated graphics states from a shader variant.
+     * @param shader Shader used in the variant.
+     * @param passId PassIdentifier used in the variant.
+     * @param keywords Array of keywords used in the variant.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.RemoveGraphicsStatesForVariant.html | Experimental.Rendering.GraphicsStateCollection.RemoveGraphicsStatesForVariant}
+     */
+    RemoveGraphicsStatesForVariant(shader: Shader, passId: PassIdentifier, keywords: Readonly<LocalKeyword[]>): boolean;
+    /**
+     * Remove shader variant and associated graphics states from collection.
+     * @param shader Shader used in the variant.
+     * @param passId PassIdentifier used in the variant.
+     * @param keywords Array of keywords used in the variant.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.RemoveVariant.html | Experimental.Rendering.GraphicsStateCollection.RemoveVariant}
+     */
+    RemoveVariant(shader: Shader, passId: PassIdentifier, keywords: Readonly<LocalKeyword[]>): boolean;
+    /**
+     * Save GraphicsStateCollection to disk.
+     * @param filePath Output location of GraphicsStateCollection serialized data.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.SaveToFile.html | Experimental.Rendering.GraphicsStateCollection.SaveToFile}
+     */
+    SaveToFile(filePath: string): boolean;
+    /**
+     * Send GraphicsStateCollection to the Editor using PlayerConnection.
+     * @param fileName Name of the GraphicsStateCollection file saved by the Editor.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.SendToEditor.html | Experimental.Rendering.GraphicsStateCollection.SendToEditor}
+     */
+    SendToEditor(fileName: string): boolean;
+    /**
+     * Prewarms all shader variants in this collection using associated graphics states.
+     * @param dependency Job to wait for.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.WarmUp.html | Experimental.Rendering.GraphicsStateCollection.WarmUp}
+     */
+    WarmUp(dependency: JobHandle): JobHandle;
+    /**
+     * Prewarms all shader variants in this collection using associated graphics states.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.WarmUp.html | Experimental.Rendering.GraphicsStateCollection.WarmUp}
+     */
+    WarmUp(): JobHandle;
+    /**
+     * Prewarms the given number of shader variant permutations using associated graphics states.
+     * @param count The maximum number of variants to warm up.
+     * @param dependency Job to wait for.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.WarmUpProgressively.html | Experimental.Rendering.GraphicsStateCollection.WarmUpProgressively}
+     */
+    WarmUpProgressively(count: number, dependency: JobHandle): JobHandle;
+    /**
+     * Prewarms the given number of shader variant permutations using associated graphics states.
+     * @param count The maximum number of variants to warm up.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Experimental.Rendering.GraphicsStateCollection.WarmUpProgressively.html | Experimental.Rendering.GraphicsStateCollection.WarmUpProgressively}
+     */
+    WarmUpProgressively(count: number): JobHandle;
+
+
+}
+    
+interface PassIdentifier {
+    /**
+     * The index of the subshader within the shader (Read Only).
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.PassIdentifier-SubshaderIndex.html | Rendering.PassIdentifier.SubshaderIndex}
+     */
+    readonly SubshaderIndex: number;
+    /**
+     * The index of the pass within the subshader (Read Only).
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.PassIdentifier-PassIndex.html | Rendering.PassIdentifier.PassIndex}
+     */
+    readonly PassIndex: number;
+
+
+
+    Equals(o: unknown): boolean;
+    Equals(rhs: PassIdentifier): boolean;
+    GetHashCode(): number;
+
+
+}
+    
+interface PassIdentifierConstructor {
+
+
+    new(subshaderIndex: number, passIndex: number): PassIdentifier;
+
+
+
+}
+declare const PassIdentifier: PassIdentifierConstructor;
+    
+interface GraphicsState {
+    vertexAttributes: Readonly<VertexAttributeDescriptor[]>;
+    attachments: Readonly<AttachmentDescriptor[]>;
+    subPasses: Readonly<SubPassDescriptor[]>;
+    renderState: RenderStateBlock;
+    topology: MeshTopology;
+    forceCullMode: CullMode;
+    depthBias: number;
+    slopeDepthBias: number;
+    depthAttachmentIndex: number;
+    subPassIndex: number;
+    shadingRateIndex: number;
+    multiviewCount: number;
+    sampleCount: number;
+    wireframe: boolean;
+    invertCulling: boolean;
+    negativeScale: boolean;
+    invertProjection: boolean;
+
+
+
+
+
+}
+    
+interface RenderStateBlock {
+    /**
+     * Specifies the new blend state.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderStateBlock-blendState.html | Rendering.RenderStateBlock.blendState}
+     */
+    blendState: BlendState;
+    /**
+     * Specifies the new raster state.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderStateBlock-rasterState.html | Rendering.RenderStateBlock.rasterState}
+     */
+    rasterState: RasterState;
+    /**
+     * Specifies the new depth state.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderStateBlock-depthState.html | Rendering.RenderStateBlock.depthState}
+     */
+    depthState: DepthState;
+    /**
+     * Specifies the new stencil state.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderStateBlock-stencilState.html | Rendering.RenderStateBlock.stencilState}
+     */
+    stencilState: StencilState;
+    /**
+     * The value to be compared against and/or the value to be written to the buffer, based on the stencil state.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderStateBlock-stencilReference.html | Rendering.RenderStateBlock.stencilReference}
+     */
+    stencilReference: number;
+    /**
+     * Specifies which parts of the GPU's render state to override.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderStateBlock-mask.html | Rendering.RenderStateBlock.mask}
+     */
+    mask: RenderStateMask;
+
+
+
+    Equals(other: RenderStateBlock): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+
+
+}
+    
+interface BlendState {
+    /**
+     * Determines whether each render target uses a separate blend state.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.BlendState-separateMRTBlendStates.html | Rendering.BlendState.separateMRTBlendStates}
+     */
+    separateMRTBlendStates: boolean;
+    /**
+     * Turns on alpha-to-coverage.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.BlendState-alphaToMask.html | Rendering.BlendState.alphaToMask}
+     */
+    alphaToMask: boolean;
+    /**
+     * Blend state for render target 0.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.BlendState-blendState0.html | Rendering.BlendState.blendState0}
+     */
+    blendState0: RenderTargetBlendState;
+    /**
+     * Blend state for render target 1.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.BlendState-blendState1.html | Rendering.BlendState.blendState1}
+     */
+    blendState1: RenderTargetBlendState;
+    /**
+     * Blend state for render target 2.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.BlendState-blendState2.html | Rendering.BlendState.blendState2}
+     */
+    blendState2: RenderTargetBlendState;
+    /**
+     * Blend state for render target 3.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.BlendState-blendState3.html | Rendering.BlendState.blendState3}
+     */
+    blendState3: RenderTargetBlendState;
+    /**
+     * Blend state for render target 4.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.BlendState-blendState4.html | Rendering.BlendState.blendState4}
+     */
+    blendState4: RenderTargetBlendState;
+    /**
+     * Blend state for render target 5.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.BlendState-blendState5.html | Rendering.BlendState.blendState5}
+     */
+    blendState5: RenderTargetBlendState;
+    /**
+     * Blend state for render target 6.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.BlendState-blendState6.html | Rendering.BlendState.blendState6}
+     */
+    blendState6: RenderTargetBlendState;
+    /**
+     * Blend state for render target 7.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.BlendState-blendState7.html | Rendering.BlendState.blendState7}
+     */
+    blendState7: RenderTargetBlendState;
+
+
+
+    Equals(other: BlendState): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+
+
+}
+    
+interface RenderTargetBlendState {
+    /**
+     * Specifies which color components will get written into the target framebuffer.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderTargetBlendState-writeMask.html | Rendering.RenderTargetBlendState.writeMask}
+     */
+    writeMask: ColorWriteMask;
+    /**
+     * Blend factor used for the color (RGB) channel of the source.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderTargetBlendState-sourceColorBlendMode.html | Rendering.RenderTargetBlendState.sourceColorBlendMode}
+     */
+    sourceColorBlendMode: BlendMode;
+    /**
+     * Blend factor used for the color (RGB) channel of the destination.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderTargetBlendState-destinationColorBlendMode.html | Rendering.RenderTargetBlendState.destinationColorBlendMode}
+     */
+    destinationColorBlendMode: BlendMode;
+    /**
+     * Blend factor used for the alpha (A) channel of the source.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderTargetBlendState-sourceAlphaBlendMode.html | Rendering.RenderTargetBlendState.sourceAlphaBlendMode}
+     */
+    sourceAlphaBlendMode: BlendMode;
+    /**
+     * Blend factor used for the alpha (A) channel of the destination.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderTargetBlendState-destinationAlphaBlendMode.html | Rendering.RenderTargetBlendState.destinationAlphaBlendMode}
+     */
+    destinationAlphaBlendMode: BlendMode;
+    /**
+     * Operation used for blending the color (RGB) channel.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderTargetBlendState-colorBlendOperation.html | Rendering.RenderTargetBlendState.colorBlendOperation}
+     */
+    colorBlendOperation: BlendOp;
+    /**
+     * Operation used for blending the alpha (A) channel.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderTargetBlendState-alphaBlendOperation.html | Rendering.RenderTargetBlendState.alphaBlendOperation}
+     */
+    alphaBlendOperation: BlendOp;
+
+
+
+    Equals(other: RenderTargetBlendState): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+
+
+}
+    
+interface RenderTargetBlendStateConstructor {
+    /**
+     * Default values for the blend state.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderTargetBlendState-defaultValue.html | Rendering.RenderTargetBlendState.defaultValue}
+     */
+    readonly defaultValue: RenderTargetBlendState;
+
+
+    new(writeMask: ColorWriteMask, sourceColorBlendMode: BlendMode, destinationColorBlendMode: BlendMode, sourceAlphaBlendMode: BlendMode, destinationAlphaBlendMode: BlendMode, colorBlendOperation: BlendOp, alphaBlendOperation: BlendOp): RenderTargetBlendState;
+
+
+
+}
+declare const RenderTargetBlendState: RenderTargetBlendStateConstructor;
+    
+interface BlendStateConstructor {
+    /**
+     * Default values for the blend state.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.BlendState-defaultValue.html | Rendering.BlendState.defaultValue}
+     */
+    readonly defaultValue: BlendState;
+
+
+    new(separateMRTBlend: boolean, alphaToMask: boolean): BlendState;
+
+
+
+}
+declare const BlendState: BlendStateConstructor;
+    
+interface RasterState {
+    /**
+     * Controls which sides of polygons should be culled (not drawn).
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RasterState-cullingMode.html | Rendering.RasterState.cullingMode}
+     */
+    cullingMode: CullMode;
+    /**
+     * Enable clipping based on depth.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RasterState-depthClip.html | Rendering.RasterState.depthClip}
+     */
+    depthClip: boolean;
+    /**
+     * Enables conservative rasterization. Before using check for support via SystemInfo.supportsConservativeRaster property.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RasterState-conservative.html | Rendering.RasterState.conservative}
+     */
+    conservative: boolean;
+    /**
+     * Scales the minimum resolvable depth buffer value in the GPU's depth bias setting.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RasterState-offsetUnits.html | Rendering.RasterState.offsetUnits}
+     */
+    offsetUnits: number;
+    /**
+     * Scales the maximum Z slope in the GPU's depth bias setting.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RasterState-offsetFactor.html | Rendering.RasterState.offsetFactor}
+     */
+    offsetFactor: number;
+
+
+
+    Equals(other: RasterState): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+
+
+}
+    
+interface RasterStateConstructor {
+    readonly defaultValue: RasterState;
+
+
+    new(cullingMode: CullMode, offsetUnits: number, offsetFactor: number, depthClip: boolean): RasterState;
+
+
+
+}
+declare const RasterState: RasterStateConstructor;
+    
+interface DepthState {
+    /**
+     * Controls whether pixels from this object are written to the depth buffer.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.DepthState-writeEnabled.html | Rendering.DepthState.writeEnabled}
+     */
+    writeEnabled: boolean;
+    /**
+     * How should depth testing be performed.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.DepthState-compareFunction.html | Rendering.DepthState.compareFunction}
+     */
+    compareFunction: CompareFunction;
+
+
+
+    Equals(other: DepthState): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+
+
+}
+    
+interface DepthStateConstructor {
+    /**
+     * Default values for the depth state.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.DepthState-defaultValue.html | Rendering.DepthState.defaultValue}
+     */
+    readonly defaultValue: DepthState;
+
+
+    new(writeEnabled: boolean, compareFunction: CompareFunction): DepthState;
+
+
+
+}
+declare const DepthState: DepthStateConstructor;
+    
+interface StencilState {
+    /**
+     * Controls whether the stencil buffer is enabled.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState-enabled.html | Rendering.StencilState.enabled}
+     */
+    enabled: boolean;
+    /**
+     * An 8 bit mask as an 0&#8211;255 integer, used when comparing the reference value with the contents of the buffer.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState-readMask.html | Rendering.StencilState.readMask}
+     */
+    readMask: number;
+    /**
+     * An 8 bit mask as an 0&#8211;255 integer, used when writing to the buffer.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState-writeMask.html | Rendering.StencilState.writeMask}
+     */
+    writeMask: number;
+    /**
+     * The function used to compare the reference value to the current contents of the buffer for front-facing geometry.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState-compareFunctionFront.html | Rendering.StencilState.compareFunctionFront}
+     */
+    compareFunctionFront: CompareFunction;
+    /**
+     * What to do with the contents of the buffer if the stencil test (and the depth test) passes for front-facing geometry.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState-passOperationFront.html | Rendering.StencilState.passOperationFront}
+     */
+    passOperationFront: StencilOp;
+    /**
+     * What to do with the contents of the buffer if the stencil test fails for front-facing geometry.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState-failOperationFront.html | Rendering.StencilState.failOperationFront}
+     */
+    failOperationFront: StencilOp;
+    /**
+     * What to do with the contents of the buffer if the stencil test passes, but the depth test fails for front-facing geometry.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState-zFailOperationFront.html | Rendering.StencilState.zFailOperationFront}
+     */
+    zFailOperationFront: StencilOp;
+    /**
+     * The function used to compare the reference value to the current contents of the buffer for back-facing geometry.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState-compareFunctionBack.html | Rendering.StencilState.compareFunctionBack}
+     */
+    compareFunctionBack: CompareFunction;
+    /**
+     * What to do with the contents of the buffer if the stencil test (and the depth test) passes for back-facing geometry.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState-passOperationBack.html | Rendering.StencilState.passOperationBack}
+     */
+    passOperationBack: StencilOp;
+    /**
+     * What to do with the contents of the buffer if the stencil test fails for back-facing geometry.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState-failOperationBack.html | Rendering.StencilState.failOperationBack}
+     */
+    failOperationBack: StencilOp;
+    /**
+     * What to do with the contents of the buffer if the stencil test passes, but the depth test fails for back-facing geometry.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState-zFailOperationBack.html | Rendering.StencilState.zFailOperationBack}
+     */
+    zFailOperationBack: StencilOp;
+
+
+
+    Equals(other: StencilState): boolean;
+    Equals(obj: unknown): boolean;
+    GetHashCode(): number;
+    /**
+     * The function used to compare the reference value to the current contents of the buffer.
+     * @param value The value to set.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState.SetCompareFunction.html | Rendering.StencilState.SetCompareFunction}
+     */
+    SetCompareFunction(value: CompareFunction): void;
+    /**
+     * What to do with the contents of the buffer if the stencil test fails.
+     * @param value The value to set.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState.SetFailOperation.html | Rendering.StencilState.SetFailOperation}
+     */
+    SetFailOperation(value: StencilOp): void;
+    /**
+     * What to do with the contents of the buffer if the stencil test (and the depth test) passes.
+     * @param value The value to set.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState.SetPassOperation.html | Rendering.StencilState.SetPassOperation}
+     */
+    SetPassOperation(value: StencilOp): void;
+    /**
+     * What to do with the contents of the buffer if the stencil test passes, but the depth test fails.
+     * @param value The value to set.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState.SetZFailOperation.html | Rendering.StencilState.SetZFailOperation}
+     */
+    SetZFailOperation(value: StencilOp): void;
+
+
+}
+    
+interface StencilStateConstructor {
+    /**
+     * Default values for the stencil state.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.StencilState-defaultValue.html | Rendering.StencilState.defaultValue}
+     */
+    readonly defaultValue: StencilState;
+
+
+    new(enabled: boolean, readMask: number, writeMask: number, compareFunction: CompareFunction, passOperation: StencilOp, failOperation: StencilOp, zFailOperation: StencilOp): StencilState;
+    new(enabled: boolean, readMask: number, writeMask: number, compareFunctionFront: CompareFunction, passOperationFront: StencilOp, failOperationFront: StencilOp, zFailOperationFront: StencilOp, compareFunctionBack: CompareFunction, passOperationBack: StencilOp, failOperationBack: StencilOp, zFailOperationBack: StencilOp): StencilState;
+
+
+
+}
+declare const StencilState: StencilStateConstructor;
+    
+interface RenderStateBlockConstructor {
+
+
+    new(mask: RenderStateMask): RenderStateBlock;
+
+
+
+}
+declare const RenderStateBlock: RenderStateBlockConstructor;
+    
+interface ShaderVariant {
+    shader: Shader;
+    passId: PassIdentifier;
+    keywords: Readonly<LocalKeyword[]>;
+
+
+
+
+
+}
+    
+interface GraphicsStateCollectionConstructor {
+
+
+    new(): GraphicsStateCollection;
+    new(filePath: string): GraphicsStateCollection;
+
+
+
+}
+declare const GraphicsStateCollection: GraphicsStateCollectionConstructor;
+    
 interface BoxCollider2D extends Collider2D {
     /**
      * The width and height of the rectangle.
@@ -43139,6 +45042,14 @@ interface CustomCollider2D extends Collider2D {
      * More info: {@link https://docs.unity3d.com/ScriptReference/CustomCollider2D.GetCustomShapes.html | CustomCollider2D.GetCustomShapes}
      */
     GetCustomShapes(physicsShapeGroup: PhysicsShapeGroup2D, shapeIndex: number, shapeCount: number): number;
+    /**
+     * Gets a specified number of physics shapes defined byshapeCount starting at shapeIndex along with all associated vertices those shapes use and places them in the specified PhysicsShapeGroup2D.
+     * @param physicsShapeGroup The physics shape group that will receive the PhysicsShape2D|physics shapes and Vector2|vertices from the Collider.
+     * @param shapeIndex The shape index within the Collider to start retrieving shapes from.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/CustomCollider2D.GetCustomShapes.html | CustomCollider2D.GetCustomShapes}
+     */
+    GetCustomShapes(physicsShapeGroup: PhysicsShapeGroup2D, shapeIndex: number): number;
     GetCustomShapes(shapes: Readonly<PhysicsShape2D[]>, vertices: Readonly<Vector2[]>): number;
     /**
      * Sets a single shape and all associated shape vertices from the specified physicsShapeGroup into the Collider.
@@ -44921,24 +46832,87 @@ interface GraphicsConstructor {
     DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: ComputeBuffer, argsOffset: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number, camera: Camera, lightProbeUsage: LightProbeUsage, lightProbeProxyVolume: LightProbeProxyVolume): void;
     DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: GraphicsBuffer, argsOffset: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number, camera: Camera, lightProbeUsage: LightProbeUsage, lightProbeProxyVolume: LightProbeProxyVolume): void;
     DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: ComputeBuffer, argsOffset: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number, camera: Camera, lightProbeUsage: LightProbeUsage): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: ComputeBuffer, argsOffset: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number, camera: Camera): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: ComputeBuffer, argsOffset: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: ComputeBuffer, argsOffset: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: ComputeBuffer, argsOffset: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: ComputeBuffer, argsOffset: number, properties: MaterialPropertyBlock): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: ComputeBuffer, argsOffset: number): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: ComputeBuffer): void;
     DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: GraphicsBuffer, argsOffset: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number, camera: Camera, lightProbeUsage: LightProbeUsage): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: GraphicsBuffer, argsOffset: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number, camera: Camera): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: GraphicsBuffer, argsOffset: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: GraphicsBuffer, argsOffset: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: GraphicsBuffer, argsOffset: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: GraphicsBuffer, argsOffset: number, properties: MaterialPropertyBlock): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: GraphicsBuffer, argsOffset: number): void;
+    DrawMeshInstancedIndirect(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, bufferWithArgs: GraphicsBuffer): void;
     DrawMeshInstancedProcedural(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, count: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number, camera: Camera, lightProbeUsage: LightProbeUsage, lightProbeProxyVolume: LightProbeProxyVolume): void;
+    DrawMeshInstancedProcedural(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, count: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number, camera: Camera, lightProbeUsage: LightProbeUsage): void;
+    DrawMeshInstancedProcedural(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, count: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number, camera: Camera): void;
+    DrawMeshInstancedProcedural(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, count: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number): void;
+    DrawMeshInstancedProcedural(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, count: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean): void;
+    DrawMeshInstancedProcedural(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, count: number, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode): void;
+    DrawMeshInstancedProcedural(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, count: number, properties: MaterialPropertyBlock): void;
+    DrawMeshInstancedProcedural(mesh: Mesh, submeshIndex: number, material: Material, bounds: Bounds, count: number): void;
     DrawMeshNow(mesh: Mesh, position: Vector3, rotation: Quaternion, materialIndex: number): void;
     DrawMeshNow(mesh: Mesh, matrix: Matrix4x4, materialIndex: number): void;
     DrawMeshNow(mesh: Mesh, position: Vector3, rotation: Quaternion): void;
     DrawMeshNow(mesh: Mesh, matrix: Matrix4x4): void;
     DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, vertexCount: number, instanceCount: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number): void;
+    DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, vertexCount: number, instanceCount: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean): void;
+    DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, vertexCount: number, instanceCount: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode): void;
+    DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, vertexCount: number, instanceCount: number, camera: Camera, properties: MaterialPropertyBlock): void;
+    DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, vertexCount: number, instanceCount: number, camera: Camera): void;
+    DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, vertexCount: number, instanceCount: number): void;
+    DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, vertexCount: number): void;
     DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, indexCount: number, instanceCount: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number): void;
+    DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, indexCount: number, instanceCount: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean): void;
+    DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, indexCount: number, instanceCount: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode): void;
+    DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, indexCount: number, instanceCount: number, camera: Camera, properties: MaterialPropertyBlock): void;
+    DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, indexCount: number, instanceCount: number, camera: Camera): void;
+    DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, indexCount: number, instanceCount: number): void;
+    DrawProcedural(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, indexCount: number): void;
     DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: ComputeBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: ComputeBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: ComputeBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: ComputeBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: ComputeBuffer, argsOffset: number, camera: Camera): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: ComputeBuffer, argsOffset: number): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: ComputeBuffer): void;
     DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: GraphicsBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: GraphicsBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: GraphicsBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: GraphicsBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: GraphicsBuffer, argsOffset: number, camera: Camera): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: GraphicsBuffer, argsOffset: number): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, bufferWithArgs: GraphicsBuffer): void;
     DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: ComputeBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: ComputeBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: ComputeBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: ComputeBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: ComputeBuffer, argsOffset: number, camera: Camera): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: ComputeBuffer, argsOffset: number): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: ComputeBuffer): void;
     DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: GraphicsBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean, layer: number): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: GraphicsBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode, receiveShadows: boolean): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: GraphicsBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock, castShadows: ShadowCastingMode): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: GraphicsBuffer, argsOffset: number, camera: Camera, properties: MaterialPropertyBlock): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: GraphicsBuffer, argsOffset: number, camera: Camera): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: GraphicsBuffer, argsOffset: number): void;
+    DrawProceduralIndirect(material: Material, bounds: Bounds, topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: GraphicsBuffer): void;
     DrawProceduralIndirectNow(topology: MeshTopology, bufferWithArgs: ComputeBuffer, argsOffset: number): void;
+    DrawProceduralIndirectNow(topology: MeshTopology, bufferWithArgs: ComputeBuffer): void;
     DrawProceduralIndirectNow(topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: ComputeBuffer, argsOffset: number): void;
+    DrawProceduralIndirectNow(topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: ComputeBuffer): void;
     DrawProceduralIndirectNow(topology: MeshTopology, bufferWithArgs: GraphicsBuffer, argsOffset: number): void;
+    DrawProceduralIndirectNow(topology: MeshTopology, bufferWithArgs: GraphicsBuffer): void;
     DrawProceduralIndirectNow(topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: GraphicsBuffer, argsOffset: number): void;
+    DrawProceduralIndirectNow(topology: MeshTopology, indexBuffer: GraphicsBuffer, bufferWithArgs: GraphicsBuffer): void;
     DrawProceduralNow(topology: MeshTopology, vertexCount: number, instanceCount: number): void;
+    DrawProceduralNow(topology: MeshTopology, vertexCount: number): void;
     DrawProceduralNow(topology: MeshTopology, indexBuffer: GraphicsBuffer, indexCount: number, instanceCount: number): void;
+    DrawProceduralNow(topology: MeshTopology, indexBuffer: GraphicsBuffer, indexCount: number): void;
     DrawTexture(screenRect: Rect, texture: Texture, sourceRect: Rect, leftBorder: number, rightBorder: number, topBorder: number, bottomBorder: number, color: Color, mat: Material, pass: number): void;
     DrawTexture(screenRect: Rect, texture: Texture, sourceRect: Rect, leftBorder: number, rightBorder: number, topBorder: number, bottomBorder: number, mat: Material, pass: number): void;
     DrawTexture(screenRect: Rect, texture: Texture, leftBorder: number, rightBorder: number, topBorder: number, bottomBorder: number, mat: Material, pass: number): void;
@@ -44954,15 +46928,32 @@ interface GraphicsConstructor {
     ExecuteCommandBuffer(buffer: CommandBuffer): void;
     ExecuteCommandBufferAsync(buffer: CommandBuffer, queueType: ComputeQueueType): void;
     RenderMesh(rparams: RenderParams, mesh: Mesh, submeshIndex: number, objectToWorld: Matrix4x4, prevObjectToWorld: Nullable<Matrix4x4>): void;
+    RenderMesh(rparams: RenderParams, mesh: Mesh, submeshIndex: number, objectToWorld: Matrix4x4): void;
     RenderMeshIndirect(rparams: RenderParams, mesh: Mesh, commandBuffer: GraphicsBuffer, commandCount: number, startCommand: number): void;
+    RenderMeshIndirect(rparams: RenderParams, mesh: Mesh, commandBuffer: GraphicsBuffer, commandCount: number): void;
+    RenderMeshIndirect(rparams: RenderParams, mesh: Mesh, commandBuffer: GraphicsBuffer): void;
     RenderMeshInstanced<T>(rparams: RenderParams, mesh: Mesh, submeshIndex: number, instanceData: Readonly<T[]>, instanceCount: number, startInstance: number): void;
+    RenderMeshInstanced<T>(rparams: RenderParams, mesh: Mesh, submeshIndex: number, instanceData: Readonly<T[]>, instanceCount: number): void;
+    RenderMeshInstanced<T>(rparams: RenderParams, mesh: Mesh, submeshIndex: number, instanceData: Readonly<T[]>): void;
     RenderMeshInstanced<T>(rparams: RenderParams, mesh: Mesh, submeshIndex: number, instanceData: Readonly<T[]>, instanceCount: number, startInstance: number): void;
+    RenderMeshInstanced<T>(rparams: RenderParams, mesh: Mesh, submeshIndex: number, instanceData: Readonly<T[]>, instanceCount: number): void;
+    RenderMeshInstanced<T>(rparams: RenderParams, mesh: Mesh, submeshIndex: number, instanceData: Readonly<T[]>): void;
     RenderMeshInstanced<T>(rparams: RenderParams, mesh: Mesh, submeshIndex: number, instanceData: Readonly<T[]>, instanceCount: number, startInstance: number): void;
+    RenderMeshInstanced<T>(rparams: RenderParams, mesh: Mesh, submeshIndex: number, instanceData: Readonly<T[]>, instanceCount: number): void;
+    RenderMeshInstanced<T>(rparams: RenderParams, mesh: Mesh, submeshIndex: number, instanceData: Readonly<T[]>): void;
     RenderMeshPrimitives(rparams: RenderParams, mesh: Mesh, submeshIndex: number, instanceCount: number): void;
+    RenderMeshPrimitives(rparams: RenderParams, mesh: Mesh, submeshIndex: number): void;
     RenderPrimitives(rparams: RenderParams, topology: MeshTopology, vertexCount: number, instanceCount: number): void;
+    RenderPrimitives(rparams: RenderParams, topology: MeshTopology, vertexCount: number): void;
     RenderPrimitivesIndexed(rparams: RenderParams, topology: MeshTopology, indexBuffer: GraphicsBuffer, indexCount: number, startIndex: number, instanceCount: number): void;
+    RenderPrimitivesIndexed(rparams: RenderParams, topology: MeshTopology, indexBuffer: GraphicsBuffer, indexCount: number, startIndex: number): void;
+    RenderPrimitivesIndexed(rparams: RenderParams, topology: MeshTopology, indexBuffer: GraphicsBuffer, indexCount: number): void;
     RenderPrimitivesIndexedIndirect(rparams: RenderParams, topology: MeshTopology, indexBuffer: GraphicsBuffer, commandBuffer: GraphicsBuffer, commandCount: number, startCommand: number): void;
+    RenderPrimitivesIndexedIndirect(rparams: RenderParams, topology: MeshTopology, indexBuffer: GraphicsBuffer, commandBuffer: GraphicsBuffer, commandCount: number): void;
+    RenderPrimitivesIndexedIndirect(rparams: RenderParams, topology: MeshTopology, indexBuffer: GraphicsBuffer, commandBuffer: GraphicsBuffer): void;
     RenderPrimitivesIndirect(rparams: RenderParams, topology: MeshTopology, commandBuffer: GraphicsBuffer, commandCount: number, startCommand: number): void;
+    RenderPrimitivesIndirect(rparams: RenderParams, topology: MeshTopology, commandBuffer: GraphicsBuffer, commandCount: number): void;
+    RenderPrimitivesIndirect(rparams: RenderParams, topology: MeshTopology, commandBuffer: GraphicsBuffer): void;
     SetRandomWriteTarget(index: number, uav: RenderTexture): void;
     SetRandomWriteTarget(index: number, uav: ComputeBuffer, preserveCounterValue: boolean): void;
     SetRandomWriteTarget(index: number, uav: GraphicsBuffer, preserveCounterValue: boolean): void;
@@ -46603,6 +48594,7 @@ The default value is true.
     IncreaseLevel(): void;
     IsPlatformIncluded(buildTargetGroupName: string, index: number): boolean;
     SetLODSettings(lodBias: number, maximumLODLevel: number, setDirty: boolean): void;
+    SetLODSettings(lodBias: number, maximumLODLevel: number): void;
     SetQualityLevel(index: number): void;
     SetQualityLevel(index: number, applyExpensiveChanges: boolean): void;
     SetTextureMipmapLimitSettings(groupName: string, textureMipmapLimitSettings: TextureMipmapLimitSettings): void;
@@ -46671,6 +48663,12 @@ interface RenderPipelineGlobalSettings extends ScriptableObject, ISerializationC
      * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderPipelineGlobalSettings.Initialize.html | Rendering.RenderPipelineGlobalSettings.Initialize}
      */
     Initialize(source: RenderPipelineGlobalSettings): void;
+    /**
+     * Editor-only function that initializes the RenderPipelineGlobalSettings.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/Rendering.RenderPipelineGlobalSettings.Initialize.html | Rendering.RenderPipelineGlobalSettings.Initialize}
+     */
+    Initialize(): void;
     OnAfterDeserialize(): void;
     OnBeforeSerialize(): void;
 
@@ -46825,6 +48823,7 @@ interface IGPUResidentRenderPipeline {
 
 
     IsGPUResidentDrawerSupportedBySRP(logReason: boolean): boolean;
+    IsGPUResidentDrawerSupportedBySRP(): boolean;
 
 
 }
@@ -46852,6 +48851,7 @@ interface IGPUResidentRenderPipelineConstructor {
 
     IsGPUResidentDrawerEnabled(): boolean;
     IsGPUResidentDrawerSupportedByProjectConfiguration(logReason: boolean): boolean;
+    IsGPUResidentDrawerSupportedByProjectConfiguration(): boolean;
     ReinitializeGPUResidentDrawer(): void;
 
 }
@@ -47018,6 +49018,7 @@ interface UniversalRenderPipelineAsset extends RenderPipelineAsset<UniversalRend
 
     GetRenderer(index: number): ScriptableRenderer;
     LoadBuiltinRendererData(type: RendererType): ScriptableRendererData;
+    LoadBuiltinRendererData(): ScriptableRendererData;
     OnAfterDeserialize(): void;
     OnBeforeSerialize(): void;
 
@@ -47105,6 +49106,8 @@ interface RenderGraph {
 
 
     BeginProfilingSampler(sampler: ProfilingSampler, file: string, line: number): void;
+    BeginProfilingSampler(sampler: ProfilingSampler, file: string): void;
+    BeginProfilingSampler(sampler: ProfilingSampler): void;
     BeginRecording(parameters: RenderGraphParameters): void;
     Cleanup(): void;
     CreateBuffer(desc: BufferDesc): BufferHandle;
@@ -47114,6 +49117,7 @@ interface RenderGraph {
     CreateRendererList(desc: RendererListParams): RendererListHandle;
     CreateShadowRendererList(shadowDrawingSettings: ShadowDrawingSettings): RendererListHandle;
     CreateSharedTexture(desc: TextureDesc, explicitRelease: boolean): TextureHandle;
+    CreateSharedTexture(desc: TextureDesc): TextureHandle;
     CreateSkyboxRendererList(camera: Camera): RendererListHandle;
     CreateSkyboxRendererList(camera: Camera, projectionMatrix: Matrix4x4, viewMatrix: Matrix4x4): RendererListHandle;
     CreateSkyboxRendererList(camera: Camera, projectionMatrixL: Matrix4x4, viewMatrixL: Matrix4x4, projectionMatrixR: Matrix4x4, viewMatrixR: Matrix4x4): RendererListHandle;
@@ -47125,19 +49129,26 @@ interface RenderGraph {
     CreateWireOverlayRendererList(camera: Camera): RendererListHandle;
     EndFrame(): void;
     EndProfilingSampler(sampler: ProfilingSampler, file: string, line: number): void;
+    EndProfilingSampler(sampler: ProfilingSampler, file: string): void;
+    EndProfilingSampler(sampler: ProfilingSampler): void;
     EndRecordingAndExecute(): void;
     GetBufferDesc(graphicsBuffer: BufferHandle): BufferDesc;
     GetRenderTargetInfo(texture: TextureHandle): RenderTargetInfo;
     GetTextureDesc(texture: TextureHandle): TextureDesc;
     ImportBackbuffer(rt: RenderTargetIdentifier, info: RenderTargetInfo, importParams: ImportResourceParams): TextureHandle;
+    ImportBackbuffer(rt: RenderTargetIdentifier, info: RenderTargetInfo): TextureHandle;
     ImportBackbuffer(rt: RenderTargetIdentifier): TextureHandle;
     ImportBuffer(graphicsBuffer: GraphicsBuffer, forceRelease: boolean): BufferHandle;
+    ImportBuffer(graphicsBuffer: GraphicsBuffer): BufferHandle;
     ImportRayTracingAccelerationStructure(accelStruct: RayTracingAccelerationStructure, name: string): RayTracingAccelerationStructureHandle;
+    ImportRayTracingAccelerationStructure(accelStruct: RayTracingAccelerationStructure): RayTracingAccelerationStructureHandle;
     ImportTexture(rt: RTHandle): TextureHandle;
     ImportTexture(rt: RTHandle, importParams: ImportResourceParams): TextureHandle;
     ImportTexture(rt: RTHandle, info: RenderTargetInfo, importParams: ImportResourceParams): TextureHandle;
+    ImportTexture(rt: RTHandle, info: RenderTargetInfo): TextureHandle;
     RefreshSharedTextureDesc(handle: TextureHandle, desc: TextureDesc): void;
     RegisterDebug(panel: Panel): void;
+    RegisterDebug(): void;
     ReleaseSharedTexture(texture: TextureHandle): void;
     UnRegisterDebug(): void;
 
@@ -47411,13 +49422,19 @@ interface RTHandle {
 
     ClearCustomHandleProperties(): void;
     CopyToFastMemory(cmd: CommandBuffer, residencyFraction: number, flags: FastMemoryFlags): void;
+    CopyToFastMemory(cmd: CommandBuffer, residencyFraction: number): void;
+    CopyToFastMemory(cmd: CommandBuffer): void;
     GetInstanceID(): number;
     GetScaledSize(refSize: Vector2Int): Vector2Int;
     GetScaledSize(): Vector2Int;
     Release(): void;
     SetCustomHandleProperties(properties: RTHandleProperties): void;
     SwitchOutFastMemory(cmd: CommandBuffer, copyContents: boolean): void;
+    SwitchOutFastMemory(cmd: CommandBuffer): void;
     SwitchToFastMemory(cmd: CommandBuffer, residencyFraction: number, flags: FastMemoryFlags, copyContents: boolean): void;
+    SwitchToFastMemory(cmd: CommandBuffer, residencyFraction: number, flags: FastMemoryFlags): void;
+    SwitchToFastMemory(cmd: CommandBuffer, residencyFraction: number): void;
+    SwitchToFastMemory(cmd: CommandBuffer): void;
 
 
 }
@@ -48010,12 +50027,17 @@ interface UniversalCameraData extends ContextItem {
 
 
     GetGPUProjectionMatrix(viewIndex: number): Matrix4x4;
+    GetGPUProjectionMatrix(): Matrix4x4;
     GetGPUProjectionMatrixNoJitter(viewIndex: number): Matrix4x4;
+    GetGPUProjectionMatrixNoJitter(): Matrix4x4;
     GetProjectionMatrix(viewIndex: number): Matrix4x4;
+    GetProjectionMatrix(): Matrix4x4;
     GetViewMatrix(viewIndex: number): Matrix4x4;
+    GetViewMatrix(): Matrix4x4;
     IsCameraProjectionMatrixFlipped(): boolean;
     IsHandleYFlipped(handle: RTHandle): boolean;
     IsRenderTargetProjectionMatrixFlipped(color: RTHandle, depth: RTHandle): boolean;
+    IsRenderTargetProjectionMatrixFlipped(color: RTHandle): boolean;
     Reset(): void;
 
 
@@ -48115,17 +50137,26 @@ interface XRPass {
 
     ApplyXRViewCenterOffset(center: Vector2): Vector4;
     GetOcclusionMesh(viewIndex: number): Mesh;
+    GetOcclusionMesh(): Mesh;
     GetPrevViewMatrix(viewIndex: number): Matrix4x4;
+    GetPrevViewMatrix(): Matrix4x4;
     GetPrevViewValid(viewIndex: number): boolean;
+    GetPrevViewValid(): boolean;
     GetProjMatrix(viewIndex: number): Matrix4x4;
+    GetProjMatrix(): Matrix4x4;
     GetTextureArraySlice(viewIndex: number): number;
+    GetTextureArraySlice(): number;
     GetViewMatrix(viewIndex: number): Matrix4x4;
+    GetViewMatrix(): Matrix4x4;
     GetViewport(viewIndex: number): Rect;
+    GetViewport(): Rect;
     InitBase(createInfo: XRPassCreateInfo): void;
     Release(): void;
     RenderDebugXRViewsFrustum(): void;
     RenderOcclusionMesh(cmd: CommandBuffer, renderIntoTexture: boolean): void;
+    RenderOcclusionMesh(cmd: CommandBuffer): void;
     RenderOcclusionMesh(cmd: RasterCommandBuffer, renderIntoTexture: boolean): void;
+    RenderOcclusionMesh(cmd: RasterCommandBuffer): void;
     StartSinglePass(cmd: CommandBuffer): void;
     StartSinglePass(cmd: IRasterCommandBuffer): void;
     StopSinglePass(cmd: CommandBuffer): void;
@@ -48746,6 +50777,7 @@ interface UniversalRenderPipelineAssetConstructor {
 
 
     Create(rendererData: ScriptableRendererData): UniversalRenderPipelineAsset;
+    Create(): UniversalRenderPipelineAsset;
 
 }
 declare const UniversalRenderPipelineAsset: UniversalRenderPipelineAssetConstructor;
@@ -48908,17 +50940,30 @@ interface NetworkServerConstructor {
     Listen(maxConns: number): void;
     RebuildObservers(identity: NetworkIdentity, initialize: boolean): void;
     RegisterHandler<T extends NetworkMessage>(handler: Action<NetworkConnectionToClient, T>, requireAuthentication: boolean): void;
+    RegisterHandler<T extends NetworkMessage>(handler: Action<NetworkConnectionToClient, T>): void;
     RegisterHandler<T extends NetworkMessage>(handler: Action<NetworkConnectionToClient, T, number>, requireAuthentication: boolean): void;
+    RegisterHandler<T extends NetworkMessage>(handler: Action<NetworkConnectionToClient, T, number>): void;
     RemoveConnection(connectionId: number): boolean;
     RemovePlayerForConnection(conn: NetworkConnectionToClient, removeOptions: RemovePlayerOptions): void;
+    RemovePlayerForConnection(conn: NetworkConnectionToClient): void;
     ReplaceHandler<T extends NetworkMessage>(handler: Action<T>, requireAuthentication: boolean): void;
+    ReplaceHandler<T extends NetworkMessage>(handler: Action<T>): void;
     ReplaceHandler<T extends NetworkMessage>(handler: Action<NetworkConnectionToClient, T>, requireAuthentication: boolean): void;
+    ReplaceHandler<T extends NetworkMessage>(handler: Action<NetworkConnectionToClient, T>): void;
     ReplaceHandler<T extends NetworkMessage>(handler: Action<NetworkConnectionToClient, T, number>, requireAuthentication: boolean): void;
+    ReplaceHandler<T extends NetworkMessage>(handler: Action<NetworkConnectionToClient, T, number>): void;
     ReplacePlayerForConnection(conn: NetworkConnectionToClient, player: GameObject, keepAuthority: boolean): boolean;
+    ReplacePlayerForConnection(conn: NetworkConnectionToClient, player: GameObject): boolean;
     ReplacePlayerForConnection(conn: NetworkConnectionToClient, player: GameObject, assetId: number, keepAuthority: boolean): boolean;
+    ReplacePlayerForConnection(conn: NetworkConnectionToClient, player: GameObject, assetId: number): boolean;
     SendToAll<T extends NetworkMessage>(message: T, channelId: number, sendToReadyOnly: boolean): void;
+    SendToAll<T extends NetworkMessage>(message: T, channelId: number): void;
+    SendToAll<T extends NetworkMessage>(message: T): void;
     SendToReady<T extends NetworkMessage>(message: T, channelId: number): void;
+    SendToReady<T extends NetworkMessage>(message: T): void;
     SendToReadyObservers<T extends NetworkMessage>(identity: NetworkIdentity, message: T, includeOwner: boolean, channelId: number): void;
+    SendToReadyObservers<T extends NetworkMessage>(identity: NetworkIdentity, message: T, includeOwner: boolean): void;
+    SendToReadyObservers<T extends NetworkMessage>(identity: NetworkIdentity, message: T): void;
     SendToReadyObservers<T extends NetworkMessage>(identity: NetworkIdentity, message: T, channelId: number): void;
     SetAllClientsNotReady(): void;
     SetClientNotReady(conn: NetworkConnectionToClient): void;
@@ -48927,7 +50972,9 @@ interface NetworkServerConstructor {
     Spawn(obj: GameObject, ownerPlayer: GameObject): void;
     Spawn(obj: GameObject): void;
     Spawn(obj: GameObject, ownerConnection: NetworkConnection): void;
+    Spawn(obj: GameObject): void;
     Spawn(obj: GameObject, assetId: number, ownerConnection: NetworkConnection): void;
+    Spawn(obj: GameObject, assetId: number): void;
     SpawnObjects(): boolean;
     UnregisterHandler<T extends NetworkMessage>(): void;
     UnSpawn(obj: GameObject): void;
@@ -49122,7 +51169,9 @@ interface NetworkClientConstructor {
     PrepareToSpawnSceneObjects(): void;
     Ready(): boolean;
     RegisterHandler<T extends NetworkMessage>(handler: Action<T>, requireAuthentication: boolean): void;
+    RegisterHandler<T extends NetworkMessage>(handler: Action<T>): void;
     RegisterHandler<T extends NetworkMessage>(handler: Action<T, number>, requireAuthentication: boolean): void;
+    RegisterHandler<T extends NetworkMessage>(handler: Action<T, number>): void;
     RegisterPrefab(prefab: GameObject, newAssetId: number): void;
     RegisterPrefab(prefab: GameObject): void;
     RegisterPrefab(prefab: GameObject, newAssetId: number, spawnHandler: SpawnDelegate, unspawnHandler: UnSpawnDelegate): void;
@@ -49132,8 +51181,11 @@ interface NetworkClientConstructor {
     RegisterSpawnHandler(assetId: number, spawnHandler: SpawnDelegate, unspawnHandler: UnSpawnDelegate): void;
     RegisterSpawnHandler(assetId: number, spawnHandler: SpawnHandlerDelegate, unspawnHandler: UnSpawnDelegate): void;
     ReplaceHandler<T extends NetworkMessage>(handler: Action<T>, requireAuthentication: boolean): void;
+    ReplaceHandler<T extends NetworkMessage>(handler: Action<T>): void;
     ReplaceHandler<T extends NetworkMessage>(handler: Action<T, number>, requireAuthentication: boolean): void;
+    ReplaceHandler<T extends NetworkMessage>(handler: Action<T, number>): void;
     Send<T extends NetworkMessage>(message: T, channelId: number): void;
+    Send<T extends NetworkMessage>(message: T): void;
     Shutdown(): void;
     UnregisterHandler<T extends NetworkMessage>(): boolean;
     UnregisterPrefab(prefab: GameObject): void;
@@ -49407,7 +51459,11 @@ interface NativeTweenConstructor {
     CameraOrthographicSize(self: Component, to: number, duration: number): Tween<number>;
     CameraOrthographicSize(self: GameObject, to: number, duration: number): Tween<number>;
     CancelAll(self: Component, includeChildren: boolean, includeInactive: boolean): void;
+    CancelAll(self: Component, includeChildren: boolean): void;
+    CancelAll(self: Component): void;
     CancelAll(self: GameObject, includeChildren: boolean, includeInactive: boolean): void;
+    CancelAll(self: GameObject, includeChildren: boolean): void;
+    CancelAll(self: GameObject): void;
     CanvasGroupAlpha(self: Component, to: number, duration: number): Tween<number>;
     CanvasGroupAlpha(self: GameObject, to: number, duration: number): Tween<number>;
     GraphicAlpha(self: Component, to: number, duration: number): Tween<number>;
@@ -50644,6 +52700,13 @@ interface VisualEffect extends Behaviour {
      */
     Simulate(stepDeltaTime: number, stepCount: number): void;
     /**
+     * Use this method to fast-forward the visual effect by simulating all systems for several step counts using the specified delta time.
+     * @param stepDeltaTime The delta time, in seconds, the simulation applies to each step.
+     * 
+     * More info: {@link https://docs.unity3d.com/ScriptReference/VFX.VisualEffect.Simulate.html | VFX.VisualEffect.Simulate}
+     */
+    Simulate(stepDeltaTime: number): void;
+    /**
      * Use this method to send a stop event to all Spawn systems.
      * @param eventAttribute Can be null or a VFXEventAttribute. To create a VFXEventAttribute, use VFX.VisualEffect.CreateVFXEventAttribute.
      * 
@@ -51545,23 +53608,37 @@ interface PrimitiveValue {
     GetHashCode(): number;
     GetTypeCode(): TypeCode;
     ToBoolean(provider: IFormatProvider): boolean;
+    ToBoolean(): boolean;
     ToByte(provider: IFormatProvider): number;
+    ToByte(): number;
     ToChar(provider: IFormatProvider): string;
+    ToChar(): string;
     ToDateTime(provider: IFormatProvider): string;
+    ToDateTime(): string;
     ToDecimal(provider: IFormatProvider): number;
+    ToDecimal(): number;
     ToDouble(provider: IFormatProvider): number;
+    ToDouble(): number;
     ToInt16(provider: IFormatProvider): number;
+    ToInt16(): number;
     ToInt32(provider: IFormatProvider): number;
+    ToInt32(): number;
     ToInt64(provider: IFormatProvider): number;
+    ToInt64(): number;
     ToObject(): unknown;
     ToSByte(provider: IFormatProvider): number;
+    ToSByte(): number;
     ToSingle(provider: IFormatProvider): number;
+    ToSingle(): number;
     ToString(): string;
     ToString(provider: IFormatProvider): string;
     ToType(conversionType: Type, provider: IFormatProvider): unknown;
     ToUInt16(provider: IFormatProvider): number;
+    ToUInt16(): number;
     ToUInt32(provider: IFormatProvider): number;
+    ToUInt32(): number;
     ToUInt64(provider: IFormatProvider): number;
+    ToUInt64(): number;
 
 
 }
@@ -52037,7 +54114,9 @@ interface quaternionConstructor {
 
     AxisAngle(axis: float3, angle: number): quaternion;
     Euler(xyz: float3, order: RotationOrder): quaternion;
+    Euler(xyz: float3): quaternion;
     Euler(x: number, y: number, z: number, order: RotationOrder): quaternion;
+    Euler(x: number, y: number, z: number): quaternion;
     EulerXYZ(xyz: float3): quaternion;
     EulerXYZ(x: number, y: number, z: number): quaternion;
     EulerXZY(xyz: float3): quaternion;
@@ -52082,7 +54161,9 @@ interface float4x4Constructor {
 
     AxisAngle(axis: float3, angle: number): float4x4;
     Euler(xyz: float3, order: RotationOrder): float4x4;
+    Euler(xyz: float3): float4x4;
     Euler(x: number, y: number, z: number, order: RotationOrder): float4x4;
+    Euler(x: number, y: number, z: number): float4x4;
     EulerXYZ(xyz: float3): float4x4;
     EulerXYZ(x: number, y: number, z: number): float4x4;
     EulerXZY(xyz: float3): float4x4;
@@ -52184,6 +54265,7 @@ interface CurveUtilityConstructor {
     CalculateCurveLengths(curve: BezierCurve, lookupTable: Readonly<DistanceToInterpolation[]>): void;
     CalculateCurveLengths(curve: BezierCurve, lookupTable: Readonly<DistanceToInterpolation[]>): void;
     CalculateLength(curve: BezierCurve, resolution: number): number;
+    CalculateLength(curve: BezierCurve): number;
     EvaluateAcceleration(curve: BezierCurve, t: number): float3;
     EvaluateCurvature(curve: BezierCurve, t: number): number;
     EvaluatePosition(curve: BezierCurve, t: number): float3;
@@ -52191,6 +54273,7 @@ interface CurveUtilityConstructor {
     GetDistanceToInterpolation(curve: BezierCurve, distance: number): number;
     GetDistanceToInterpolation<T extends Readonly<DistanceToInterpolation[]>>(lut: T, distance: number): number;
     GetNearestPoint(curve: BezierCurve, ray: Ray, resolution: number): float3;
+    GetNearestPoint(curve: BezierCurve, ray: Ray): float3;
 
 }
 declare const CurveUtility: CurveUtilityConstructor;
@@ -52220,10 +54303,12 @@ interface Spline extends Readonly<BezierKnot[]> {
 
     Add(item: BezierKnot): void;
     Add(knotPosition: float3, tangentMode: TangentMode): void;
+    Add(knotPosition: float3): void;
     Add(item: BezierKnot, mode: TangentMode): void;
     Add(item: BezierKnot, mode: TangentMode, tension: number): void;
     Add(spline: Readonly<BezierKnot[]>): void;
     AddRange(knotPositions: Readonly<float3[]>, tangentMode: TangentMode): void;
+    AddRange(knotPositions: Readonly<float3[]>): void;
     Clear(): void;
     Contains(item: BezierKnot): boolean;
     Copy(copyFrom: Readonly<BezierKnot[]>): void;
@@ -52256,7 +54341,9 @@ interface Spline extends Readonly<BezierKnot[]> {
     Insert(index: number, knot: BezierKnot, mode: TangentMode): void;
     Insert(index: number, knot: BezierKnot, mode: TangentMode, tension: number): void;
     Insert(index: number, knotPosition: float3, tangentMode: TangentMode): void;
+    Insert(index: number, knotPosition: float3): void;
     InsertRange(index: number, knotPositions: Readonly<float3[]>, tangentMode: TangentMode): void;
+    InsertRange(index: number, knotPositions: Readonly<float3[]>): void;
     Remove(item: BezierKnot): boolean;
     RemoveAt(index: number): void;
     RemoveFloat4Data(key: string): boolean;
@@ -52272,12 +54359,17 @@ interface Spline extends Readonly<BezierKnot[]> {
     SetFloatData(key: string, value: Readonly<DataPoint<number>[]>): void;
     SetIntData(key: string, value: Readonly<DataPoint<number>[]>): void;
     SetKnot(index: number, value: BezierKnot, main: BezierTangent): void;
+    SetKnot(index: number, value: BezierKnot): void;
     SetKnotNoNotify(index: number, value: BezierKnot, main: BezierTangent): void;
+    SetKnotNoNotify(index: number, value: BezierKnot): void;
     SetObjectData(key: string, value: Readonly<DataPoint<Object>[]>): void;
     SetTangentMode(mode: TangentMode): void;
     SetTangentMode(index: number, mode: TangentMode, main: BezierTangent): void;
+    SetTangentMode(index: number, mode: TangentMode): void;
     SetTangentMode(range: Readonly<number[]>, mode: TangentMode, main: BezierTangent): void;
+    SetTangentMode(range: Readonly<number[]>, mode: TangentMode): void;
     SetTangentModeNoNotify(index: number, mode: TangentMode, main: BezierTangent): void;
+    SetTangentModeNoNotify(index: number, mode: TangentMode): void;
     ToArray(): Readonly<BezierKnot[]>;
     Warmup(): void;
 
@@ -52553,8 +54645,11 @@ interface SplineUtilityConstructor {
     GetAutoSmoothKnot(position: float3, previous: float3, next: float3): BezierKnot;
     GetAutoSmoothKnot(position: float3, previous: float3, next: float3, normal: float3): BezierKnot;
     GetAutoSmoothKnot(position: float3, previous: float3, next: float3, normal: float3, tension: number): BezierKnot;
+    GetAutoSmoothKnot(position: float3, previous: float3, next: float3, normal: float3): BezierKnot;
     GetAutoSmoothTangent(previous: float3, next: float3, tension: number): float3;
+    GetAutoSmoothTangent(previous: float3, next: float3): float3;
     GetAutoSmoothTangent(previous: float3, current: float3, next: float3, tension: number): float3;
+    GetAutoSmoothTangent(previous: float3, current: float3, next: float3): float3;
     GetBounds<T extends Readonly<BezierKnot[]>>(spline: T): Bounds;
     GetBounds<T extends Readonly<BezierKnot[]>>(spline: T, transform: float4x4): Bounds;
     GetCatmullRomTangent(previous: float3, next: float3): float3;
@@ -52568,7 +54663,9 @@ interface SplineUtilityConstructor {
     Previous<T extends Readonly<BezierKnot[]>>(spline: T, index: number): BezierKnot;
     PreviousIndex<T extends Readonly<BezierKnot[]>>(spline: T, index: number): number;
     ReducePoints<T extends Readonly<float3[]>>(line: T, epsilon: number): Readonly<float3[]>;
+    ReducePoints<T extends Readonly<float3[]>>(line: T): Readonly<float3[]>;
     ReducePoints<T extends Readonly<float3[]>>(line: T, results: Readonly<float3[]>, epsilon: number): void;
+    ReducePoints<T extends Readonly<float3[]>>(line: T, results: Readonly<float3[]>): void;
     RemoveSpline<T extends ISplineContainer>(container: T, spline: Readonly<BezierKnot[]>): boolean;
     RemoveSplineAt<T extends ISplineContainer>(container: T, splineIndex: number): boolean;
     ReorderSpline<T extends ISplineContainer>(container: T, previousSplineIndex: number, newSplineIndex: number): boolean;
@@ -52648,13 +54745,16 @@ interface VoxelWorld extends MonoBehaviour {
     DamageVoxelAt(pos: Vector3, damage: number, priority: boolean): void;
     DeleteRenderedGameObjects(): void;
     DirtyMesh(voxel: Vector3, dirtyCollisions: boolean, priority: boolean): void;
+    DirtyMesh(voxel: Vector3, dirtyCollisions: boolean): void;
     DirtyNeighborMeshes(voxel: Vector3, dirtyCollision: boolean, priority: boolean): void;
+    DirtyNeighborMeshes(voxel: Vector3, dirtyCollision: boolean): void;
     FillFlatGround(): void;
     FillRandomTerrain(): void;
     FillSingleBlock(): void;
     FromBuffer(buffer: buffer): void;
     FullWorldUpdate(): void;
     GenerateWorld(populateTerrain: boolean): void;
+    GenerateWorld(): void;
     GetChunkByChunkPos(pos: Vector3): Chunk;
     GetCollisionType(voxelData: number): CollisionType;
     GetNumProcessingMeshChunks(): number;
@@ -52670,13 +54770,16 @@ interface VoxelWorld extends MonoBehaviour {
     OnRenderObject(): void;
     RaycastVoxel(pos: Vector3, direction: Vector3, maxDistance: number): VoxelRaycastResult;
     RaycastVoxel_Internal(pos: Vector3, direction: Vector3, maxDistance: number, debug: boolean): ValueTuple<boolean, number, Vector3, Vector3>;
+    RaycastVoxel_Internal(pos: Vector3, direction: Vector3, maxDistance: number): ValueTuple<boolean, number, Vector3, Vector3>;
     RaycastVoxelForLighting(pos: Vector3, direction: Vector3, maxDistance: number, debug: boolean): number;
+    RaycastVoxelForLighting(pos: Vector3, direction: Vector3, maxDistance: number): number;
     ReadVoxelAt(pos: Vector3): number;
     RegenerateAllMeshes(): void;
     ReloadTextureAtlas(): void;
     SaveToDomainReloadFile(): void;
     SaveToFile(): void;
     SpawnDebugSphere(pos: Vector3, col: Color, radius: number): GameObject;
+    SpawnDebugSphere(pos: Vector3, col: Color): GameObject;
     ToBuffer(): buffer;
     TransformPointToLocalSpace(point: Vector3): Vector3;
     TransformPointToWorldSpace(point: Vector3): Vector3;
@@ -52760,6 +54863,7 @@ interface VoxelWorldNetworker extends NetworkBehaviour {
 
 
     OnReadyCommand(connection: NetworkConnectionToClient): void;
+    OnReadyCommand(): void;
     OnStartClient(): void;
     TargetFinishedSendingWorldRpc(conn: NetworkConnection): void;
     TargetWriteChunksRpc(conn: NetworkConnection, positions: Readonly<Vector3[]>, chunks: Readonly<Chunk[]>): void;
@@ -52809,6 +54913,7 @@ interface Chunk {
     NeedsToGenerateMesh(): boolean;
     SetCollisionDirty(dirty: boolean): void;
     SetGeometryDirty(dirty: boolean, priority: boolean): void;
+    SetGeometryDirty(dirty: boolean): void;
     SetWorld(world: VoxelWorld): void;
     WaitForLoaded(): void;
     WriteTemporaryCollision(position: Vector3, hasCollision: boolean): void;
@@ -53282,6 +55387,28 @@ interface EasyTransformAnchorConstructor {
 
 }
 declare const EasyTransformAnchor: EasyTransformAnchorConstructor;
+    
+interface WorldSpaceCanvasScaler extends MonoBehaviour {
+    cam: Camera;
+    faceCamera: boolean;
+    targetScreenHeightScale: number;
+    smoothTime: number;
+
+
+
+
+
+}
+    
+interface WorldSpaceCanvasScalerConstructor {
+
+
+    new(): WorldSpaceCanvasScaler;
+
+
+
+}
+declare const WorldSpaceCanvasScaler: WorldSpaceCanvasScalerConstructor;
     
 interface VibrationManager {
 
