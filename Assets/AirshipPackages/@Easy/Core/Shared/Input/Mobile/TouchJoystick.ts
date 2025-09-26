@@ -125,5 +125,14 @@ export default class TouchJoystick extends AirshipBehaviour {
 		}
 	}
 
+	/**
+	 * Stops the current drag event and resets the joystick input to zero
+	 */
+	public StopDragEvent(): void {
+		if (this.dragging) {
+			this.EndDrag(this.joystickTouchId);
+		}
+	}
+
 	override OnDestroy(): void {}
 }
