@@ -122,5 +122,14 @@ export default class DynamicJoystick extends AirshipBehaviour {
 		this.gameObject.SetActive(active);
 	}
 
+	/**
+	 * Stops the current drag event and resets the joystick input to zero
+	 */
+	public StopDragEvent(): void {
+		if (this.dragging) {
+			this.StopDrag(false);
+		}
+	}
+
 	override OnDestroy(): void {}
 }
