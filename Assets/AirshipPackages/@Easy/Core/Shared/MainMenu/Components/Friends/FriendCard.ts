@@ -124,7 +124,7 @@ export default class FriendCard extends AirshipBehaviour {
 					? new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y)
 					: Mouse.position,
 				options,
-				Game.IsMobile() ? this.gameObject : undefined,
+				Game.IsMobile() ? this.gameObject.transform.parent.gameObject : undefined,
 			);
 		};
 

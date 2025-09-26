@@ -40,6 +40,7 @@ export class RightClickMenuController {
 		);
 		if (parent) {
 			parentGo.transform.SetParent(parent.transform);
+			parentGo.transform.SetAsLastSibling();
 		}
 		const bgGo = parentGo.transform.GetChild(0).gameObject;
 		const menuGo = parentGo.transform.GetChild(1).gameObject;
