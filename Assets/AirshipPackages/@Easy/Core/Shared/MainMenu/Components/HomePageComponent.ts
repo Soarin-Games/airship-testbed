@@ -70,7 +70,7 @@ export default class HomePageComponent extends MainMenuPageComponent {
 				? "The first mobile playtest!\nPlay on Mac, Windows, iOS, and Android!"
 				: "The first mobile playtest of BedWars 2.\nPlay on Mac, Windows, iOS, and Android!",
 			AirshipUrl.CDN + "/airship/Barbarian.png",
-			1758992400,
+			1758992400 - 24 * hour,
 			1758992400 + 3 * hour,
 		);
 
