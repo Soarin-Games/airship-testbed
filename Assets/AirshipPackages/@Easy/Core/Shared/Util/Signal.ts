@@ -181,10 +181,11 @@ export class Signal<T extends unknown[] | unknown = void> {
 					}
 				} else {
 					if (!isCancellable) {
-						if (!freeRunnerThread) {
-							freeRunnerThread = coroutine.create(runEventHandlerThread);
-						}
-						task.spawnDetached(freeRunnerThread, entry[0], ...args);
+						// TODO Re-enable this once confirmed to not cause crashes
+						// if (!freeRunnerThread) {
+						// 	freeRunnerThread = coroutine.create(runEventHandlerThread);
+						// }
+						task.spawnDetached(entry[0], ...args);
 					} else {
 						const thread = task.spawnDetached(entry[0], ...args);
 
