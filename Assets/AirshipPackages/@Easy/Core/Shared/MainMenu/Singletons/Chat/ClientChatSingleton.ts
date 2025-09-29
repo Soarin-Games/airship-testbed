@@ -514,19 +514,35 @@ export class ClientChatSingleton {
 		}
 	}
 
-	private detectUrlInChatMessage(message: string) {
-		const domainPattern = "%f[%w][%w-]+%.[a-z]+[%w%p]*%f[%A]";
-		const match = string.match(Bridge.RemoveRichText(message), domainPattern);
+	private detectUrlInChatMessage(message: string): string | undefined {
+		const cleanMessage = Bridge.RemoveRichText(message).lower();
+		const patterns = [
+			"https?://[%w%-%.]+[%w%.%-/?#&=_~]*", // URLs with http protocol
+			"%f[%w][%w%-]+%.[%a]+[%w%.%-/?#&=_~]*%f[%W]", // URLs matching only domain.tld
+		];
+
 		let url: string | undefined;
-		if (match !== undefined && match.size() > 0) {
-			url = match[0] as string;
-			if (!StringUtils.startsWith(url.lower(), "https://")) {
-				url = "https://" + url;
+		for (const pattern of patterns) {
+			const match = string.match(cleanMessage, pattern);
+			if (match !== undefined && match.size() > 0) {
+				url = match[0] as string;
+
+				// Don't make domains from emails clickable
+				if (cleanMessage.includes("@" + url)) {
+					continue;
+				}
+
+				// Add protocol if missing
+				if (!string.match(url, "^https?://")) {
+					url = "https://" + url;
+				}
+
+				print("Found chat URL: " + url);
+				return url;
 			}
-			print("found chat url: " + url);
 		}
 
-		return url;
+		return undefined;
 	}
 
 	public ClearChatMessage(messageId: string): void {
