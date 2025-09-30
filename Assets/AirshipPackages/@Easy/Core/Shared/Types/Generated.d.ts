@@ -33315,6 +33315,7 @@ interface NetworkConnectionToClient extends NetworkConnection {
     remoteTimeline: number;
     remoteTimescale: number;
     snapshotBufferSizeLimit: number;
+    bufferTimeMultiplier: number;
     readonly address: string;
     readonly bufferTime: number;
     readonly rtt: number;
@@ -51150,7 +51151,7 @@ interface NetworkClientConstructor {
     readonly activeHost: boolean;
     readonly isConnecting: boolean;
     readonly isConnected: boolean;
-    readonly bufferTimeMultiplier: number;
+    bufferTimeMultiplier: number;
     readonly initialBufferTime: number;
     readonly bufferTime: number;
 
