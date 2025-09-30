@@ -6,6 +6,11 @@ import { Player } from "./Player/Player";
 import { RunUtil } from "./Util/RunUtil";
 import { Signal } from "./Util/Signal";
 
+// Declared here to avoid another global type that starts with "Airship"
+declare var AirshipConst: {
+	playerVersion: number;
+};
+
 const platform = Application.platform;
 // const simulateMobile = EditorSessionState.GetBoolean("AirshipSimulateMobile");
 
@@ -70,6 +75,11 @@ export class Game {
 	 * Empty string when in editor.
 	 */
 	public static organizationId: string;
+
+	/**
+	 * The local player's client version number.
+	 */
+	public static playerVersion = 16;
 
 	public static startingScene = Bridge.GetActiveScene();
 
@@ -231,6 +241,11 @@ export class Game {
 		return contextbridge.current() === LuauContext.Game;
 	}
 }
+
+// try catch for prev version support
+try {
+	Game.playerVersion = AirshipConst.playerVersion;
+} catch (err) {}
 
 if (Game.IsGameLuauContext()) {
 	contextbridge.subscribe("Game:MenuToggled", (from, opened: boolean) => {
