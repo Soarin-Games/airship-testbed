@@ -93,6 +93,7 @@ export class AirshipCharactersSingleton {
 				}
 
 				const character = Airship.Characters.FindById(characterId);
+				if (!character) return; // Don't change the character if we can't find it. We may still need to set it up.
 				(player as unknown as PlayerInternal).SetCharacterInternal(character);
 			});
 		}
