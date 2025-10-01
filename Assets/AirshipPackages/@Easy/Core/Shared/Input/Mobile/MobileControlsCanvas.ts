@@ -4,8 +4,9 @@ import { Game } from "../../Game";
 import { ColorUtil } from "../../Util/ColorUtil";
 import { CoreAction } from "../AirshipCoreAction";
 import { CoreIcon } from "../UI/CoreIcon";
+import AirshipMobileButton from "./AirshipMobileButton";
 import DynamicJoystick from "./DynamicJoystick";
-import { CoreMobileButton } from "./MobileButton";
+import { CoreMobileButton, CoreMobileButtonToCoreAction } from "./MobileButton";
 import TouchJoystick from "./TouchJoystick";
 
 export default class MobileControlsCanvas extends AirshipBehaviour {
@@ -122,7 +123,12 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 		}
 
 		for (const [, button] of pairs(CoreMobileButton)) {
-			Airship.Input.ShowMobileButtons(button);
+			if (Airship.Input.IsCoreActionEnabled(CoreMobileButtonToCoreAction[button])) {
+				const buttons = Airship.Input.GetMobileButtons(button);
+				for (const button of buttons) {
+					button.GetAirshipComponent<AirshipMobileButton>()?.FadeIn();
+				}
+			}
 		}
 	}
 
@@ -131,7 +137,10 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 		this.dynamicJoystick.gameObject.SetActive(false);
 
 		for (const [, button] of pairs(CoreMobileButton)) {
-			Airship.Input.HideMobileButtons(button);
+			const buttons = Airship.Input.GetMobileButtons(button);
+			for (const button of buttons) {
+				button.GetAirshipComponent<AirshipMobileButton>()?.FadeOut();
+			}
 		}
 	}
 

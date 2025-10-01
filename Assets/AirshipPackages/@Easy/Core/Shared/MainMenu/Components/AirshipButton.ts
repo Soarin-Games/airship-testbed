@@ -7,7 +7,7 @@ export default class AirshipButton extends AirshipBehaviour {
 	private bin = new Bin();
 
 	private disabled = false;
-	private image: Image | undefined;
+	protected image: Image | undefined;
 	public button!: Button;
 	private startingColor: Color | undefined;
 	private loading = false;
@@ -113,7 +113,7 @@ export default class AirshipButton extends AirshipBehaviour {
 
 	public SetStartingScale(scale: Vector3): void {
 		this.startingScale = scale;
-		if (this.enabled)  this.transform.localScale = scale;
+		if (this.enabled) this.transform.localScale = scale;
 	}
 
 	protected OnEnable(): void {
