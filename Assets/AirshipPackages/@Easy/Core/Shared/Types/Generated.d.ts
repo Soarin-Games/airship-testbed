@@ -38910,10 +38910,10 @@ interface VoxelBlocks extends MonoBehaviour {
     GetBlockDefinitionFromBlockId(index: number): BlockDefinition;
     GetBlockIdFromStringId(stringId: string): number;
     GetStringIdFromBlockId(blockVoxelId: number): string;
-    Load(loadTexturesDirectlyFromDisk: boolean): void;
-    Load(): void;
-    Reload(useTexturesDirectlyFromDisk: boolean): void;
-    Reload(): void;
+    Load(useSimplifiedBlocks: boolean, loadTexturesDirectlyFromDisk: boolean): void;
+    Load(useSimplifiedBlocks: boolean): void;
+    Reload(useSimplifiedBlocks: boolean, useTexturesDirectlyFromDisk: boolean): void;
+    Reload(useSimplifiedBlocks: boolean): void;
     SearchForBlockIdByString(stringId: string): number;
     UpdateVoxelBlockId(voxelValue: number, blockId: number): number;
     WaitForLoaded(): void;
