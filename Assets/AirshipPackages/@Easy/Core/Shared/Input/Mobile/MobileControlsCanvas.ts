@@ -115,6 +115,11 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 		}
 	}
 
+	/**
+	 * Shows all character control UI elements for mobile devices.
+	 * This includes activating the appropriate joystick and making
+	 * core mobile buttons that aren't disabled visible.
+	 */
 	public ShowCharacterControls(): void {
 		if (this.isJoystickDynamic) {
 			this.dynamicJoystick.gameObject.SetActive(true);
@@ -132,6 +137,11 @@ export default class MobileControlsCanvas extends AirshipBehaviour {
 		}
 	}
 
+	/**
+	 * Hides all character control UI elements for mobile devices.
+	 * This includes deactivating both joystick types and making
+	 * core mobile buttons that aren't disabled invisible.
+	 */
 	public HideCharacterControls(): void {
 		this.staticJoystick.gameObject.SetActive(false);
 		this.dynamicJoystick.gameObject.SetActive(false);

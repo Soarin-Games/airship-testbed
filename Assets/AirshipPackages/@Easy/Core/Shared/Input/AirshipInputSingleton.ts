@@ -361,8 +361,8 @@ export class AirshipInputSingleton {
 				this.UnregisterAction(actionName);
 			}
 
+			// Disable core mobile buttons if their action is disabled
 			if (Game.IsMobile()) {
-				// Find the CoreMobileButton that corresponds to this CoreAction
 				for (const [, coreMobileButton] of pairs(CoreMobileButton)) {
 					const correspondingCoreAction = CoreMobileButtonToCoreAction[coreMobileButton];
 					if (correspondingCoreAction === actionName) {
