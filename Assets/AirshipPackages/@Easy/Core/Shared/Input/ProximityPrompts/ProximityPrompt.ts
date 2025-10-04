@@ -206,7 +206,7 @@ export default class ProximityPrompt extends AirshipBehaviour {
 				}
 			});
 			task.delay(0.18, () => {
-				if (!interupt) {
+				if (!interupt && !this.canvas.IsDestroyed()) {
 					this.canvas.enabled = false;
 				}
 			});
