@@ -183,7 +183,7 @@ export class Player {
 		// If this player will be the local player (netId undefined) or if we are a server
 		// Set the buffer time multiplier for the player's device.
 		if ((Game.IsClient() && this.networkIdentity === undefined) || (Game.IsServer() && !this.IsBot())) {
-			this.SetBufferTimeMultiplier(5); // TODO pick number based on device
+			this.SetBufferTimeMultiplier(3); // TODO pick number based on device
 		}
 	}
 
