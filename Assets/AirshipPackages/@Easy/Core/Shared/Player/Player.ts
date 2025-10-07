@@ -480,6 +480,11 @@ export class Player {
 	 * This function should be called on both the server and the client with the same value for best results. Defaults to 3. Best values are between 2-5.
 	 */
 	public SetBufferTimeMultiplier(bufferTimeMultiplier: number) {
+		if (Game.IsHosting()) {
+			// Buffer time is irrelevant in host mode. Ignore it.
+			return;
+		}
+
 		if ($SERVER) {
 			if (this.networkIdentity.connectionToClient) {
 				this.networkIdentity.connectionToClient.bufferTimeMultiplier = bufferTimeMultiplier;
