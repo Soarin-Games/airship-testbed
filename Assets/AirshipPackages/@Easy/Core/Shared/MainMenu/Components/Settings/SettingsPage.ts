@@ -284,12 +284,11 @@ export default class SettingsPage extends AirshipBehaviour {
 			}
 		});
 
+		// Hacky workaround for GetComponentsInChildren<Button> not working.
 		const images = this.rightSection.gameObject.GetComponentsInChildren<Image>(true);
 		const scrollRect = this.scrollView.GetComponent<ScrollRect>();
-		print("found images: " + images.size());
 		for (let img of images) {
 			if (!img.raycastTarget) continue;
-			print("found btn: " + img.gameObject.name);
 			const redirect = img.gameObject.AddComponent<AirshipRedirectScroll>();
 			redirect.redirectTarget = scrollRect;
 		}
