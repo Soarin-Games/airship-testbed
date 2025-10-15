@@ -20,6 +20,12 @@ export default class AirshipEmoteSingleton implements OnStart {
 	private emoteMenu: InternalEmoteMenu;
 	private emoteCooldown: Map<number, number> = new Map<number, number>();
 
+	constructor() {
+		contextbridge.callback("Emotes:OpenEmoteWheel", () => {
+			this.OpenEmoteWheel();
+		});
+	}
+
 	public OnStart() {
 		if (Game.IsServer()) this.StartServer();
 		if (Game.IsClient()) this.StartClient();
@@ -54,12 +60,12 @@ export default class AirshipEmoteSingleton implements OnStart {
 	}
 
 	private StartClient(): void {
-		this.emoteMenu = Object.Instantiate(
+		const emoteMenuGo = Object.Instantiate(
 			Asset.LoadAsset("Assets/AirshipPackages/@Easy/Core/Prefabs/UI/Emote/EmoteMenu.prefab"),
 			CoreRefs.rootTransform,
 		);
-		this.emoteMenu.gameObject.name = "EmoteMenu";
-
+		emoteMenuGo.name = "EmoteMenu";
+		this.emoteMenu = emoteMenuGo.GetAirshipComponent<InternalEmoteMenu>()!;
 		CoreNetwork.ServerToClient.Character.EmoteStart.client.OnServerEvent((characterId, emoteId) => {
 			const character = Airship.Characters.FindById(characterId);
 			if (!character) return;
@@ -119,5 +125,10 @@ export default class AirshipEmoteSingleton implements OnStart {
 		character.isEmoting = false;
 		character.animationHelper.StopAnimation(CharacterAnimationLayer.OVERRIDE_3, fadeOutTime);
 		character.onEmoteEnd.Fire();
+	}
+
+	private OpenEmoteWheel(): void {
+		if (!this.emoteMenu) return;
+		this.emoteMenu.radialMenu.Show();
 	}
 }
