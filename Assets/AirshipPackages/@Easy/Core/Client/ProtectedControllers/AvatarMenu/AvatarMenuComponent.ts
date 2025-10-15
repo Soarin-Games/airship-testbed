@@ -502,6 +502,7 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 		);
 
 		const accessoryBtn = newButton.GetAirshipComponent<AvatarAccessoryBtn>()!;
+		accessoryBtn.Init(clothingDto);
 		accessoryBtn.scrollRedirect.redirectTarget = this.contentScrollRect;
 		accessoryBtn.classId = clothingDto.class.classId;
 		accessoryBtn.instanceId = clothingDto.instanceId;
