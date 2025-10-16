@@ -238,8 +238,6 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 					const segmentIndex = this.GetSegmentUnderPosition(data.position);
 					if (segmentIndex !== -1 && this.selectedIndex !== segmentIndex) {
 						this.SetSelectedIndex(segmentIndex);
-					} else if (segmentIndex === -1 && this.selectedIndex !== -1) {
-						this.SetSelectedIndex(-1);
 					}
 				}),
 			);
