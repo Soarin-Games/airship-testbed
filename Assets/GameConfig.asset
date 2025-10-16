@@ -110,4 +110,4 @@ MonoBehaviour:
   reuseCollisionCallbacks2D: 1
   autoSyncTransforms2D: 0
   supportsMobile: 1
-  compileURPShaders: 1
+  compileURPShaders: 0
