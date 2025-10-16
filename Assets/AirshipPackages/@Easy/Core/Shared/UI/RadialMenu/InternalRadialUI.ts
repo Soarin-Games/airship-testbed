@@ -166,7 +166,7 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 		this.segmentContainer.gameObject.SetActive(true);
 		this.active = true;
 
-		this.SetSelectedIndex(-1);
+		this.SetSelectedIndex(Game.IsMobile() ? this.radialSegments.size() - 1 : -1);
 		const t1 = NativeTween.GraphicAlpha(this.bg, 0.5, 0.2).SetEaseQuadOut();
 		this.bg.raycastTarget = true;
 		this.container.localScale = Vector3.one.mul(1.15);
@@ -225,17 +225,8 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 			);
 
 			this.bin.AddEngineEventConnection(
-				CanvasAPI.OnBeginDragEvent(this.bg.gameObject, (data) => {
-					const segmentIndex = this.GetSegmentUnderPosition(data.position);
-					if (segmentIndex !== -1) {
-						this.SetSelectedIndex(segmentIndex);
-					}
-				}),
-			);
-
-			this.bin.AddEngineEventConnection(
 				CanvasAPI.OnDragEvent(this.bg.gameObject, (data) => {
-					const segmentIndex = this.GetSegmentUnderPosition(data.position);
+					const segmentIndex = this.GetNearestSegmentByAngle(data.position);
 					if (segmentIndex !== -1 && this.selectedIndex !== segmentIndex) {
 						this.SetSelectedIndex(segmentIndex);
 					}
@@ -364,14 +355,62 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 	}
 
 	/**
-	 * Checks if a position is over a segment and returns the segment index.
+	 * Finds the nearest segment based on angle from the wheel center, regardless of distance.
 	 * @param position The position to check (in screen space)
+	 * @returns The nearest segment index
+	 */
+	private GetNearestSegmentByAngle(position: Vector2): number {
+		const wheelPosition = this.transform.GetComponent<RectTransform>().anchoredPosition;
+		const offset = position.sub(wheelPosition);
+		
+		if (offset === Vector2.zero) return 0;
+		
+		const normalizedOffset = offset.normalized;
+		let angle = math.deg(math.atan2(normalizedOffset.y, -normalizedOffset.x));
+		angle -= OFFSET + 90;
+		if (angle < 0) {
+			angle += 360;
+		}
+
+		const numSegments = this.radialSegments.size();
+		const sliceAngles = 360 / numSegments;
+
+		for (let i = 0; i < numSegments; i++) {
+			const segmentStartAngle = i * sliceAngles;
+			const segmentEndAngle = (i + 1) * sliceAngles;
+
+			if (angle >= segmentStartAngle && angle < segmentEndAngle) {
+				return i;
+			}
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Checks if the tracked touch pointer is over a segment and returns the segment index.
+	 * Uses the latestTouchId to find the correct touch.
 	 * @returns The segment index if over a segment, -1 otherwise
 	 */
-	private GetSegmentUnderPosition(position: Vector2): number {
+	private GetSegmentUnderPointer(): number {
+		if (!Game.IsMobile() || Input.touchCount === 0) return -1;
+
+		let touchPosition: Vector2 | undefined;
+		for (let i = 0; i < Input.touchCount; i++) {
+			const touch = Input.GetTouch(i);
+			if (touch.fingerId === this.latestTouchId) {
+				touchPosition = touch.position;
+				break;
+			}
+		}
+
+		if (!touchPosition) {
+			return -1;
+		}
+
 		const wheelPosition = this.transform.GetComponent<RectTransform>().anchoredPosition;
 
-		const offset = position.sub(wheelPosition);
+		const offset = touchPosition.sub(wheelPosition);
 		const normalizedOffset = offset.normalized;
 		const dist = math.sqrt(offset.sqrMagnitude);
 
@@ -408,30 +447,6 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 		}
 
 		return -1;
-	}
-
-	/**
-	 * Checks if the tracked touch pointer is over a segment and returns the segment index.
-	 * Uses the latestTouchId to find the correct touch.
-	 * @returns The segment index if over a segment, -1 otherwise
-	 */
-	private GetSegmentUnderPointer(): number {
-		if (!Game.IsMobile() || Input.touchCount === 0) return -1;
-
-		let touchPosition: Vector2 | undefined;
-		for (let i = 0; i < Input.touchCount; i++) {
-			const touch = Input.GetTouch(i);
-			if (touch.fingerId === this.latestTouchId) {
-				touchPosition = touch.position;
-				break;
-			}
-		}
-
-		if (!touchPosition) {
-			return -1;
-		}
-
-		return this.GetSegmentUnderPosition(touchPosition);
 	}
 
 	public IsWheelOpen(): boolean {
