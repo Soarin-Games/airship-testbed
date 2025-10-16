@@ -1325,7 +1325,25 @@ MonoBehaviour:
     name: MobileEmoteButton
     singleton: 0
     decorators: []
-    properties: []
+    properties:
+    - name: chatToggleButton
+      type: AirshipBehaviour
+      objectType: MobileChatToggleButton
+      items:
+        type: 
+        objectType: 
+        serializedItems: []
+        objectRefs: []
+      refPath: 
+      fileRef: AirshipPackages/@Easy/Core/Shared/MainMenu/Components/MobileChatToggleButton.ts
+      jsDocs:
+        text: []
+        tags: []
+      decorators: []
+      nullable: 0
+      serializedValue: 
+      serializedObject: {fileID: 2397668283222960152}
+      modified: 1
     displayIcon: {fileID: 0}
     displayName: 
 --- !u!1 &6902003836608851214
@@ -1660,6 +1678,24 @@ MonoBehaviour:
       nullable: 0
       serializedValue: 
       serializedObject: {fileID: 5231142010838910841}
+      modified: 1
+    - name: emoteButton
+      type: object
+      objectType: RectTransform
+      items:
+        type: 
+        objectType: 
+        serializedItems: []
+        objectRefs: []
+      refPath: 
+      fileRef: 
+      jsDocs:
+        text: []
+        tags: []
+      decorators: []
+      nullable: 0
+      serializedValue: 
+      serializedObject: {fileID: 4950060245485486286}
       modified: 1
     displayIcon: {fileID: 0}
     displayName: 

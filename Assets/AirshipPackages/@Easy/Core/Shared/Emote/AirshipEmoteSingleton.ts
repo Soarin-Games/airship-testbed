@@ -21,8 +21,11 @@ export default class AirshipEmoteSingleton implements OnStart {
 	private emoteCooldown: Map<number, number> = new Map<number, number>();
 
 	constructor() {
-		contextbridge.callback("Emotes:OpenEmoteWheel", () => {
-			this.OpenEmoteWheel();
+		contextbridge.callback("Emotes:ToggleEmoteWheel", () => {
+			this.ToggleEmoteWheel();
+		});
+		contextbridge.callback("Emotes:HideEmoteWheel", () => {
+			this.HideEmoteWheel();
 		});
 	}
 
@@ -127,8 +130,19 @@ export default class AirshipEmoteSingleton implements OnStart {
 		character.onEmoteEnd.Fire();
 	}
 
-	private OpenEmoteWheel(): void {
+	private ToggleEmoteWheel(): void {
 		if (!this.emoteMenu) return;
-		this.emoteMenu.radialMenu.Show();
+		if (this.emoteMenu.radialMenu.IsWheelOpen()) {
+			this.emoteMenu.radialMenu.Hide();
+		} else {
+			this.emoteMenu.radialMenu.Show();
+		}
+	}
+
+	private HideEmoteWheel(): void {
+		if (!this.emoteMenu) return;
+		if (this.emoteMenu.radialMenu.IsWheelOpen()) {
+			this.emoteMenu.radialMenu.Hide();
+		}
 	}
 }

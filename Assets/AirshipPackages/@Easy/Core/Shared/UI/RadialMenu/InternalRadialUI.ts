@@ -2,6 +2,8 @@ import { Keyboard, Mouse } from "@Easy/Core/Shared/UserInput";
 import { Bin } from "@Easy/Core/Shared/Util/Bin";
 import { Signal, SignalPriority } from "@Easy/Core/Shared/Util/Signal";
 import { Asset } from "../../Asset";
+import { Game } from "../../Game";
+import { CanvasAPI, PointerDirection } from "../../Util/CanvasAPI";
 import InternalRadialUISegment from "./InternalRadialSegment";
 
 export interface InternalRadialUIData {
@@ -94,6 +96,7 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 
 	private bin = new Bin();
 	private radialSegments = new Array<InternalRadialEntry>();
+	private latestTouchId = -1;
 
 	protected Start(): void {
 		this.segmentContainer.gameObject.SetActive(false);
@@ -172,34 +175,104 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 			t1.Cancel();
 			t2.Cancel();
 		});
-		this.bin.Add(Mouse.AddUnlocker());
+		if (Game.IsMobile()) {
+			this.bin.AddEngineEventConnection(
+				CanvasAPI.OnPointerEvent(this.bg.gameObject, (dir, btn) => {
+					if (dir === PointerDirection.DOWN) {
+						let newestTouchId = -1;
+						for (let i = 0; i < Input.touchCount; i++) {
+							const touch = Input.GetTouch(i);
+							if (touch.phase === TouchPhase.Began) {
+								newestTouchId = touch.fingerId;
+								break;
+							}
+						}
 
-		Mouse.WarpCursorPosition(new Vector2(Screen.width / 2, Screen.height / 2));
+						if (newestTouchId === -1) {
+							return;
+						}
 
-		this.bin.Add(
-			Mouse.onRightDown.ConnectWithPriority(SignalPriority.HIGHEST, (e) => {
-				e.SetCancelled(true);
-				this.selectedIndex = -1;
-				this.onSelectionChanged.Fire(-1, undefined);
-				this.Hide();
-			}),
-		);
-		this.bin.Add(
-			Mouse.onRightDown.ConnectWithPriority(SignalPriority.HIGHEST, () => {
-				this.Hide();
-			}),
-		);
-		this.bin.Add(
-			Keyboard.OnKeyDown(Key.Escape, () => {
-				this.Hide();
-			}),
-		);
-		this.bin.Add(
-			Mouse.onLeftDown.ConnectWithPriority(SignalPriority.HIGHEST, (e) => {
-				e.SetCancelled(true);
-				this.Hide();
-			}),
-		);
+						this.latestTouchId = newestTouchId;
+
+						const segmentIndex = this.GetSegmentUnderPointer();
+						// If touch was not over a segment, hide the wheel
+						if (segmentIndex === -1) {
+							this.Hide();
+						} else {
+							// If segment was not currently selected, select the new segmet otherwise do emote
+							if (this.selectedIndex !== segmentIndex) {
+								this.SetSelectedIndex(segmentIndex);
+							} else {
+								const segment = this.radialSegments[this.selectedIndex];
+								const squishDuration = 0.1;
+
+								NativeTween.LocalScale(
+									segment.gameObject.transform,
+									Vector3.one,
+									squishDuration,
+								).SetEaseQuadOut();
+
+								task.delay(squishDuration, () => {
+									task.spawnDetached(() => {
+										this.onSubmit.Fire(this.radialSegments[this.selectedIndex].data as T);
+									});
+									this.Hide();
+								});
+							}
+						}
+					}
+				}),
+			);
+
+			this.bin.AddEngineEventConnection(
+				CanvasAPI.OnBeginDragEvent(this.bg.gameObject, (data) => {
+					const segmentIndex = this.GetSegmentUnderPosition(data.position);
+					if (segmentIndex !== -1) {
+						this.SetSelectedIndex(segmentIndex);
+					}
+				}),
+			);
+
+			this.bin.AddEngineEventConnection(
+				CanvasAPI.OnDragEvent(this.bg.gameObject, (data) => {
+					const segmentIndex = this.GetSegmentUnderPosition(data.position);
+					if (segmentIndex !== -1 && this.selectedIndex !== segmentIndex) {
+						this.SetSelectedIndex(segmentIndex);
+					} else if (segmentIndex === -1 && this.selectedIndex !== -1) {
+						this.SetSelectedIndex(-1);
+					}
+				}),
+			);
+		} else {
+			this.bin.Add(Mouse.AddUnlocker());
+
+			Mouse.WarpCursorPosition(new Vector2(Screen.width / 2, Screen.height / 2));
+
+			this.bin.Add(
+				Mouse.onRightDown.ConnectWithPriority(SignalPriority.HIGHEST, (e) => {
+					e.SetCancelled(true);
+					this.selectedIndex = -1;
+					this.onSelectionChanged.Fire(-1, undefined);
+					this.Hide();
+				}),
+			);
+			this.bin.Add(
+				Mouse.onRightDown.ConnectWithPriority(SignalPriority.HIGHEST, () => {
+					this.Hide();
+				}),
+			);
+			this.bin.Add(
+				Keyboard.OnKeyDown(Key.Escape, () => {
+					this.Hide();
+				}),
+			);
+			this.bin.Add(
+				Mouse.onLeftDown.ConnectWithPriority(SignalPriority.HIGHEST, (e) => {
+					e.SetCancelled(true);
+					this.Hide();
+				}),
+			);
+		}
 		this.onOpened.Fire();
 	}
 
@@ -212,7 +285,8 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 		// this.bg.color = new Color(0, 0, 0, 0);
 		this.bin.Clean();
 		this.active = false;
-		if (this.selectedIndex > -1) {
+		this.latestTouchId = -1;
+		if (this.selectedIndex > -1 && !Game.IsMobile()) {
 			task.spawnDetached(() => {
 				this.onSubmit.Fire(this.radialSegments[this.selectedIndex].data as T);
 			});
@@ -230,29 +304,31 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 		if (!this.active) return;
 
 		const wheelPosition = this.transform.GetComponent<RectTransform>().anchoredPosition;
-		const mousePosition = Mouse.position;
+		if (!Game.IsMobile()) {
+			const mousePosition = Mouse.position;
 
-		const offset = mousePosition.sub(wheelPosition);
-		const normalizedOffset = offset.normalized;
-		const dist = math.sqrt(offset.sqrMagnitude);
+			const offset = mousePosition.sub(wheelPosition);
+			const normalizedOffset = offset.normalized;
+			const dist = math.sqrt(offset.sqrMagnitude);
 
-		if (offset !== Vector2.zero && dist >= 55) {
-			let angle = math.deg(math.atan2(normalizedOffset.y, -normalizedOffset.x));
-			angle -= OFFSET + 90;
-			if (angle < 0) {
-				angle += 360;
-			}
+			if (offset !== Vector2.zero && dist >= 55) {
+				let angle = math.deg(math.atan2(normalizedOffset.y, -normalizedOffset.x));
+				angle -= OFFSET + 90;
+				if (angle < 0) {
+					angle += 360;
+				}
 
-			const sliceAngles = 360 / this.radialSegments.size();
-			for (let i = 0; i < this.radialSegments.size(); i++) {
-				if (angle > i * sliceAngles && angle < (i + 1) * sliceAngles) {
-					if (this.selectedIndex !== i) {
-						this.SetSelectedIndex(i);
+				const sliceAngles = 360 / this.radialSegments.size();
+				for (let i = 0; i < this.radialSegments.size(); i++) {
+					if (angle > i * sliceAngles && angle < (i + 1) * sliceAngles) {
+						if (this.selectedIndex !== i) {
+							this.SetSelectedIndex(i);
+						}
 					}
 				}
+			} else {
+				this.SetSelectedIndex(-1);
 			}
-		} else {
-			this.SetSelectedIndex(-1);
 		}
 
 		for (let i = 0; i < this.radialSegments.size(); i++) {
@@ -287,5 +363,80 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 		} else {
 			this.itemDetailsRect.gameObject.SetActive(false);
 		}
+	}
+
+	/**
+	 * Checks if a position is over a segment and returns the segment index.
+	 * @param position The position to check (in screen space)
+	 * @returns The segment index if over a segment, -1 otherwise
+	 */
+	private GetSegmentUnderPosition(position: Vector2): number {
+		const wheelPosition = this.transform.GetComponent<RectTransform>().anchoredPosition;
+
+		const offset = position.sub(wheelPosition);
+		const normalizedOffset = offset.normalized;
+		const dist = math.sqrt(offset.sqrMagnitude);
+
+		const innerRadius = 110;
+		const outerRadius = this.segmentContainer.sizeDelta.x / 2;
+		const addedTolerance = 30;
+
+		if (offset === Vector2.zero || dist < innerRadius || dist > outerRadius + addedTolerance) {
+			return -1;
+		}
+
+		let angle = math.deg(math.atan2(normalizedOffset.y, -normalizedOffset.x));
+		angle -= OFFSET + 90;
+		if (angle < 0) {
+			angle += 360;
+		}
+
+		const numSegments = this.radialSegments.size();
+		const sliceAngles = 360 / numSegments;
+
+		for (let i = 0; i < numSegments; i++) {
+			const segmentStartAngle = i * sliceAngles;
+			const segmentEndAngle = (i + 1) * sliceAngles;
+
+			const segmentFillAngle = sliceAngles * (1 - (this.segmentMarginSize / 360) * numSegments);
+			const marginPerSide = (sliceAngles - segmentFillAngle) / 2;
+
+			const actualStartAngle = segmentStartAngle + marginPerSide;
+			const actualEndAngle = segmentEndAngle - marginPerSide;
+
+			if (angle >= actualStartAngle && angle <= actualEndAngle) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	/**
+	 * Checks if the tracked touch pointer is over a segment and returns the segment index.
+	 * Uses the latestTouchId to find the correct touch.
+	 * @returns The segment index if over a segment, -1 otherwise
+	 */
+	private GetSegmentUnderPointer(): number {
+		if (!Game.IsMobile() || Input.touchCount === 0) return -1;
+
+		let touchPosition: Vector2 | undefined;
+		for (let i = 0; i < Input.touchCount; i++) {
+			const touch = Input.GetTouch(i);
+			if (touch.fingerId === this.latestTouchId) {
+				touchPosition = touch.position;
+				break;
+			}
+		}
+
+		if (!touchPosition) {
+			return -1;
+		}
+
+		return this.GetSegmentUnderPosition(touchPosition);
+	}
+
+	public IsWheelOpen(): boolean {
+		return this.active;
 	}
 }
