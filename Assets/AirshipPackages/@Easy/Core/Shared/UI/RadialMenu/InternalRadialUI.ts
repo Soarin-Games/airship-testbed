@@ -195,30 +195,26 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 						this.latestTouchId = newestTouchId;
 
 						const segmentIndex = this.GetSegmentUnderPointer();
-						// If touch was not over a segment, hide the wheel
-						if (segmentIndex === -1) {
-							this.Hide();
-						} else {
-							// If segment was not currently selected, select the new segmet otherwise do emote
-							if (this.selectedIndex !== segmentIndex) {
-								this.SetSelectedIndex(segmentIndex);
-							} else {
-								const segment = this.radialSegments[this.selectedIndex];
-								const squishDuration = 0.1;
+						this.SetSelectedIndex(segmentIndex);
+					} else if (dir === PointerDirection.UP) {
+						const segmentIndex = this.GetSegmentUnderPointer();
+						// Only submit if releasing over the currently selected segment
+						if (segmentIndex === this.selectedIndex) {
+							const segment = this.radialSegments[this.selectedIndex];
+							const squishDuration = 0.1;
 
-								NativeTween.LocalScale(
-									segment.gameObject.transform,
-									Vector3.one,
-									squishDuration,
-								).SetEaseQuadOut();
+							NativeTween.LocalScale(
+								segment.gameObject.transform,
+								Vector3.one,
+								squishDuration,
+							).SetEaseQuadOut();
 
-								task.delay(squishDuration, () => {
-									task.spawnDetached(() => {
-										this.onSubmit.Fire(this.radialSegments[this.selectedIndex].data as T);
-									});
-									this.Hide();
+							task.delay(squishDuration, () => {
+								task.spawnDetached(() => {
+									this.onSubmit.Fire(this.radialSegments[this.selectedIndex].data as T);
 								});
-							}
+								this.Hide();
+							});
 						}
 					}
 				}),
@@ -227,7 +223,7 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 			this.bin.AddEngineEventConnection(
 				CanvasAPI.OnDragEvent(this.bg.gameObject, (data) => {
 					const segmentIndex = this.GetNearestSegmentByAngle(data.position);
-					if (segmentIndex !== -1 && this.selectedIndex !== segmentIndex) {
+					if (this.selectedIndex !== segmentIndex) {
 						this.SetSelectedIndex(segmentIndex);
 					}
 				}),
@@ -334,6 +330,7 @@ export abstract class InternalRadialUI<T extends InternalRadialUIData = Internal
 	}
 
 	private SetSelectedIndex(i: number): void {
+		if (i === this.selectedIndex) return;
 		// Update previous selected
 		if (this.selectedIndex > -1) {
 			const prevSegment = this.radialSegments[this.selectedIndex];
