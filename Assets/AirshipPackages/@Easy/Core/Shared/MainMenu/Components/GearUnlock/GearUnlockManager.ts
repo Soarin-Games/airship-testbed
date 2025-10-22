@@ -1,3 +1,4 @@
+import { Game } from "@Easy/Core/Shared/Game";
 import GearUnlockUI from "./GearUnlockUI";
 
 export default class GearUnlockManager extends AirshipBehaviour {
@@ -11,6 +12,11 @@ export default class GearUnlockManager extends AirshipBehaviour {
 	}
 
 	public ShowRewardYielding(gearClassId: string): void {
+		if (!Game.playerFlags.has("PlatformGearDownloadClassId")) {
+			warn("Missing flags for platform gear download.");
+			return;
+		}
+
 		print("Downloading reward gear...");
 		const gear = PlatformGear.DownloadYielding(gearClassId);
 		if (!gear) return;
