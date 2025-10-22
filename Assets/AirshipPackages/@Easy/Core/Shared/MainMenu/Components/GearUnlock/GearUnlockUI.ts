@@ -6,8 +6,6 @@ export default class GearUnlockUI extends AirshipBehaviour {
 	private targetGearCenter = Vector3.zero;
 
 	override Start(): void {
-		print("v2");
-
 		const meshRenderer = this.accessory.gameObject.GetComponentInChildren<MeshRenderer>();
 		if (meshRenderer) {
 			this.targetGearCenter = meshRenderer.bounds.center;
@@ -17,7 +15,14 @@ export default class GearUnlockUI extends AirshipBehaviour {
 				this.targetGearCenter = skinnedMeshRenderer.bounds.center;
 			}
 		}
-		print("center: " + this.targetGearCenter);
+	}
+
+	public SetGear(gear: PlatformGear): void {
+		this.targetGearParent.gameObject.ClearChildren();
+		const go = Instantiate(gear.accessoryPrefabs[0], this.targetGearParent);
+		go.localPosition = Vector3.zero;
+		go.localRotation = Quaternion.identity;
+		this.accessory = go;
 	}
 
 	protected Update(dt: number): void {
