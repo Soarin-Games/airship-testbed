@@ -1,3 +1,4 @@
+import { CoreContext } from "@Easy/Core/Shared/CoreClientContext";
 import { Game } from "@Easy/Core/Shared/Game";
 import GearUnlockUI from "./GearUnlockUI";
 
@@ -7,6 +8,10 @@ export default class GearUnlockManager extends AirshipBehaviour {
 
 	override Start(): void {
 		this.container.SetActive(false);
+
+		if (Game.coreContext !== CoreContext.MAIN_MENU) {
+			return;
+		}
 
 		this.ShowRewardYielding("8710579e-6ab5-4122-a7eb-4cffe842e114");
 	}
@@ -19,11 +24,14 @@ export default class GearUnlockManager extends AirshipBehaviour {
 
 		print("Downloading reward gear...");
 		const gear = PlatformGear.DownloadYielding(gearClassId);
-		if (!gear) return;
+		if (!gear) {
+			warn("Downloaded gear unlock was undefined");
+			return;
+		}
 
 		print("Downloaded! Showing now...");
-		this.ui.SetGear(gear);
 		this.container.SetActive(true);
+		this.ui.SetGear(gear);
 	}
 
 	override OnDestroy(): void {}
