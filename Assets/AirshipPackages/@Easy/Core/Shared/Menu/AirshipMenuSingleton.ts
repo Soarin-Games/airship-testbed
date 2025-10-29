@@ -1,7 +1,10 @@
 import { TabListController } from "@Easy/Core/Client/Controllers/TabList/TabListController";
 import { Airship } from "@Easy/Core/Shared/Airship";
 import { Dependency, OnStart, Singleton } from "@Easy/Core/Shared/Flamework";
+import { Asset } from "../Asset";
 import { Game } from "../Game";
+import { Keyboard } from "../UserInput";
+import { AppManager } from "../Util/AppManager";
 import { Signal } from "../Util/Signal";
 
 @Singleton({})
@@ -22,6 +25,10 @@ export class AirshipMenuSingleton implements OnStart {
 			if (this.leaveMatchBtnCallback !== undefined) {
 				this.leaveMatchBtnCallback();
 			}
+		});
+
+		Keyboard.OnKeyDown(Key.P, () => {
+			this.OpenPartyMenu();
 		});
 	}
 
@@ -59,6 +66,15 @@ export class AirshipMenuSingleton implements OnStart {
 		if (!enabled) {
 			Dependency<TabListController>().Hide(true, true);
 		}
+	}
+
+	public OpenPartyMenu(): void {
+		const partyMenu = Instantiate(
+			Asset.LoadAsset("Assets/AirshipPackages/@Easy/Core/Prefabs/MainMenu/Party/PartyModalCanvas.prefab"),
+		);
+		AppManager.OpenCustom(() => {
+			Destroy(partyMenu);
+		});
 	}
 
 	/**
