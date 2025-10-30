@@ -23,6 +23,9 @@ export default class PartyModalMember extends AirshipBehaviour {
 	public Init(user: AirshipUser): void {
 		this.bin.Clean();
 
+		this.transform.localScale = Vector3.one.mul(1.2);
+		NativeTween.LocalScale(this.transform, Vector3.one, 0.18).SetEaseQuadOut();
+
 		this.user = user;
 		this.usernameText.text = user.username;
 		task.spawn(async () => {
