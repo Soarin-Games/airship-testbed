@@ -1,4 +1,5 @@
 import { Airship, Platform } from "@Easy/Core/Shared/Airship";
+import { Game } from "@Easy/Core/Shared/Game";
 import { GameCoordinatorParty } from "@Easy/Core/Shared/TypePackages/game-coordinator-types";
 import { AppManager } from "@Easy/Core/Shared/Util/AppManager";
 import { Bin } from "@Easy/Core/Shared/Util/Bin";
@@ -18,6 +19,7 @@ export default class PartyModal extends AirshipBehaviour {
 	@Header("Other")
 	public bgButton: Button;
 	public window: RectTransform;
+	public leaveBtn: Button;
 
 	private uidToPartyMember = new Map<string, PartyModalMember>();
 	private bin = new Bin();
@@ -25,6 +27,8 @@ export default class PartyModal extends AirshipBehaviour {
 	override Start(): void {
 		this.window.localScale = Vector3.one.mul(1.1);
 		NativeTween.LocalScale(this.window, Vector3.one, 0.12).SetEaseQuadOut();
+
+		this.leaveBtn.gameObject.SetActive(false);
 
 		this.membersParent.gameObject.ClearChildren();
 		task.spawn(async () => {
@@ -55,9 +59,17 @@ export default class PartyModal extends AirshipBehaviour {
 				};
 			}),
 		);
+
+		this.bin.Add(
+			this.leaveBtn.onClick.Connect(async () => {
+				await Platform.Client.Party.RemoveFromParty(Game.localPlayer.userId);
+			}),
+		);
 	}
 
 	private UpdateParty(party: GameCoordinatorParty.PartySnapshot): void {
+		this.leaveBtn.gameObject.SetActive(party.members.size() > 1);
+
 		for (let user of party.members) {
 			if (this.uidToPartyMember.has(user.uid)) {
 				const partyMemberComp = this.uidToPartyMember.get(user.uid)!;

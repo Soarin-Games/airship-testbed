@@ -1,7 +1,12 @@
 import { Airship, Platform } from "@Easy/Core/Shared/Airship";
 import { AirshipUser } from "@Easy/Core/Shared/Airship/Types/AirshipUser";
+import { Game } from "@Easy/Core/Shared/Game";
 import { Bin } from "@Easy/Core/Shared/Util/Bin";
 import { CanvasAPI, HoverState } from "@Easy/Core/Shared/Util/CanvasAPI";
+import { ProtectedUtil } from "@Easy/Core/Shared/Util/ProtectedUtil";
+import { Signal } from "@Easy/Core/Shared/Util/Signal";
+
+const onSelectedMemberChanged = new Signal();
 
 export default class PartyModalMember extends AirshipBehaviour {
 	public avatarImage: RawImage;
@@ -29,18 +34,37 @@ export default class PartyModalMember extends AirshipBehaviour {
 
 		this.kickBtn.gameObject.SetActive(false);
 		this.usernameWrapper.SetActive(false);
-		this.bin.AddEngineEventConnection(
-			CanvasAPI.OnHoverEvent(this.avatarImage.gameObject, (hov) => {
-				this.kickBtn.gameObject.SetActive(hov === HoverState.ENTER);
-				this.usernameWrapper.SetActive(hov === HoverState.ENTER);
-			}),
-		);
+
+		if (Game.IsMobile()) {
+			this.bin.AddEngineEventConnection(
+				CanvasAPI.OnClickEvent(this.avatarImage.gameObject, () => {
+					ProtectedUtil.PlayClickSound();
+					onSelectedMemberChanged.Fire();
+					this.kickBtn.gameObject.SetActive(true);
+					this.usernameWrapper.SetActive(true);
+				}),
+			);
+
+			this.bin.Add(
+				onSelectedMemberChanged.Connect(() => {
+					this.kickBtn.gameObject.SetActive(false);
+					this.usernameWrapper.SetActive(false);
+				}),
+			);
+		} else {
+			this.bin.AddEngineEventConnection(
+				CanvasAPI.OnHoverEvent(this.avatarImage.gameObject, (hov) => {
+					this.kickBtn.gameObject.SetActive(hov === HoverState.ENTER);
+					this.usernameWrapper.SetActive(hov === HoverState.ENTER);
+				}),
+			);
+		}
 	}
 
 	public SetLeader(leader: boolean): void {
 		this.leaderBin.Clean();
 
-		if (leader && false) {
+		if (leader) {
 			this.kickBtnWrapper.SetActive(false);
 			return;
 		}
