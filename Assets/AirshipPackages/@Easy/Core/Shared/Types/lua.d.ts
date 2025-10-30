@@ -606,6 +606,9 @@ declare namespace math {
 	/** Returns where a value lies between `a` and `b`. */
 	function inverseLerp(a: number, b: number, value: number): number;
 
+	/** Returns where a value lies between `a` and `b`. The returned value is clamped to the range of `[a, b]` */
+	function inverseLerpClamped(a: number, b: number, value: number): number;
+
 	/** Returns the closest power of two from `n`. */
 	function closestPowerOfTwo(n: number): number;
 
