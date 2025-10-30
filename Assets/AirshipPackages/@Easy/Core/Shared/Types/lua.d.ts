@@ -603,7 +603,7 @@ declare namespace math {
 	/** Linearly interpolates between `a` and `b` by amount `t`. The value `t` is clamped to the range of `[0, 1]`. */
 	function lerpClamped(a: number, b: number, t: number): number;
 
-	/** Returns where a value lies between `a` and `b`. */
+	/** Returns where a value lies between `a` and `b`. Note: This is unclamped. */
 	function inverseLerp(a: number, b: number, value: number): number;
 
 	/** Returns where a value lies between `a` and `b`. The returned value is clamped to the range of `[a, b]` */
