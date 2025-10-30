@@ -16,6 +16,10 @@ export default class PartyModal extends AirshipBehaviour {
 	public memberPrefab: GameObject;
 	public membersParent: Transform;
 
+	@Header("Invites")
+	public invitePrefab: GameObject;
+	public invitesParent: Transform;
+
 	@Header("Other")
 	public bgButton: Button;
 	public window: RectTransform;
@@ -65,6 +69,9 @@ export default class PartyModal extends AirshipBehaviour {
 				await Platform.Client.Party.RemoveFromParty(Game.localPlayer.userId);
 			}),
 		);
+
+		// Invites
+		this.invitesParent.gameObject.ClearChildren();
 	}
 
 	private UpdateParty(party: GameCoordinatorParty.PartySnapshot): void {
