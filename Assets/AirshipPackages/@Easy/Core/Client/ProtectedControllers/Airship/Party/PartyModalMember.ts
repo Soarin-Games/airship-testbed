@@ -14,6 +14,7 @@ export default class PartyModalMember extends AirshipBehaviour {
 	public kickBtnWrapper: GameObject;
 	public usernameText: TMP_Text;
 	public usernameWrapper: GameObject;
+	public crown: GameObject;
 
 	@NonSerialized() private user: AirshipUser;
 
@@ -69,9 +70,11 @@ export default class PartyModalMember extends AirshipBehaviour {
 
 		if (leader) {
 			this.kickBtnWrapper.SetActive(false);
+			this.crown.SetActive(true);
 			return;
 		}
 		this.kickBtnWrapper.SetActive(true);
+		this.crown.SetActive(false);
 
 		this.leaderBin.Add(
 			this.kickBtn.onClick.Connect(async () => {
