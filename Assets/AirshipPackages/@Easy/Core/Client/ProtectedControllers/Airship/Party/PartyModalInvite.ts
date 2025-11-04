@@ -1,6 +1,13 @@
 import { Airship } from "@Easy/Core/Shared/Airship";
-import { GameCoordinatorParty } from "@Easy/Core/Shared/TypePackages/game-coordinator-types";
+import { Dependency } from "@Easy/Core/Shared/Flamework";
+import { GameCoordinatorClient, GameCoordinatorParty } from "@Easy/Core/Shared/TypePackages/game-coordinator-types";
+import { UnityMakeRequest } from "@Easy/Core/Shared/TypePackages/UnityMakeRequest";
+import { AirshipUrl } from "@Easy/Core/Shared/Util/AirshipUrl";
 import { Bin } from "@Easy/Core/Shared/Util/Bin";
+import { ProtectedFriendsController } from "../../Social/FriendsController";
+import { PendingSocialNotification } from "../../Social/PendingSocialNotification";
+
+const client = new GameCoordinatorClient(UnityMakeRequest(AirshipUrl.GameCoordinator));
 
 export default class PartyModalInvite extends AirshipBehaviour {
 	public leaderAvatarImg: RawImage;
@@ -11,7 +18,7 @@ export default class PartyModalInvite extends AirshipBehaviour {
 
 	private bin = new Bin();
 
-	public Init(party: GameCoordinatorParty.PartySnapshot): void {
+	public Init(notif: PendingSocialNotification, party: GameCoordinatorParty.PartySnapshot): void {
 		task.spawn(async () => {
 			const tex = await Airship.Players.GetProfilePictureAsync(party.leader);
 			this.leaderAvatarImg.texture = tex;
@@ -27,13 +34,15 @@ export default class PartyModalInvite extends AirshipBehaviour {
 		}
 
 		this.bin.Add(
-			this.acceptBtn.onClick.Connect(() => {
-				// todo: join party
+			this.acceptBtn.onClick.Connect(async () => {
+				await client.party.joinParty(party);
+				Dependency<ProtectedFriendsController>().ClearPendingNotification(notif);
 			}),
 		);
 
 		this.bin.Add(
 			this.denyBtn.onClick.Connect(() => {
+				Dependency<ProtectedFriendsController>().ClearPendingNotification(notif);
 				Destroy(this.gameObject);
 			}),
 		);

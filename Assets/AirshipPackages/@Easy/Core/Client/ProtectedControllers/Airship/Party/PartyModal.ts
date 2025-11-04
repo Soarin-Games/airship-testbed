@@ -1,11 +1,21 @@
-import { Airship, Platform } from "@Easy/Core/Shared/Airship";
-import { Game } from "@Easy/Core/Shared/Game";
-import { GameCoordinatorParty } from "@Easy/Core/Shared/TypePackages/game-coordinator-types";
+import { Airship } from "@Easy/Core/Shared/Airship";
+import { Dependency } from "@Easy/Core/Shared/Flamework";
+import { Protected } from "@Easy/Core/Shared/Protected";
+import { GameCoordinatorClient, GameCoordinatorParty } from "@Easy/Core/Shared/TypePackages/game-coordinator-types";
+import { UnityMakeRequest } from "@Easy/Core/Shared/TypePackages/UnityMakeRequest";
+import { AirshipUrl } from "@Easy/Core/Shared/Util/AirshipUrl";
 import { AppManager } from "@Easy/Core/Shared/Util/AppManager";
 import { Bin } from "@Easy/Core/Shared/Util/Bin";
 import ObjectUtils from "@Easy/Core/Shared/Util/ObjectUtils";
+import { ProtectedFriendsController } from "../../Social/FriendsController";
+import { MainMenuPartyController } from "../../Social/MainMenuPartyController";
+import { PendingSocialNotification } from "../../Social/PendingSocialNotification";
+import { SocialNotificationType } from "../../Social/SocialNotificationType";
+import PartyModalInvite from "./PartyModalInvite";
 import PartyModalMember from "./PartyModalMember";
 import PartyModalPlayer from "./PartyModalPlayer";
+
+const client = new GameCoordinatorClient(UnityMakeRequest(AirshipUrl.GameCoordinator));
 
 export default class PartyModal extends AirshipBehaviour {
 	@Header("Player List")
@@ -34,13 +44,16 @@ export default class PartyModal extends AirshipBehaviour {
 
 		this.leaveBtn.gameObject.SetActive(false);
 
+		const mainMenuPartyController = Dependency<MainMenuPartyController>();
+
 		this.membersParent.gameObject.ClearChildren();
 		task.spawn(async () => {
-			const party = await Platform.Client.Party.GetParty();
-			this.UpdateParty(party);
-			Platform.Client.Party.onPartyChange.Connect((p: GameCoordinatorParty.PartySnapshot) => {
-				this.UpdateParty(p);
-			});
+			this.UpdateParty(mainMenuPartyController.party);
+			this.bin.Add(
+				mainMenuPartyController.onPartyUpdated.Connect((newParty) => {
+					this.UpdateParty(newParty);
+				}),
+			);
 		});
 
 		this.bin.Add(
@@ -66,15 +79,45 @@ export default class PartyModal extends AirshipBehaviour {
 
 		this.bin.Add(
 			this.leaveBtn.onClick.Connect(async () => {
-				await Platform.Client.Party.RemoveFromParty(Game.localPlayer.userId);
+				if (Protected.User.localUser) {
+					await client.party.removeFromParty({ userToRemove: Protected.User.localUser.uid });
+				}
 			}),
 		);
 
 		// Invites
 		this.invitesParent.gameObject.ClearChildren();
+
+		const protectedFriendsController = Dependency<ProtectedFriendsController>();
+		this.bin.Add(
+			protectedFriendsController.onNewSocialNotification.Connect((notif) => {
+				if (notif.type === SocialNotificationType.PartyInvite) {
+					this.AddIncomingInvite(notif, notif.extraData as GameCoordinatorParty.PartySnapshot);
+				}
+			}),
+		);
+
+		for (let notif of protectedFriendsController.pendingSocialNotifications) {
+			if (notif.type === SocialNotificationType.PartyInvite) {
+				this.AddIncomingInvite(notif, notif.extraData as GameCoordinatorParty.PartySnapshot);
+			}
+		}
 	}
 
-	private UpdateParty(party: GameCoordinatorParty.PartySnapshot): void {
+	private AddIncomingInvite(notif: PendingSocialNotification, data: GameCoordinatorParty.PartySnapshot): void {
+		const go = Instantiate(this.invitePrefab, this.invitesParent);
+		const partyInvite = go.GetAirshipComponent<PartyModalInvite>()!;
+		partyInvite.Init(notif, data);
+	}
+
+	private UpdateParty(party: GameCoordinatorParty.PartySnapshot | undefined): void {
+		if (party === undefined) {
+			this.leaveBtn.gameObject.SetActive(false);
+			this.uidToPartyMember.clear();
+			this.membersParent.gameObject.ClearChildren();
+			return;
+		}
+
 		this.leaveBtn.gameObject.SetActive(party.members.size() > 1);
 
 		for (let user of party.members) {
@@ -88,6 +131,9 @@ export default class PartyModal extends AirshipBehaviour {
 			const partyMemberComp = go.GetAirshipComponent<PartyModalMember>()!;
 			partyMemberComp.Init(user);
 			partyMemberComp.SetLeader(user.uid === party.leader);
+			if (user.uid === party.leader) {
+				partyMemberComp.transform.SetAsFirstSibling();
+			}
 			this.uidToPartyMember.set(user.uid, partyMemberComp);
 		}
 

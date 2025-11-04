@@ -1,8 +1,13 @@
-import { Airship, Platform } from "@Easy/Core/Shared/Airship";
+import { Airship } from "@Easy/Core/Shared/Airship";
 import { Player } from "@Easy/Core/Shared/Player/Player";
+import { GameCoordinatorClient } from "@Easy/Core/Shared/TypePackages/game-coordinator-types";
+import { UnityMakeRequest } from "@Easy/Core/Shared/TypePackages/UnityMakeRequest";
+import { AirshipUrl } from "@Easy/Core/Shared/Util/AirshipUrl";
 import { Bin } from "@Easy/Core/Shared/Util/Bin";
 import { CanvasAPI, HoverState } from "@Easy/Core/Shared/Util/CanvasAPI";
 import { ProtectedUtil } from "@Easy/Core/Shared/Util/ProtectedUtil";
+
+const client = new GameCoordinatorClient(UnityMakeRequest(AirshipUrl.GameCoordinator));
 
 export default class PartyModalPlayer extends AirshipBehaviour {
 	public avatarImg: RawImage;
@@ -33,7 +38,7 @@ export default class PartyModalPlayer extends AirshipBehaviour {
 			this.button.onClick.Connect(async () => {
 				ProtectedUtil.PlayClickSound();
 				this.checkmark.SetActive(true);
-				await Platform.Client.Party.InviteToParty(player.userId);
+				await client.party.inviteUser({ userToAdd: player.userId });
 			}),
 		);
 	}

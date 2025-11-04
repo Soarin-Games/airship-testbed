@@ -1,12 +1,17 @@
-import { Airship, Platform } from "@Easy/Core/Shared/Airship";
+import { Airship } from "@Easy/Core/Shared/Airship";
 import { AirshipUser } from "@Easy/Core/Shared/Airship/Types/AirshipUser";
 import { Game } from "@Easy/Core/Shared/Game";
+import { GameCoordinatorClient } from "@Easy/Core/Shared/TypePackages/game-coordinator-types";
+import { UnityMakeRequest } from "@Easy/Core/Shared/TypePackages/UnityMakeRequest";
+import { AirshipUrl } from "@Easy/Core/Shared/Util/AirshipUrl";
 import { Bin } from "@Easy/Core/Shared/Util/Bin";
 import { CanvasAPI, HoverState } from "@Easy/Core/Shared/Util/CanvasAPI";
 import { ProtectedUtil } from "@Easy/Core/Shared/Util/ProtectedUtil";
 import { Signal } from "@Easy/Core/Shared/Util/Signal";
 
 const onSelectedMemberChanged = new Signal();
+
+const client = new GameCoordinatorClient(UnityMakeRequest(AirshipUrl.GameCoordinator));
 
 export default class PartyModalMember extends AirshipBehaviour {
 	public avatarImage: RawImage;
@@ -78,7 +83,7 @@ export default class PartyModalMember extends AirshipBehaviour {
 
 		this.leaderBin.Add(
 			this.kickBtn.onClick.Connect(async () => {
-				await Platform.Client.Party.RemoveFromParty(this.user.uid);
+				await client.party.removeFromParty({ userToRemove: this.user.uid });
 			}),
 		);
 	}
