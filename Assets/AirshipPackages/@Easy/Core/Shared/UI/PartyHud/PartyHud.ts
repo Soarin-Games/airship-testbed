@@ -1,7 +1,6 @@
 import { Airship, Platform } from "../../Airship";
 import { AirshipUser } from "../../Airship/Types/AirshipUser";
 import { GameCoordinatorParty } from "../../TypePackages/game-coordinator-types";
-import { Mouse } from "../../UserInput";
 import { Bin } from "../../Util/Bin";
 import ObjectUtils from "../../Util/ObjectUtils";
 import PartyHudMember from "./PartyHudMember";
@@ -82,9 +81,9 @@ export default class PartyHud extends AirshipBehaviour {
 	}
 
 	protected Update(dt: number): void {
-		if (this.conditionalBtn) {
-			this.partyBtnGO.SetActive(!Mouse.IsLocked());
-		}
+		// if (this.conditionalBtn) {
+		// 	this.partyBtnGO.SetActive(!Mouse.IsLocked());
+		// }
 	}
 
 	override OnDestroy(): void {
