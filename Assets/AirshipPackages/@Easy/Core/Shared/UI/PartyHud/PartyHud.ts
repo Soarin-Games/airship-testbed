@@ -6,9 +6,9 @@ import ObjectUtils from "../../Util/ObjectUtils";
 import PartyHudMember from "./PartyHudMember";
 
 export default class PartyHud extends AirshipBehaviour {
-	@Header("Config")
-	@Tooltip("Only shows the Party Button when mouse is unlocked.")
-	public conditionalBtn = true;
+	// @Header("Config")
+	// @Tooltip("Only shows the Party Button when mouse is unlocked.")
+	// public conditionalBtn = true;
 
 	@Header("Member")
 	public membersParent: Transform;
