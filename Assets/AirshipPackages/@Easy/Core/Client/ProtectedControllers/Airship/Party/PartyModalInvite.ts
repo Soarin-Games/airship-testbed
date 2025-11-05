@@ -37,6 +37,7 @@ export default class PartyModalInvite extends AirshipBehaviour {
 			this.acceptBtn.onClick.Connect(async () => {
 				await client.party.joinParty(party);
 				Dependency<ProtectedFriendsController>().ClearPendingNotification(notif);
+				Destroy(this.gameObject);
 			}),
 		);
 
