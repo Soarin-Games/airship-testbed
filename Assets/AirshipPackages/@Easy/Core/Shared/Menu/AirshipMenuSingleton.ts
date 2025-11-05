@@ -2,7 +2,6 @@ import { TabListController } from "@Easy/Core/Client/Controllers/TabList/TabList
 import { Airship } from "@Easy/Core/Shared/Airship";
 import { Dependency, OnStart, Singleton } from "@Easy/Core/Shared/Flamework";
 import { Game } from "../Game";
-import { Keyboard } from "../UserInput";
 import { Signal } from "../Util/Signal";
 
 @Singleton({})
@@ -23,10 +22,6 @@ export class AirshipMenuSingleton implements OnStart {
 			if (this.leaveMatchBtnCallback !== undefined) {
 				this.leaveMatchBtnCallback();
 			}
-		});
-
-		Keyboard.OnKeyDown(Key.P, () => {
-			this.OpenPartyMenu();
 		});
 	}
 
