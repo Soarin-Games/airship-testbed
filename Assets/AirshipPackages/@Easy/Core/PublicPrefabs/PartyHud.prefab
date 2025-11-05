@@ -123,6 +123,32 @@ MonoBehaviour:
       serializedValue: 
       serializedObject: {fileID: 8686810432134395316}
       modified: 1
+    - name: conditionalBtn
+      type: boolean
+      objectType: 
+      items:
+        type: 
+        objectType: 
+        serializedItems: []
+        objectRefs: []
+      refPath: 
+      fileRef: 
+      jsDocs:
+        text: []
+        tags: []
+      decorators:
+      - name: Header
+        parameters:
+        - type: string
+          serializedValue: '"Config"'
+      - name: Tooltip
+        parameters:
+        - type: string
+          serializedValue: '"Only shows the Party Button when mouse is unlocked."'
+      nullable: 0
+      serializedValue: 1
+      serializedObject: {fileID: 0}
+      modified: 0
     displayIcon: {fileID: 0}
     displayName: 
 --- !u!223 &3819332569760433341
@@ -534,7 +560,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 517dcfc7bf08549efa5108b97eb2e6cc, type: 2}
   m_Color: {r: 0.08143466, g: 0.08712842, b: 0.09433961, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_RaycastPadding: {x: -5, y: -5, z: -5, w: -5}
   m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
