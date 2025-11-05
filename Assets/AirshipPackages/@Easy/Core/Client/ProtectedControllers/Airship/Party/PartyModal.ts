@@ -1,5 +1,6 @@
 import { Airship } from "@Easy/Core/Shared/Airship";
 import { Dependency } from "@Easy/Core/Shared/Flamework";
+import { Game } from "@Easy/Core/Shared/Game";
 import { Protected } from "@Easy/Core/Shared/Protected";
 import { GameCoordinatorClient, GameCoordinatorParty } from "@Easy/Core/Shared/TypePackages/game-coordinator-types";
 import { UnityMakeRequest } from "@Easy/Core/Shared/TypePackages/UnityMakeRequest";
@@ -34,6 +35,7 @@ export default class PartyModal extends AirshipBehaviour {
 	public bgButton: Button;
 	public window: RectTransform;
 	public leaveBtn: Button;
+	public wrapper: RectTransform;
 
 	private uidToPartyMember = new Map<string, PartyModalMember>();
 	private bin = new Bin();
@@ -41,6 +43,10 @@ export default class PartyModal extends AirshipBehaviour {
 	override Start(): void {
 		this.window.localScale = Vector3.one.mul(1.1);
 		NativeTween.LocalScale(this.window, Vector3.one, 0.12).SetEaseQuadOut();
+
+		if (Game.IsMobile()) {
+			this.wrapper.localScale = Vector3.one.mul(1.7);
+		}
 
 		this.leaveBtn.gameObject.SetActive(false);
 
