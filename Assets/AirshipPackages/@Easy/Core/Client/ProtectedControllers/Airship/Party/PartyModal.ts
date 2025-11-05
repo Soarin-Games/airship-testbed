@@ -71,7 +71,8 @@ export default class PartyModal extends AirshipBehaviour {
 		this.playersParent.gameObject.ClearChildren();
 		this.bin.Add(
 			Airship.Players.ObservePlayers((p) => {
-				// if (p.IsLocalPlayer()) return;
+				// Show local player in editor for easier testing
+				if (!Game.IsEditor() && p.IsLocalPlayer()) return;
 
 				const go = Instantiate(this.playerPrefab, this.playersParent);
 				const modalPlayer = go.GetAirshipComponent<PartyModalPlayer>()!;
