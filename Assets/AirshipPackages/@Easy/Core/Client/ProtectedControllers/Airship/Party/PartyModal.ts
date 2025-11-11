@@ -36,6 +36,7 @@ export default class PartyModal extends AirshipBehaviour {
 	public window: RectTransform;
 	public leaveBtn: Button;
 	public wrapper: RectTransform;
+	public nobodyOnlineNotice: GameObject;
 
 	private uidToPartyMember = new Map<string, PartyModalMember>();
 	private bin = new Bin();
@@ -68,6 +69,7 @@ export default class PartyModal extends AirshipBehaviour {
 			}),
 		);
 
+		this.nobodyOnlineNotice.SetActive(false);
 		this.playersParent.gameObject.ClearChildren();
 		this.bin.Add(
 			Airship.Players.ObservePlayers((p) => {
@@ -77,6 +79,8 @@ export default class PartyModal extends AirshipBehaviour {
 				const go = Instantiate(this.playerPrefab, this.playersParent);
 				const modalPlayer = go.GetAirshipComponent<PartyModalPlayer>()!;
 				modalPlayer.Init(p);
+
+				this.nobodyOnlineNotice.SetActive(Airship.Players.GetPlayers().size() <= 1);
 
 				return () => {
 					Destroy(go);
