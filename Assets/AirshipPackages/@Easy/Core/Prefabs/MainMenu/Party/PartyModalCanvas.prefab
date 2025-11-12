@@ -2150,7 +2150,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 200
   m_TargetDisplay: 0
 --- !u!114 &3625299744012812087
 MonoBehaviour:
@@ -2419,24 +2419,6 @@ MonoBehaviour:
       serializedValue: 
       serializedObject: {fileID: 1396171964016502156}
       modified: 1
-    - name: memberSpacerPrefab
-      type: object
-      objectType: GameObject
-      items:
-        type: 
-        objectType: 
-        serializedItems: []
-        objectRefs: []
-      refPath: 
-      fileRef: 
-      jsDocs:
-        text: []
-        tags: []
-      decorators: []
-      nullable: 0
-      serializedValue: 
-      serializedObject: {fileID: 0}
-      modified: 0
     displayIcon: {fileID: 0}
     displayName: 
 --- !u!1 &9004997114458718845
