@@ -41,8 +41,6 @@ export default class PartyModal extends AirshipBehaviour {
 	private uidToPartyMember = new Map<string, PartyModalMember>();
 	private bin = new Bin();
 
-	private notifCounter = 0;
-
 	override Start(): void {
 		this.window.localScale = Vector3.one.mul(1.1);
 		NativeTween.LocalScale(this.window, Vector3.one, 0.12).SetEaseQuadOut();
