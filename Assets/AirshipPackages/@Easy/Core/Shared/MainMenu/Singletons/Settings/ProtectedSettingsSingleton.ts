@@ -31,7 +31,7 @@ const defaultData: ClientSettingsFile = {
 	gameKeybindOverrides: {},
 	vsync: false,
 	shadowLevel: 0,
-	antiAliasing: 0,
+	msaaSamples: 2,
 	voiceToggleEnabled: false,
 	limitFps: -1,
 };
@@ -289,13 +289,13 @@ export class ProtectedSettingsSingleton {
 				}
 			} catch (err) {}
 			if (!lowEndDevice) {
-				this.data.antiAliasing = 1;
+				this.data.msaaSamples = 1;
 				this.data.shadowLevel = 1;
 			}
 		}
 
 		this.SetGlobalVolume(this.GetGlobalVolume());
-		this.SetAntiAliasing(this.data.antiAliasing);
+		this.SetMSAASamples(this.data.msaaSamples);
 		this.SetShadowLevel(this.data.shadowLevel);
 		this.SetVsync(this.data.vsync);
 		this.SetLimitFPS(this.data.limitFps);
@@ -375,14 +375,10 @@ export class ProtectedSettingsSingleton {
 		}
 	}
 
-	public SetAntiAliasing(level: number): void {
-		this.data.antiAliasing = level;
-		if (Game.IsEditor()) return;
-		const pipelineAsset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
-		if (level === 1) {
-			pipelineAsset.msaaSampleCount = 2;
-		} else {
-			pipelineAsset.msaaSampleCount = 0;
+	public SetMSAASamples(samples: number): void {
+		this.data.msaaSamples = samples;
+		if (!Game.IsEditor()) {
+			Screen.SetMSAASamples(samples);
 		}
 	}
 
