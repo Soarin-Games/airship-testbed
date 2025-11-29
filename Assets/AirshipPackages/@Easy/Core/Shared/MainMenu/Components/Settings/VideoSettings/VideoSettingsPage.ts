@@ -9,7 +9,7 @@ export default class VideoSettingsPage extends AirshipBehaviour {
 	public vsyncToggle: SettingsToggle;
 
 	override Start(): void {
-		this.msaaBtnGroup.Init("Anti Aliasing", 2, [
+		this.msaaBtnGroup.Init("Anti Aliasing", Protected.Settings.data.msaaSamples, [
 			{
 				text: "1x",
 				value: 1,
@@ -28,7 +28,7 @@ export default class VideoSettingsPage extends AirshipBehaviour {
 			},
 		]);
 		this.msaaBtnGroup.onChanged.Connect((val) => {
-			Protected.Settings.SetMSAASamples(val ? 1 : 0);
+			Protected.Settings.SetMSAASamples(val as number);
 			Protected.Settings.MarkAsDirty();
 		});
 
