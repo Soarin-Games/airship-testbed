@@ -158,6 +158,12 @@ export default class SettingsPage extends AirshipBehaviour {
 
 		if (Game.IsMobile()) {
 			this.keybindsSection?.SetActive(false);
+
+			const vlg = this.tabs.GetComponent<VerticalLayoutGroup>()!;
+			if (Game.IsLandscape()) {
+				vlg.padding.right = 120;
+			}
+			vlg.spacing = 20;
 		}
 
 		// Limit FPS

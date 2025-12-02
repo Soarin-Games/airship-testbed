@@ -70,7 +70,7 @@ export default class HomePageComponent extends MainMenuPageComponent {
 			Game.deviceType === AirshipDeviceType.Phone
 				? "Unlock the limited edition Victory Crown by winning a match!"
 				: "Unlock the Victory Crown by winning a match!",
-			AirshipUrl.CDN + "/airship/CrownRender1.png",
+			AirshipUrl.CDN + "/airship/CrownRender.png",
 			1764788400,
 			1758992400 + 3 * day,
 		);
