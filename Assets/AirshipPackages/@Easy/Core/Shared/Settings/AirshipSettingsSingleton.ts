@@ -32,9 +32,9 @@ export class AirshipSettingsSingleton {
 	 */
 	public AddSlider(name: string, startingValue: number, min: number, max: number, increment?: number): void {
 		if (increment === undefined) {
-			// Default behaviour grabs smallest nearby power of 10 to one hundredth of the range
-			// Ex: range of 50 would have an increment of 0.1
-			const smallestNearbyPowerOf10 = math.floor(math.log10((max - min) / 100));
+			// Default behaviour grabs closest nearby power of 10 to one hundredth of the range
+			// Ex: range of 75 would have an increment of 1
+			const smallestNearbyPowerOf10 = math.round(math.log10((max - min) / 100));
 			increment = math.pow(10, smallestNearbyPowerOf10);
 		}
 

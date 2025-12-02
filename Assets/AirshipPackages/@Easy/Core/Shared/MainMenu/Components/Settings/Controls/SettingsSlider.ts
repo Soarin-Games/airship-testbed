@@ -22,7 +22,8 @@ export default class SettingsSlider extends AirshipBehaviour {
 		let ignoreNextInputFieldChange = false;
 
 		let valRounded = this.ValidateIncrement(math.floor(startingValue * 100) / 100, increment);
-		let textValue = string.format("%.2f", valRounded);
+
+		let textValue = this.FormatValueForDisplay(valRounded, increment);
 
 		slider.maxValue = max;
 		slider.minValue = min;
@@ -55,7 +56,7 @@ export default class SettingsSlider extends AirshipBehaviour {
 				}
 
 				this.onChange.Fire(newValue);
-				this.inputField.text = string.format("%.2f", newValue);
+				this.inputField.text = this.FormatValueForDisplay(newValue, increment);
 			}),
 		);
 
@@ -66,6 +67,13 @@ export default class SettingsSlider extends AirshipBehaviour {
 				}
 			}),
 		);
+	}
+
+	private FormatValueForDisplay(value: number, increment: number) {
+		let sigDigits = 3;
+		if (increment > 0) sigDigits = math.ceil(math.log10(1 / increment));
+
+		return string.format(`%.${sigDigits}f`, value);
 	}
 
 	private PlaySelectSound() {
