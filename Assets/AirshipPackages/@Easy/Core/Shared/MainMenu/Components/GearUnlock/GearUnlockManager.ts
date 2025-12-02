@@ -1,4 +1,6 @@
+import { AuthController } from "@Easy/Core/Client/ProtectedControllers/Auth/AuthController";
 import { CoreContext } from "@Easy/Core/Shared/CoreClientContext";
+import { Dependency } from "@Easy/Core/Shared/Flamework";
 import { Game } from "@Easy/Core/Shared/Game";
 import { GameCoordinatorClient } from "@Easy/Core/Shared/TypePackages/game-coordinator-types";
 import { UnityMakeRequest } from "@Easy/Core/Shared/TypePackages/UnityMakeRequest";
@@ -38,7 +40,10 @@ export default class GearUnlockManager extends AirshipBehaviour {
 			});
 		}
 
-		this.CheckNotifications();
+		task.spawn(() => {
+			Dependency<AuthController>().WaitForAuthed();
+			this.CheckNotifications();
+		});
 	}
 
 	public async CheckNotifications(): Promise<void> {
