@@ -289,6 +289,11 @@ export default class SettingsPage extends AirshipBehaviour {
 		const scrollRect = this.scrollView.GetComponent<ScrollRect>();
 		for (let img of images) {
 			if (!img.raycastTarget) continue;
+
+			// Skip slider handle; these need to be draggable
+			const slider = img.gameObject.GetComponentInParent<Slider>();
+			if (slider && img.gameObject === slider.handleRect.gameObject) continue;
+
 			const redirect = img.gameObject.AddComponent<AirshipRedirectScroll>();
 			redirect.redirectTarget = scrollRect;
 		}
