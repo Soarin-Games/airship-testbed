@@ -10,6 +10,7 @@ export default class SettingsSlider extends AirshipBehaviour {
 	public slider: GameObject;
 
 	public onChange = new Signal<[val: number]>();
+	private lastValue: number;
 
 	private bin = new Bin();
 
@@ -29,6 +30,7 @@ export default class SettingsSlider extends AirshipBehaviour {
 		slider.maxValue = max;
 		slider.minValue = min;
 		slider.value = valRounded;
+		this.lastValue = valRounded;
 		this.inputField.text = textValue;
 
 		this.bin.AddEngineEventConnection(
@@ -58,7 +60,8 @@ export default class SettingsSlider extends AirshipBehaviour {
 					return;
 				}
 
-				if (Game.IsMobile()) VibrationManager.Play(VibrationFeedbackType.Selection);
+				if (Game.IsMobile() && this.lastValue !== newValue) VibrationManager.Play(VibrationFeedbackType.Selection);
+				this.lastValue = newValue;
 				
 				this.onChange.Fire(newValue);
 
