@@ -1,4 +1,5 @@
 import { AudioManager } from "@Easy/Core/Shared/Audio/AudioManager";
+import { Game } from "@Easy/Core/Shared/Game";
 import { Bin } from "@Easy/Core/Shared/Util/Bin";
 import { CanvasAPI, PointerDirection } from "@Easy/Core/Shared/Util/CanvasAPI";
 import { Signal } from "@Easy/Core/Shared/Util/Signal";
@@ -57,6 +58,8 @@ export default class SettingsSlider extends AirshipBehaviour {
 					return;
 				}
 
+				if (Game.IsMobile()) VibrationManager.Play(VibrationFeedbackType.Selection);
+				
 				this.onChange.Fire(newValue);
 
 				ignoreNextFieldChange = true;
