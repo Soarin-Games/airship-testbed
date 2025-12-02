@@ -21,7 +21,7 @@ export class AirshipSettingsSingleton {
 
 	protected OnStart(): void { }
 
-	public AddSlider(name: string, startingValue: number, min: number, max: number, increment: number = 1): void {
+	public AddSlider(name: string, startingValue: number, min: number, max: number, increment: number = 0.01): void {
 		contextbridge.invoke("Settings:AddSlider", LuauContext.Protected, name, startingValue, min, max, increment);
 	}
 
