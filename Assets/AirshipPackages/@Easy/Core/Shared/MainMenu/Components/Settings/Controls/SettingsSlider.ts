@@ -19,7 +19,7 @@ export default class SettingsSlider extends AirshipBehaviour {
 
 		const slider = this.slider.GetComponent<Slider>()!;
 		let ignoreNextSliderChange = false;
-		let ignoreNextInputFieldChange = false;
+		let ignoreNextFieldChange = false;
 
 		let valRounded = this.ValidateIncrement(math.floor(startingValue * 100) / 100, increment);
 
@@ -32,16 +32,18 @@ export default class SettingsSlider extends AirshipBehaviour {
 
 		this.bin.AddEngineEventConnection(
 			CanvasAPI.OnValueChangeEvent(this.inputField.gameObject, () => {
-				if (ignoreNextInputFieldChange) {
-					ignoreNextInputFieldChange = false;
+				if (ignoreNextFieldChange) {
+					ignoreNextFieldChange = false;
 					return;
 				}
+
 				const value = tonumber(this.inputField.text);
 				if (value === undefined) return;
+
 				let newValue = this.ValidateIncrement(math.floor(value * 100) / 100, increment);
+				this.onChange.Fire(newValue);
 
 				ignoreNextSliderChange = true;
-				this.onChange.Fire(value);
 				slider.value = newValue;
 			}),
 		);
@@ -56,6 +58,8 @@ export default class SettingsSlider extends AirshipBehaviour {
 				}
 
 				this.onChange.Fire(newValue);
+
+				ignoreNextFieldChange = true;
 				this.inputField.text = this.FormatValueForDisplay(newValue, increment);
 			}),
 		);

@@ -291,7 +291,7 @@ export default class SettingsPage extends AirshipBehaviour {
 			if (!img.raycastTarget) continue;
 
 			// Skip slider handle; these need to be draggable
-			const slider = img.gameObject.GetComponentInParent<Slider>();
+			const slider = img.gameObject.GetComponentInParent<Slider>(true);
 			if (slider && img.gameObject === slider.handleRect.gameObject) continue;
 
 			const redirect = img.gameObject.AddComponent<AirshipRedirectScroll>();
