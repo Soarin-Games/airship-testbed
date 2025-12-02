@@ -55,9 +55,9 @@ export default class MenuFeaturedEvent extends AirshipBehaviour {
 		this.popoutImage.color = new Color(1, 1, 1, 0);
 
 		if (Game.deviceType === AirshipDeviceType.Phone) {
-			this.popoutImage.transform.localScale = new Vector3(0.85, 0.85, 0.85);
+			// this.popoutImage.transform.localScale = new Vector3(0.85, 0.85, 0.85);
 			const rect = this.popoutImage.transform as RectTransform;
-			rect.anchoredPosition = new Vector2(24, 0);
+			// rect.anchoredPosition = new Vector2(24, 0);
 		}
 
 		if (eventCache) {
@@ -201,7 +201,7 @@ export default class MenuFeaturedEvent extends AirshipBehaviour {
 
 		// Event BG
 		task.spawn(async () => {
-			const url = "https://cdn.airship.gg/images/dabcaa58-99aa-4eda-9f25-8adff43fc3de";
+			const url = AirshipUrl.CDN + "/airship/TopologyBG.png";
 			const tex = await Protected.Cache.DownloadImage(url);
 			if (tex) {
 				this.eventImg.texture = tex;
