@@ -17,7 +17,7 @@ export default class PartyHud extends AirshipBehaviour {
 	@Header("Notification Badge")
 	public notifWrapper: GameObject;
 	public notifText: TMP_Text;
-	@NonSerialized() private notifCounter: number;
+	@NonSerialized() private notifCounter = 0;
 
 	@Header("Other")
 	public partyBtn: Button;
