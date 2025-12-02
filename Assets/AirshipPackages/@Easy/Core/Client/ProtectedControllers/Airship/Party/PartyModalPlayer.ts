@@ -13,6 +13,7 @@ export default class PartyModalPlayer extends AirshipBehaviour {
 	public username: TMP_Text;
 	public checkmark: GameObject;
 	public button: Button;
+	private invited = false;
 
 	private bin = new Bin();
 
@@ -35,9 +36,18 @@ export default class PartyModalPlayer extends AirshipBehaviour {
 
 		this.bin.Add(
 			this.button.onClick.Connect(async () => {
+				if (this.invited) return;
+
+				this.invited = true;
 				ProtectedUtil.PlayClickSound();
 				this.checkmark.SetActive(true);
-				await client.party.inviteUser({ userToAdd: uid });
+				try {
+					await client.party.inviteUser({ userToAdd: uid });
+				} catch (err) {
+					Debug.LogError(err);
+					this.invited = false;
+					this.checkmark.SetActive(false);
+				}
 			}),
 		);
 	}
