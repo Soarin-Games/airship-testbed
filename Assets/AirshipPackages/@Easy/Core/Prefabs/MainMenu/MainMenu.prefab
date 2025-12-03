@@ -1188,6 +1188,42 @@ MonoBehaviour:
       serializedValue: 0
       serializedObject: {fileID: 0}
       modified: 0
+    - name: platforms
+      type: FlagEnum
+      objectType: 
+      items:
+        type: 
+        objectType: 
+        serializedItems: []
+        objectRefs: []
+      refPath: AirshipPackages/@Easy/Core/Shared/MainMenu/Components/AirshipScreenSafeArea@SafeAreaPlatform
+      fileRef: 
+      jsDocs:
+        text: []
+        tags: []
+      decorators: []
+      nullable: 0
+      serializedValue: -1
+      serializedObject: {fileID: 0}
+      modified: 0
+    - name: axis
+      type: IntEnum
+      objectType: 
+      items:
+        type: 
+        objectType: 
+        serializedItems: []
+        objectRefs: []
+      refPath: AirshipPackages/@Easy/Core/Shared/MainMenu/Components/AirshipScreenSafeArea@SafeAreaAxis
+      fileRef: 
+      jsDocs:
+        text: []
+        tags: []
+      decorators: []
+      nullable: 0
+      serializedValue: 0
+      serializedObject: {fileID: 0}
+      modified: 0
     displayIcon: {fileID: 0}
     displayName: 
 --- !u!1 &5303663953030518797

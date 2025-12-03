@@ -58,7 +58,7 @@ export class MainMenuPartyController {
 
 	protected OnStart(): void {
 		this.socketController.On<AirshipPartyInternalSnapshot>("game-coordinator/party-update", (data) => {
-			// if (Game.IsEditor()) print("game-coordinator/party-member-status-update-multi:", data);
+			if (!Game.IsInGame()) print("game-coordinator/party-member-status-update-multi:", data);
 			this.partyUpdateReceived = true;
 			let oldParty = this.party;
 			this.party = data;
@@ -73,7 +73,7 @@ export class MainMenuPartyController {
 		this.socketController.On<AirshipUserStatusData[]>(
 			"game-coordinator/party-member-status-update-multi",
 			(data) => {
-				// if (Game.IsEditor()) print("game-coordinator/party-member-status-update-multi:", data);
+				if (!Game.IsInGame()) print("game-coordinator/party-member-status-update-multi:", data);
 				if (!this.party) return;
 
 				this.partyLeaderStatusReceived = true;
