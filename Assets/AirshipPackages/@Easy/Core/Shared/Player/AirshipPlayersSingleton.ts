@@ -213,6 +213,7 @@ export class AirshipPlayersSingleton {
 				}
 			});
 			CoreNetwork.ServerToClient.AddPlayer.client.OnServerEvent((playerDto) => {
+				CoreLogger.Log("Received AddPlayer remote: " + playerDto.username);
 				contextbridge.broadcast<(clients: PlayerDto[]) => void>("ProtectedPlayers:AddClients", [playerDto]);
 				this.AddPlayerClient(playerDto);
 			});
