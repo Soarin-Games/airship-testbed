@@ -274,7 +274,7 @@ export class ProtectedFriendsController {
 				// 	}),
 				// );
 
-				AudioManager.PlayGlobal("AirshipPackages/@Easy/Core/Sound/FriendRequest.mp33", {
+				AudioManager.PlayGlobal("AirshipPackages/@Easy/Core/Sound/FriendRequest.mp3", {
 					volumeScale: 0.3,
 				});
 				if (Game.coreContext === CoreContext.GAME) {
