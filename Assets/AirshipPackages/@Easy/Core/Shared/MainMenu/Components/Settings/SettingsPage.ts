@@ -77,6 +77,9 @@ export default class SettingsPage extends AirshipBehaviour {
 		});
 
 		mainMenu.SetHideMobileEscapeButton(true);
+		if (Game.deviceType === AirshipDeviceType.Phone) {
+			this.verticalLayoutGroup.padding.top = 20;
+		}
 		this.bin.Add(
 			mainMenu.ObserveScreenSize((size) => {
 				if (size === "sm" || (size === "md" && Game.IsMobile())) {
@@ -227,6 +230,9 @@ export default class SettingsPage extends AirshipBehaviour {
 			Destroy(obj);
 		}
 
+		if (!Game.IsInGame()) {
+			this.gamePageSettingsContainer.gameObject.SetActive(false);
+		}
 		if (Protected.Settings.gameSettings.size() > 0) {
 			for (let gameSetting of Protected.Settings.gameSettingsOrdered) {
 				if (gameSetting === "space") {
