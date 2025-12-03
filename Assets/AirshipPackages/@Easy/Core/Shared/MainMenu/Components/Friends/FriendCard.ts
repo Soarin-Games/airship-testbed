@@ -93,8 +93,12 @@ export default class FriendCard extends AirshipBehaviour {
 
 				options.push({
 					text: "Invite to Party",
-					onClick: () => {
-						Dependency<ProtectedPartyController>().InviteToParty(userData.userId);
+					onClick: async () => {
+						try {
+							await Dependency<ProtectedPartyController>().InviteToParty(userData.userId);
+						} catch (err) {
+							Debug.LogError(err);
+						}
 					},
 				});
 			}

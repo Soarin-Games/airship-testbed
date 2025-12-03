@@ -25,6 +25,11 @@ export default class PartyCard extends AirshipBehaviour {
 	private loadedGameImageId: string | undefined;
 	private bin = new Bin();
 
+	protected Awake(): void {
+		this.warpButton.gameObject.SetActive(false);
+		this.partyChatButton.gameObject.SetActive(false);
+	}
+
 	override Start(): void {
 		this.layoutElement.preferredHeight = 84;
 
@@ -32,7 +37,7 @@ export default class PartyCard extends AirshipBehaviour {
 			this.bin.AddEngineEventConnection(
 				CanvasAPI.OnHoverEvent(this.gameButton.gameObject, (hov) => {
 					NativeTween.AnchoredPositionX(this.gameArrow.transform, hov === HoverState.ENTER ? -10 : -20, 0.5)
-						.SetEaseBounceOut()
+						.SetEaseQuadOut()
 						.SetUseUnscaledTime(true);
 					this.gameArrow.color = hov === HoverState.ENTER ? Theme.primary : Theme.white;
 					this.gameText.color = hov === HoverState.ENTER ? Theme.primary : Theme.white;
@@ -59,9 +64,6 @@ export default class PartyCard extends AirshipBehaviour {
 		if (!Game.IsMobile()) {
 			this.SetupDragFriendHooks();
 		}
-
-		this.warpButton.gameObject.SetActive(false);
-		this.partyChatButton.gameObject.SetActive(false);
 	}
 
 	private SetupDragFriendHooks() {
@@ -103,23 +105,31 @@ export default class PartyCard extends AirshipBehaviour {
 
 		this.warpButton.gameObject.SetActive(isLeader && Game.IsInGame());
 
+		const HideNowPlaying = () => {
+			this.layoutElement.preferredHeight = 84;
+			this.layoutElement.gameObject.GetComponent<ImageWithRoundedCorners>()?.Refresh();
+		};
+
+		print("party.a");
 		if (party === undefined || party.members.size() <= 1) {
 			this.layoutElement.preferredHeight = 84;
 			this.layoutElement.gameObject.GetComponent<ImageWithRoundedCorners>()?.Refresh();
 			this.partyChatButton.gameObject.SetActive(false);
+			HideNowPlaying();
 			return;
 		}
 
 		// Party chat button visibility
+		print("party.0");
 		if (Game.IsMobile()) {
 			this.partyChatButton.gameObject.SetActive(false);
 		} else {
+			print("party.1");
 			this.partyChatButton.gameObject.SetActive(true);
 		}
 
 		if (!userStatus || userStatus.status !== "in_game") {
-			this.layoutElement.preferredHeight = 84;
-			this.layoutElement.gameObject.GetComponent<ImageWithRoundedCorners>()?.Refresh();
+			HideNowPlaying();
 			return;
 		}
 
