@@ -72,7 +72,7 @@ export default class HomePageComponent extends MainMenuPageComponent {
 				: "Unlock the Victory Crown by winning a match!",
 			AirshipUrl.CDN + "/airship/CrownRender.png",
 			1764788400,
-			1758992400 + 3 * day,
+			1764788400 + 3 * day,
 		);
 
 		this.CreateSort(SortId.Popular, "Popular");
