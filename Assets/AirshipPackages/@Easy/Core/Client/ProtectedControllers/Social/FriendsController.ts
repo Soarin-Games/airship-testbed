@@ -290,12 +290,6 @@ export class ProtectedFriendsController {
 		});
 
 		this.socketController.On<AirshipUserStatusData[]>("game-coordinator/friend-status-update-multi", (data) => {
-			// print("status updates: " + json.encode(data));
-			let lukeOnSteam = data.find((d) => d.usernameLower === "luke_on_steam");
-			if (lukeOnSteam) {
-				CoreLogger.Log("luke: " + json.encode(lukeOnSteam));
-			}
-
 			for (const newFriend of data) {
 				const existing = this.friendStatuses.find((f) => f.userId === newFriend.userId);
 				if (existing) {

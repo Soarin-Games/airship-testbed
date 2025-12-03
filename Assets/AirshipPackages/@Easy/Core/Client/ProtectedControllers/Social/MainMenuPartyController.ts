@@ -4,7 +4,6 @@ import { AudioManager } from "@Easy/Core/Shared/Audio/AudioManager";
 import { CoreContext } from "@Easy/Core/Shared/CoreClientContext";
 import { Controller, Dependency } from "@Easy/Core/Shared/Flamework";
 import { Game } from "@Easy/Core/Shared/Game";
-import { CoreLogger } from "@Easy/Core/Shared/Logger/CoreLogger";
 import PartyCard from "@Easy/Core/Shared/MainMenu/Components/Party/PartyCard";
 import PartyMember from "@Easy/Core/Shared/MainMenu/Components/PartyMember";
 import { Protected } from "@Easy/Core/Shared/Protected";
@@ -191,7 +190,7 @@ export class MainMenuPartyController {
 			leaveButton.SetActive(true);
 		}
 
-		CoreLogger.Log("party: " + json.encode(this.party));
+		// CoreLogger.Log("party: " + json.encode(this.party));
 
 		// Remove old
 		let membersToRemove: GameObject[] = [];
