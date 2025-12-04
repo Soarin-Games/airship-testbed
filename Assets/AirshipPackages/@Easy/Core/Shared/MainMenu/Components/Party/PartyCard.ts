@@ -110,7 +110,6 @@ export default class PartyCard extends AirshipBehaviour {
 			this.layoutElement.gameObject.GetComponent<ImageWithRoundedCorners>()?.Refresh();
 		};
 
-		print("party.a");
 		if (party === undefined || party.members.size() <= 1) {
 			this.layoutElement.preferredHeight = 84;
 			this.layoutElement.gameObject.GetComponent<ImageWithRoundedCorners>()?.Refresh();
@@ -120,11 +119,9 @@ export default class PartyCard extends AirshipBehaviour {
 		}
 
 		// Party chat button visibility
-		print("party.0");
 		if (Game.IsMobile()) {
 			this.partyChatButton.gameObject.SetActive(false);
 		} else {
-			print("party.1");
 			this.partyChatButton.gameObject.SetActive(true);
 		}
 
