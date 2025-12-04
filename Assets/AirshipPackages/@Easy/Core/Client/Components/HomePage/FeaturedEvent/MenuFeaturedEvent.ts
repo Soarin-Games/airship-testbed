@@ -99,7 +99,7 @@ export default class MenuFeaturedEvent extends AirshipBehaviour {
 		let postEvent = os.time() > this.endTime;
 		let gamePublic = eventCache?.visibility === ContentServicePrisma.GameVisibility.PUBLIC;
 
-		if (preEvent) {
+		if (preEvent || !gamePublic) {
 			this.startCountdownText.gameObject.SetActive(true);
 			this.endCountdownText.gameObject.SetActive(false);
 			this.playerCountWrapper.SetActive(false);
