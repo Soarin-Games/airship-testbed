@@ -74,7 +74,7 @@ export default class PartyModal extends AirshipBehaviour {
 		this.nobodyOnlineNotice.SetActive(false);
 		this.playersParent.gameObject.ClearChildren();
 		this.bin.Add(
-			Airship.Players.ObservePlayers((p) => {
+			Protected.ProtectedPlayers.ObservePlayers((p) => {
 				if (this.uidToPlayer.has(p.userId)) return;
 
 				this.nobodyOnlineNotice.SetActive(Airship.Players.GetPlayers().size() <= 1);
