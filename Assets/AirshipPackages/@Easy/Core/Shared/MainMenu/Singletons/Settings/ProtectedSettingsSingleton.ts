@@ -17,7 +17,7 @@ const defaultData: ClientSettingsFile = {
 	sprintToggleEnabled: false,
 	mouseSensitivity: 2,
 	mouseSmoothing: 0,
-	touchSensitivity: 0.5,
+	touchSensitivity: 0.4,
 	mobileDynamicJoystick: true,
 	globalVolume: 1,
 	ambientVolume: 0.1,
