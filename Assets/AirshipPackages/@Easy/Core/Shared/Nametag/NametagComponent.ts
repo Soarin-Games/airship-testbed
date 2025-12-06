@@ -107,13 +107,17 @@ export default class NametagComponent extends AirshipBehaviour {
 			if (newIsEnabled !== prevIsEnabled) {
 				this.ToggleMicrophoneWrapper(newIsEnabled);
 			}
+
+			// If enabled set fill percent
+			if (newIsEnabled) {
+				this.microphoneFillMask.padding = new Vector4(0, 0, 0, 400 - this.currentSpeakingLevel * 400);
+			}
 		}
 	}
 
 	private ToggleMicrophoneWrapper(enabled: boolean) {
 		if (enabled) {
 			this.microphoneWrapper.SetActive(true);
-			this.microphoneFillMask.padding = new Vector4(0, 0, 0, 400 - this.currentSpeakingLevel * 400);
 		} else {
 			this.microphoneWrapper.SetActive(false);
 		}
