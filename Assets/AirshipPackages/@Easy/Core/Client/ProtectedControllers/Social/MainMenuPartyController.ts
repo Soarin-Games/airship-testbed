@@ -88,7 +88,12 @@ export class MainMenuPartyController {
 				const data = extraData as AirshipPartyInternalSnapshot;
 				if (result) {
 					try {
-						client.party.joinParty({ partyId: data.partyId }).expect();
+						print("Requesting to join party id=" + data.partyId);
+						const [success, result] = client.party.joinParty({ partyId: data.partyId }).await();
+						if (!success) {
+							Debug.LogError("Failed to join party: " + result);
+							return;
+						}
 						Dependency<ProtectedFriendsController>().FireNotificationKey("party-invite:" + data.leader);
 					} catch {
 						// empty

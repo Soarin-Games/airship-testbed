@@ -83,7 +83,9 @@ export default class PartyCard extends AirshipBehaviour {
 			const draggedObject = data.pointerDrag;
 			const friendId = draggedObject.GetAirshipComponent<FriendCard>()?.userId;
 			if (friendId) {
-				Dependency<ProtectedPartyController>().InviteToParty(friendId);
+				Dependency<ProtectedPartyController>().InviteToParty(friendId).catch((reason: unknown) => {
+					Debug.LogError("Failed to invite to party: " + reason);
+				});
 			}
 		});
 	}
