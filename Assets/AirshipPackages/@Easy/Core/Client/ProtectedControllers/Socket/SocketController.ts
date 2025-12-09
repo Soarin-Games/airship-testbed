@@ -118,7 +118,7 @@ export class SocketController {
 					}
 				} catch (err) {
 					latestError = err;
-					task.wait(0.25); // Small delay before retry after failure
+					task.wait(0.25);
 				}
 			}
 			if (regionLatencies[regionId] === undefined) {
