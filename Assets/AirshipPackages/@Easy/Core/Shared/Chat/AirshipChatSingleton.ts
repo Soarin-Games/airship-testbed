@@ -23,13 +23,13 @@ import { ChatCommand } from "../Commands/ChatCommand";
 import { ChatMessageNetworkEvent, CoreNetwork } from "../CoreNetwork";
 import { Game } from "../Game";
 import { Player } from "../Player/Player";
+import { ModerationServiceModeration } from "../TypePackages/moderation-service-types";
 import StringUtils from "../Types/StringUtil";
 import { Cancellable } from "../Util/Cancellable";
 import { ChatColor } from "../Util/ChatColor";
 import { ChatUtil } from "../Util/ChatUtil";
 import ObjectUtils from "../Util/ObjectUtils";
 import { Signal } from "../Util/Signal";
-import { ModerationServiceModeration } from "../TypePackages/moderation-service-types";
 
 class ChatMessageEvent extends Cancellable {
 	/**
@@ -52,6 +52,7 @@ class ChatMessageEvent extends Cancellable {
 export class AirshipChatSingleton {
 	private messageIdCounter: number = 1;
 	private commands = new Map<string, ChatCommand>();
+	private commandPermissions = new Map<string, Set<string>>(); 	// ChatCommand Label, Player Id
 	private readonly moderationService: ProtectedModerationService;
 
 	public readonly canUseRichText = true;
@@ -108,7 +109,9 @@ export class AirshipChatSingleton {
 						if (command) {
 							if (command.requiresPermission && !Game.IsEditor()) {
 								// todo: add easy employee check
-								if (!player.orgRoleName) {
+								const isGameOrgMember = !!player.orgRoleName;
+								const hasChatCommandPermission = !!this.commandPermissions.get(commandData.label)?.has(player.userId);
+								if (!isGameOrgMember && !hasChatCommandPermission) {
 									player.SendMessage(
 										ChatColor.Red(
 											`You do not have permission to use ${ChatColor.Yellow(
@@ -237,5 +240,20 @@ export class AirshipChatSingleton {
 
 	public GetCommands(): ChatCommand[] {
 		return ObjectUtils.values(this.commands);
+	}
+
+	public GiveCommandPermission(commandLabel: string, playerId: string) {
+		const perms = this.commandPermissions.get(commandLabel) || new Set<string>();
+		if (perms.has(playerId)) return;
+
+		perms.add(playerId);
+		this.commandPermissions.set(commandLabel, perms)
+	}
+
+	public RemoveCommandPermission(commandLabel: string, playerId: string) {
+		const perms = this.commandPermissions.get(commandLabel);
+		if (!perms) return;
+		perms.delete(playerId);
+		this.commandPermissions.set(commandLabel, perms)
 	}
 }
