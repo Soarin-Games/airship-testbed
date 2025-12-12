@@ -5,20 +5,24 @@ import { Singleton } from "@Easy/Core/Shared/Flamework";
 import { RunUtil } from "@Easy/Core/Shared/Util/RunUtil";
 import { Asset } from "../Asset";
 import { Game } from "../Game";
+import { CoreAction } from "../Input/AirshipCoreAction";
+import { Binding } from "../Input/Binding";
+import { InputKeybindCategory } from "../Input/InputAction";
 import { ItemDef } from "../Item/ItemDefinitionTypes";
 import { NetworkFunction } from "../Network/NetworkFunction";
 import { Bin } from "../Util/Bin";
 import { Signal, SignalPriority } from "../Util/Signal";
 import AirshipInventoryUI from "./AirshipInventoryUI";
 import Inventory, { InventoryDto, InventoryModifyPermission } from "./Inventory";
+import { InventoryHotbarAction } from "./InventoryHotbarAction";
 import { InventoryUIVisibility } from "./InventoryUIVisibility";
 import { ItemStack } from "./ItemStack";
 import { InventoryMovingToSlotEvent } from "./Signal/MovingToSlotEvent";
 import {
 	CancellableInventorySlotInteractionEvent,
-	SlotDragEndedEvent,
-	InventorySlotMouseClickEvent as InventorySlotMouseClickEvent,
 	InventoryEvent,
+	InventorySlotMouseClickEvent,
+	SlotDragEndedEvent,
 } from "./Signal/SlotInteractionEvent";
 
 interface InventoryEntry {
@@ -97,6 +101,7 @@ export class AirshipInventorySingleton {
 	public uiVisibility = InventoryUIVisibility.WhenHasItems;
 
 	private isUISetup = false;
+	private isHotbarActionsSetup = false;
 
 	private inventoryUIPrefab: GameObject | undefined;
 
@@ -251,7 +256,7 @@ export class AirshipInventorySingleton {
 		});
 
 		CoreNetwork.ClientToServer.Inventory.SwapSlots.server.OnClientEvent(
-			(player, fromInvId, fromSlot, toInvId, toSlot) => { },
+			(player, fromInvId, fromSlot, toInvId, toSlot) => {},
 		);
 
 		CoreNetwork.ClientToServer.Inventory.MoveToSlot.server.OnClientEvent(
@@ -711,6 +716,10 @@ export class AirshipInventorySingleton {
 
 	public SetInventoryUIPrefab(prefab: GameObject): void {
 		this.inventoryUIPrefab = prefab;
+		if (Game.IsClient() && !this.isHotbarActionsSetup) {
+			this.CreateInventoryActions();
+			this.isHotbarActionsSetup = true;
+		}
 	}
 
 	public SetLocalInventory(inventory: Inventory): void {
@@ -834,8 +843,8 @@ export class AirshipInventorySingleton {
 		if (val === undefined) {
 			error(
 				'ItemType "' +
-				itemType +
-				'" was missing an ItemDefinition. Please register the ItemType with Airship.Inventory.RegisterItem()',
+					itemType +
+					'" was missing an ItemDefinition. Please register the ItemType with Airship.Inventory.RegisterItem()',
 			);
 		}
 		return val;
@@ -929,5 +938,60 @@ export class AirshipInventorySingleton {
 
 			// Close the main inventory
 		};
+	}
+
+	/**
+	 * Creates the actions for the hotbar slots
+	 */
+	private CreateInventoryActions(): void {
+		const hotbarActions = [
+			{ name: CoreAction.Inventory, binding: Binding.Key(Key.E), category: InputKeybindCategory.Actions },
+			{
+				name: InventoryHotbarAction.HotbarSlot1,
+				binding: Binding.Key(Key.Digit1),
+				category: InputKeybindCategory.Hotbar,
+			},
+			{
+				name: InventoryHotbarAction.HotbarSlot2,
+				binding: Binding.Key(Key.Digit2),
+				category: InputKeybindCategory.Hotbar,
+			},
+			{
+				name: InventoryHotbarAction.HotbarSlot3,
+				binding: Binding.Key(Key.Digit3),
+				category: InputKeybindCategory.Hotbar,
+			},
+			{
+				name: InventoryHotbarAction.HotbarSlot4,
+				binding: Binding.Key(Key.Digit4),
+				category: InputKeybindCategory.Hotbar,
+			},
+			{
+				name: InventoryHotbarAction.HotbarSlot5,
+				binding: Binding.Key(Key.Digit5),
+				category: InputKeybindCategory.Hotbar,
+			},
+			{
+				name: InventoryHotbarAction.HotbarSlot6,
+				binding: Binding.Key(Key.Digit6),
+				category: InputKeybindCategory.Hotbar,
+			},
+			{
+				name: InventoryHotbarAction.HotbarSlot7,
+				binding: Binding.Key(Key.Digit7),
+				category: InputKeybindCategory.Hotbar,
+			},
+			{
+				name: InventoryHotbarAction.HotbarSlot8,
+				binding: Binding.Key(Key.Digit8),
+				category: InputKeybindCategory.Hotbar,
+			},
+			{
+				name: InventoryHotbarAction.HotbarSlot9,
+				binding: Binding.Key(Key.Digit9),
+				category: InputKeybindCategory.Hotbar,
+			},
+		];
+		Airship.Input.CreateActions(hotbarActions);
 	}
 }
