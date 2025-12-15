@@ -249,12 +249,12 @@ export class AirshipChatSingleton {
 	 *
 	 */
 	public GiveCommandPermission(commandLabel: string, playerId: string) {
-		const parsedLabel = commandLabel.lower()
+		const parsedLabel = commandLabel.lower();
 		const perms = this.commandPermissions.get(parsedLabel) || new Set<string>();
 		if (perms.has(playerId)) return;
 
 		perms.add(playerId);
-		this.commandPermissions.set(parsedLabel, perms)
+		this.commandPermissions.set(parsedLabel, perms);
 	}
 
 	/**
@@ -264,11 +264,11 @@ export class AirshipChatSingleton {
 	 *
 	 */
 	public RemoveCommandPermission(commandLabel: string, playerId: string) {
-		const parsedLabel = commandLabel.lower()
+		const parsedLabel = commandLabel.lower();
 		const perms = this.commandPermissions.get(parsedLabel);
 		if (!perms) return;
 
 		perms.delete(playerId);
-		this.commandPermissions.set(parsedLabel, perms)
+		this.commandPermissions.set(parsedLabel, perms);
 	}
 }
