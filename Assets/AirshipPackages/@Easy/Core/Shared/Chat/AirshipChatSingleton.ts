@@ -249,6 +249,14 @@ export class AirshipChatSingleton {
 	 *
 	 */
 	public GiveCommandPermission(commandLabel: string, playerId: string) {
+		if (!Game.IsServer()) {
+			error(
+				"Error trying to call GiveCommandPermission " +
+				commandLabel +
+				": Can only register command on server.",
+			);
+		}
+
 		const parsedLabel = commandLabel.lower();
 		const perms = this.commandPermissions.get(parsedLabel) || new Set<string>();
 		if (perms.has(playerId)) return;
@@ -264,6 +272,14 @@ export class AirshipChatSingleton {
 	 *
 	 */
 	public RemoveCommandPermission(commandLabel: string, playerId: string) {
+		if (!Game.IsServer()) {
+			error(
+				"Error trying to call RemoveCommandPermission " +
+				commandLabel +
+				": Can only register command on server.",
+			);
+		}
+
 		const parsedLabel = commandLabel.lower();
 		const perms = this.commandPermissions.get(parsedLabel);
 		if (!perms) return;
