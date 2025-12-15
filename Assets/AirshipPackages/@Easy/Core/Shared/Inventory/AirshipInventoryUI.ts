@@ -474,6 +474,8 @@ export default class AirshipInventoryUI extends AirshipBehaviour {
 	 * Updates the slot number text for a hotbar slot based on its keybind
 	 */
 	private UpdateHotbarSlotKeybindText(tileComponent: AirshipInventoryTile, slot: number): void {
+		if (!tileComponent.slotNumberText) return;
+		
 		const hotbarActionName = `Hotbar Slot ${slot + 1}` as InventoryHotbarAction;
 		const actions = Airship.Input.GetActions(hotbarActionName);
 		
@@ -487,16 +489,17 @@ export default class AirshipInventoryUI extends AirshipBehaviour {
 			const key = action.binding.GetKey();
 			if (key !== undefined) {
 				const keyString = InputUtils.GetStringForKeyCode(key);
-				if (!tileComponent.slotNumberText) return;
 				// Only use the key string if it's a single character
 				if (keyString && keyString.size() === 1) {
-					tileComponent.slotNumberText!.text = keyString;
+					tileComponent.slotNumberText.text = keyString;
 				} else {
-					tileComponent.slotNumberText!.text = `${slot + 1}`;
+					tileComponent.slotNumberText.text = `${slot + 1}`;
 				}
 			} else {
-				tileComponent.slotNumberText!.text = `${slot + 1}`;
+				tileComponent.slotNumberText.text = `${slot + 1}`;
 			}
+		} else {
+			tileComponent.slotNumberText.text = `${slot + 1}`;
 		}
 	}
 
