@@ -243,17 +243,19 @@ export class AirshipChatSingleton {
 	}
 
 	public GiveCommandPermission(commandLabel: string, playerId: string) {
-		const perms = this.commandPermissions.get(commandLabel) || new Set<string>();
+		const parsedLabel = commandLabel.lower()
+		const perms = this.commandPermissions.get(parsedLabel) || new Set<string>();
 		if (perms.has(playerId)) return;
 
 		perms.add(playerId);
-		this.commandPermissions.set(commandLabel, perms)
+		this.commandPermissions.set(parsedLabel, perms)
 	}
 
 	public RemoveCommandPermission(commandLabel: string, playerId: string) {
-		const perms = this.commandPermissions.get(commandLabel);
+		const parsedLabel = commandLabel.lower()
+		const perms = this.commandPermissions.get(parsedLabel);
 		if (!perms) return;
 		perms.delete(playerId);
-		this.commandPermissions.set(commandLabel, perms)
+		this.commandPermissions.set(parsedLabel, perms)
 	}
 }
