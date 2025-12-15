@@ -242,6 +242,12 @@ export class AirshipChatSingleton {
 		return ObjectUtils.values(this.commands);
 	}
 
+	/**
+	 * [Server only]
+	 *
+	 * Gives a player permission to use specified chat command
+	 *
+	 */
 	public GiveCommandPermission(commandLabel: string, playerId: string) {
 		const parsedLabel = commandLabel.lower()
 		const perms = this.commandPermissions.get(parsedLabel) || new Set<string>();
@@ -251,10 +257,17 @@ export class AirshipChatSingleton {
 		this.commandPermissions.set(parsedLabel, perms)
 	}
 
+	/**
+	 * [Server only]
+	 *
+	 * Revokes a player's permission to use specified chat command
+	 *
+	 */
 	public RemoveCommandPermission(commandLabel: string, playerId: string) {
 		const parsedLabel = commandLabel.lower()
 		const perms = this.commandPermissions.get(parsedLabel);
 		if (!perms) return;
+
 		perms.delete(playerId);
 		this.commandPermissions.set(parsedLabel, perms)
 	}
