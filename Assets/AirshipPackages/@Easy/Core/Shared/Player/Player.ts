@@ -73,7 +73,7 @@ export class Player {
 	public readonly onChangeTeam = new Signal<[team: Team | undefined, oldTeam: Team | undefined]>();
 
 	public readonly deviceType: AirshipDeviceType;
-	public readonly platform = AirshipPlatformUtil.GetLocalPlatform();
+	public readonly platform: AirshipPlatform;
 
 	public onUsernameChanged = new Signal<[username: string]>();
 
