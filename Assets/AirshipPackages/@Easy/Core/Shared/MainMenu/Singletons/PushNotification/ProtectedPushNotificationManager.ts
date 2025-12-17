@@ -16,6 +16,8 @@ declare const PushNotificationManager: PushNotificationManager;
 
 export default class ProtectedPushNotificationManager extends AirshipBehaviour {
 	override Start(): void {
+		if (!Game.playerFlags.has("PushNotifications")) return;
+
 		if (Game.coreContext === CoreContext.MAIN_MENU && Game.IsMobile()) {
 			const perm = PushNotificationManager.GetPushNotificationPermission();
 			if (perm === PushNotificationPermission.Authorized) {
