@@ -35,6 +35,7 @@ const defaultData: ClientSettingsFile = {
 	voiceToggleEnabled: false,
 	limitFps: -1,
 	lastPushNotifPromptTime: 0,
+	firstLoginTime: os.time(),
 };
 
 interface SavedGameSettings {
@@ -280,6 +281,9 @@ export class ProtectedSettingsSingleton {
 			}
 			if (this.data.lastPushNotifPromptTime === undefined) {
 				this.data.lastPushNotifPromptTime = 0;
+			}
+			if (this.data.firstLoginTime === undefined) {
+				this.data.firstLoginTime = os.time();
 			}
 		} else {
 			this.data = defaultData;

@@ -27,7 +27,10 @@ export default class ProtectedPushNotificationManager extends AirshipBehaviour {
 			} else if (perm === PushNotificationPermission.NotDetermined) {
 				const settings = Dependency<ProtectedSettingsSingleton>();
 				// Only prompt once per day
-				if (os.time() - settings.data.lastPushNotifPromptTime > 60 * 60 * 24) {
+				if (
+					os.time() - settings.data.lastPushNotifPromptTime > 60 * 60 * 24 &&
+					os.time() - settings.data.firstLoginTime > 60 * 60 * 24
+				) {
 					settings.data.lastPushNotifPromptTime = os.time();
 					settings.MarkAsDirty();
 					const res = NativeAlertManager.ShowAsync(

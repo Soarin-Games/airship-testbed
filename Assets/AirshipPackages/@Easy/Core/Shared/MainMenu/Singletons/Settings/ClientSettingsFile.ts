@@ -23,4 +23,5 @@ export interface ClientSettingsFile {
 	coreKeybindOverrides: { [key in CoreAction]?: SerializableAction } | undefined;
 	gameKeybindOverrides: { [key: string]: { [key: string]: SerializableAction } };
 	lastPushNotifPromptTime: number;
+	firstLoginTime: number;
 }
