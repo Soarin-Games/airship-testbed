@@ -1,5 +1,6 @@
 import AirshipButton from "../../MainMenu/Components/AirshipButton";
-import { Signal } from "../../Util/Signal";
+import { Bin } from "../../Util/Bin";
+import { Signal, SignalPriority } from "../../Util/Signal";
 
 export default class AirshipMobileButton extends AirshipButton {
 	/** The icon of this mobile button */
@@ -11,41 +12,32 @@ export default class AirshipMobileButton extends AirshipButton {
 	@Header("Cooldown")
 	public hasCooldown = false;
 	public cooldownTime = 5; // maximum/default cooldown time in seconds
-	public activeColor = new Color(1, 1, 1);
-	public cooldownColor = new Color(0.5, 0.5, 0.5);
-	public cooldownImage: Image;
 	public progressFill: Image;
-	public cooldownText: TMP_Text;
-	public onCooldownEnded: Signal;
+	public onCooldownEnded = new Signal<void>();
 	private isOnCooldown = false;
 	private lastUsedTime = 0;
 	private nextOffCooldownTime = 0;
+
+	private cooldownBin = new Bin();
 
 	override Start(): void {
 		super.Start();
 		this.startingImageAlpha = this.image?.color.a ?? 1;
 		this.startingIconAlpha = this.iconImage.color.a;
+
+		this.cooldownBin.Add(
+			this.button.onClick.ConnectWithPriority(SignalPriority.HIGHEST, () => {
+				if (this.hasCooldown) {
+					this.SetOnCooldown();
+				}
+			}),
+		);
 	}
 
 	protected Update(dt: number): void {
 		if (!this.hasCooldown) return;
 
-		/** Set button off cooldown */
-		if (this.nextOffCooldownTime <= Time.time) {
-			this.UpdateCooldownState(false, 1);
-			return;
-		}
-
-		/** Handle on cooldown */
-		// Handle case where we set this.cooldownTime lower than the current in progress cooldown
-		// e.g. Leveled up -> lower cooldowns, gained a CDR buff, etc.
-		// We never want to have a 110%, 120% etc. cooldown, so we should clamp to 100% CD
-		if (this.nextOffCooldownTime - this.lastUsedTime > this.cooldownTime) {
-			this.nextOffCooldownTime = Time.time + this.cooldownTime;
-		}
-		const remainingCooldownTime = this.nextOffCooldownTime - Time.time;
-		this.cooldownText.text = math.ceil(remainingCooldownTime) + "";
-		this.progressFill.fillAmount = 1 - remainingCooldownTime / this.cooldownTime;
+		this.UpdateCooldownState();
 	}
 
 	public SetIconFromSprite(sprite: Sprite) {
@@ -70,20 +62,34 @@ export default class AirshipMobileButton extends AirshipButton {
 		}
 	}
 
-	private UpdateCooldownState(shouldSetOnCooldown: boolean, cooldownPercent: number, cancelVFX?: boolean) {
+	private UpdateCooldownState() {
 		if (!this.hasCooldown) return;
 
-		if (shouldSetOnCooldown && !this.isOnCooldown) {
-			this.iconImage.color = this.cooldownColor;
-			this.button.enabled = false;
-		} else if (!shouldSetOnCooldown && this.isOnCooldown) {
-			this.iconImage.color = this.activeColor;
-			this.button.enabled = true;
-			this.onCooldownEnded.Fire();
-		}
+		const isOnCooldown = !(this.nextOffCooldownTime <= Time.time);
+		const hasStateChanged = isOnCooldown === this.isOnCooldown;
 
-		this.isOnCooldown = shouldSetOnCooldown;
-		this.cooldownImage.fillAmount = cooldownPercent;
+		/** Set button off cooldown */
+		if (!isOnCooldown) {
+			this.button.enabled = true;
+			this.progressFill.fillAmount = 0;
+
+			if (hasStateChanged) {
+				this.onCooldownEnded.Fire();
+			}
+		} else {
+			/** Handle on cooldown */
+			// Handle case where we set this.cooldownTime lower than the current in progress cooldown
+			// e.g. Leveled up -> lower cooldowns, gained a CDR buff, etc.
+			// We never want to have a 110%, 120% etc. cooldown, so we should clamp to 100% CD
+			if (this.nextOffCooldownTime - this.lastUsedTime > this.cooldownTime) {
+				this.nextOffCooldownTime = Time.time + this.cooldownTime;
+			}
+			const remainingCooldownTime = this.nextOffCooldownTime - Time.time;
+			const cooldownPercent = 1 - remainingCooldownTime / this.cooldownTime;
+			this.progressFill.fillAmount = cooldownPercent;
+
+			this.button.enabled = false;
+		}
 	}
 
 	/**
@@ -103,6 +109,7 @@ export default class AirshipMobileButton extends AirshipButton {
 		}
 
 		this.nextOffCooldownTime = Time.time + (cooldownTime ?? this.cooldownTime);
+		this.lastUsedTime = Time.time;
 	}
 
 	/**
