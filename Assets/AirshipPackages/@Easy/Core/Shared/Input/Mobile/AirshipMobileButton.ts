@@ -1,5 +1,4 @@
 import AirshipButton from "../../MainMenu/Components/AirshipButton";
-import { Bin } from "../../Util/Bin";
 import { Signal, SignalPriority } from "../../Util/Signal";
 
 export default class AirshipMobileButton extends AirshipButton {
@@ -15,17 +14,14 @@ export default class AirshipMobileButton extends AirshipButton {
 	public progressFill: Image;
 	public onCooldownEnded = new Signal<void>();
 	private isOnCooldown = false;
-	private lastUsedTime = 0;
-	private nextOffCooldownTime = 0;
-
-	private cooldownBin = new Bin();
+	private lastUsedTime: number;
 
 	override Start(): void {
 		super.Start();
 		this.startingImageAlpha = this.image?.color.a ?? 1;
 		this.startingIconAlpha = this.iconImage.color.a;
 
-		this.cooldownBin.Add(
+		this.bin.Add(
 			this.button.onClick.ConnectWithPriority(SignalPriority.HIGHEST, () => {
 				if (this.hasCooldown) {
 					this.SetOnCooldown();
@@ -64,9 +60,12 @@ export default class AirshipMobileButton extends AirshipButton {
 
 	private UpdateCooldownState() {
 		if (!this.hasCooldown) return;
+		if (!this.lastUsedTime) return;
 
-		const isOnCooldown = !(this.nextOffCooldownTime <= Time.time);
-		const hasStateChanged = isOnCooldown === this.isOnCooldown;
+		const isOnCooldown = this.lastUsedTime + this.cooldownTime >= Time.time;
+		const hasStateChanged = isOnCooldown !== this.isOnCooldown;
+
+		this.isOnCooldown = isOnCooldown;
 
 		/** Set button off cooldown */
 		if (!isOnCooldown) {
@@ -78,13 +77,7 @@ export default class AirshipMobileButton extends AirshipButton {
 			}
 		} else {
 			/** Handle on cooldown */
-			// Handle case where we set this.cooldownTime lower than the current in progress cooldown
-			// e.g. Leveled up -> lower cooldowns, gained a CDR buff, etc.
-			// We never want to have a 110%, 120% etc. cooldown, so we should clamp to 100% CD
-			if (this.nextOffCooldownTime - this.lastUsedTime > this.cooldownTime) {
-				this.nextOffCooldownTime = Time.time + this.cooldownTime;
-			}
-			const remainingCooldownTime = this.nextOffCooldownTime - Time.time;
+			const remainingCooldownTime = math.clamp(Time.time - this.lastUsedTime, 0, this.cooldownTime);
 			const cooldownPercent = 1 - remainingCooldownTime / this.cooldownTime;
 			this.progressFill.fillAmount = cooldownPercent;
 
@@ -108,8 +101,7 @@ export default class AirshipMobileButton extends AirshipButton {
 			return;
 		}
 
-		this.nextOffCooldownTime = Time.time + (cooldownTime ?? this.cooldownTime);
-		this.lastUsedTime = Time.time;
+		this.lastUsedTime = cooldownTime ? Time.time - (this.cooldownTime - cooldownTime) : Time.time;
 	}
 
 	/**
@@ -122,6 +114,13 @@ export default class AirshipMobileButton extends AirshipButton {
 		if (!this.hasCooldown) {
 			warn("Attempt to set cooldown time on a button that does not have cooldowns enabled.");
 			return;
+		}
+
+		// Handle case where we set this.cooldownTime lower than the current in progress cooldown
+		// e.g. Leveled up -> lower cooldowns, gained a CDR buff, etc.
+		// We never want to have a 110%, 120% etc. cooldown, so we should clamp to 100% CD
+		if (cooldownTime < this.cooldownTime) {
+			this.lastUsedTime = Time.time;
 		}
 		this.cooldownTime = cooldownTime;
 	}
