@@ -100,8 +100,24 @@ export default class AirshipMobileButton extends AirshipButton {
 			warn("Attempt to set cooldown time higher than the maximum this.cooldownTime.");
 			return;
 		}
+		if (cooldownTime && cooldownTime <= 0) {
+			warn("Cooldown time must be a positive number.");
+			return;
+		}
 
 		this.lastUsedTime = cooldownTime ? Time.time - (this.cooldownTime - cooldownTime) : Time.time;
+	}
+
+	/**
+	 * Puts this button off cooldown
+	 */
+	public SetOffCooldown() {
+		if (!this.hasCooldown) {
+			warn("Attempt to set cooldown time on a button that does not have cooldowns enabled.");
+			return;
+		}
+
+		this.lastUsedTime = Time.time - this.cooldownTime;
 	}
 
 	/**
@@ -113,6 +129,10 @@ export default class AirshipMobileButton extends AirshipButton {
 	public SetCooldownTime(cooldownTime: number) {
 		if (!this.hasCooldown) {
 			warn("Attempt to set cooldown time on a button that does not have cooldowns enabled.");
+			return;
+		}
+		if (cooldownTime <= 0) {
+			warn("Cooldown time must be a positive number.");
 			return;
 		}
 
