@@ -10,7 +10,7 @@ export default class AirshipMobileButton extends AirshipButton {
 
 	@Header("Cooldown")
 	public hasCooldown = false;
-	public cooldownTime = 5; // maximum/default cooldown time in seconds
+	public cooldownTime: number; // maximum/default cooldown time in seconds
 	public progressFill: Image;
 	public onCooldownEnded = new Signal<void>();
 	private isOnCooldown = false;
@@ -121,25 +121,30 @@ export default class AirshipMobileButton extends AirshipButton {
 	}
 
 	/**
-	 * Sets the default/maximum cooldown for this button in seconds. If the in progress cooldown time
-	 * is greater than cooldownTime, the cooldown will reset to 100% and tick down from the new cooldown
-	 * time provided.
-	 * @param cooldownTime New default/maximum cooldown for this button in seconds
+	 * Sets the default/maximum cooldown for this button in seconds and enables/disables cooldowns as needed.
+	 * If the in progress cooldown time is greater than cooldownTime, the cooldown will reset to 100% and
+	 * tick down from the new cooldown time provided.
+	 * @param cooldownTime New default/maximum cooldown for this button in seconds. Passing in a cooldownTime
+	 * of 0 disables cooldowns, while any positive value enables cooldowns.
 	 * */
 	public SetCooldownTime(cooldownTime: number) {
-		if (!this.hasCooldown) {
-			warn("Attempt to set cooldown time on a button that does not have cooldowns enabled.");
-			return;
-		}
-		if (cooldownTime <= 0) {
+		if (cooldownTime < 0) {
 			warn("Cooldown time must be a positive number.");
 			return;
 		}
 
+		if (cooldownTime === 0) {
+			this.SetOffCooldown();
+			this.hasCooldown = false;
+			return;
+		}
+
+		this.hasCooldown = true;
+
 		// Handle case where we set this.cooldownTime lower than the current in progress cooldown
 		// e.g. Leveled up -> lower cooldowns, gained a CDR buff, etc.
 		// We never want to have a 110%, 120% etc. cooldown, so we should clamp to 100% CD
-		if (cooldownTime < this.cooldownTime) {
+		if (this.lastUsedTime && this.cooldownTime && cooldownTime < this.cooldownTime) {
 			this.lastUsedTime = Time.time;
 		}
 		this.cooldownTime = cooldownTime;
