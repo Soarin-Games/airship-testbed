@@ -3,6 +3,7 @@ import { Game } from "@Easy/Core/Shared/Game";
 import {
 	ModerationServiceClient,
 	ModerationServiceModeration,
+	ModerationServiceUserReport,
 } from "@Easy/Core/Shared/TypePackages/moderation-service-types";
 import { UnityMakeRequest } from "@Easy/Core/Shared/TypePackages/UnityMakeRequest";
 import { AirshipUrl } from "@Easy/Core/Shared/Util/AirshipUrl";
@@ -61,6 +62,18 @@ export class ProtectedModerationService {
 	public async ModerateText(text: string): Promise<ModerationServiceModeration.ModerateTextResponse> {
 		return await client.moderation.moderateText({
 			text,
+		});
+	}
+
+	public async ReportPlayer(userIdToReport: string, reasons: ModerationServiceUserReport.ReportedContent[]) {
+		if (!Game.IsClient()) {
+			warn("Players can only be reported on the client.");
+			return;
+		}
+		await client.userReport.reportUser({
+			uid: userIdToReport,
+			gameId: Game.gameId,
+			reasons: reasons,
 		});
 	}
 }
