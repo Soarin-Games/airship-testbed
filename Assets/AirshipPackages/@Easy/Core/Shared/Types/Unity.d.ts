@@ -4374,7 +4374,6 @@ interface Matrix4x4Constructor {
 
 	Determinant: (m: Matrix4x4) => number;
 	Frustum: (left: number, right: number, bottom: number, top: number, zNear: number, zFar: number) => Matrix4x4;
-	Frustum: (fp: FrustumPlanes) => Matrix4x4;
 	Inverse: (m: Matrix4x4) => Matrix4x4;
 	Inverse3DAffine: (input: Matrix4x4, result: unknown) => boolean;
 	LookAt: (from: Vector3, to: Vector3, up: Vector3) => Matrix4x4;
