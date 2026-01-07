@@ -36,6 +36,7 @@ const defaultData: ClientSettingsFile = {
 	limitFps: -1,
 	lastPushNotifPromptTime: 0,
 	firstLoginTime: os.time(),
+	chatFilterEnabled: true,
 };
 
 interface SavedGameSettings {
@@ -503,6 +504,14 @@ export class ProtectedSettingsSingleton {
 	public SetCoreKeybindOverrides(value: { [key in CoreAction]?: SerializableAction }): void {
 		this.data.coreKeybindOverrides = value;
 		this.MarkAsDirty();
+	}
+
+	public SetChatFilterEnabled(val: boolean): void {
+		this.data.chatFilterEnabled = val;
+	}
+
+	public IsChatFilterEnabled() {
+		return this.data.chatFilterEnabled;
 	}
 
 	public GetCoreKeybindOverrides(): { [key in CoreAction]?: SerializableAction } | undefined {

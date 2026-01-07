@@ -8,6 +8,7 @@ import { Game } from "@Easy/Core/Shared/Game";
 import { GameObjectUtil } from "@Easy/Core/Shared/GameObject/GameObjectUtil";
 import DirectMessagesWindow from "@Easy/Core/Shared/MainMenu/Components/DirectMessagesWindow";
 import { ClientChatSingleton } from "@Easy/Core/Shared/MainMenu/Singletons/Chat/ClientChatSingleton";
+import { Protected } from "@Easy/Core/Shared/Protected";
 import { GameCoordinatorChat, GameCoordinatorClient } from "@Easy/Core/Shared/TypePackages/game-coordinator-types";
 import { UnityMakeRequest } from "@Easy/Core/Shared/TypePackages/UnityMakeRequest";
 import { CoreUI } from "@Easy/Core/Shared/UI/CoreUI";
@@ -22,7 +23,7 @@ import { Theme } from "@Easy/Core/Shared/Util/Theme";
 import { MainMenuController } from "../../MainMenuController";
 import { ProtectedFriendsController } from "../FriendsController";
 import { MainMenuPartyController } from "../MainMenuPartyController";
-import { DirectMessage } from "./DirectMessage";
+import { DirectMessage, DirectMessageWithFilterResult } from "./DirectMessage";
 
 const client = new GameCoordinatorClient(UnityMakeRequest(AirshipUrl.GameCoordinator));
 
@@ -76,7 +77,12 @@ export class DirectMessageController {
 	protected OnStart(): void {
 		this.Setup();
 
-		this.socketController.On<DirectMessage>("game-coordinator/direct-message", (data) => {
+		this.socketController.On<DirectMessageWithFilterResult>("game-coordinator/direct-message", (data) => {
+			if (Protected.Settings.IsChatFilterEnabled()) {
+				if (data.filterResult.messageBlocked) return;
+				data.text = data.filterResult.transformedMessage ?? data.text;
+			}
+
 			data.text = this.SanitizeMessage(data.text);
 
 			let messages = this.messagesMap.get(data.sender);
@@ -121,7 +127,12 @@ export class DirectMessageController {
 			StateManager.SetString("direct-messages:" + data.sender, json.encode(messages));
 		});
 
-		this.socketController.On<DirectMessage>("game-coordinator/party-message", (data) => {
+		this.socketController.On<DirectMessageWithFilterResult>("game-coordinator/party-message", (data) => {
+			if (Protected.Settings.IsChatFilterEnabled()) {
+				if (data.filterResult.messageBlocked) return;
+				data.text = data.filterResult.transformedMessage ?? data.text;
+			}
+
 			data.text = this.SanitizeMessage(data.text);
 
 			const messages = MapUtil.GetOrCreate(this.messagesMap, "party", []);
@@ -296,15 +307,19 @@ export class DirectMessageController {
 			.expect();
 
 		if (data.messageSent) {
-			if (data.transformedMessage) {
+			if (data.filterResult.transformedMessage && Protected.Settings.IsChatFilterEnabled()) {
 				if (Game.coreContext === CoreContext.GAME) {
 					clientChat.UpdateChatMessage(
 						messageId,
-						this.generateDMForDisplay(status.username, data.transformedMessage),
+						this.generateDMForDisplay(status.username, data.filterResult.transformedMessage),
 					);
 				}
-				messageObj.setMessageText(data.transformedMessage);
-				sentMessage.text = data.transformedMessage;
+				messageObj.setMessageText(data.filterResult.transformedMessage);
+				sentMessage.text = data.filterResult.transformedMessage;
+			}
+
+			if (data.filterResult.messageBlocked) {
+				// TODO: send warning that not all player will receive this message
 			}
 		} else {
 			const errorHeader =
@@ -353,8 +368,14 @@ export class DirectMessageController {
 			this.GetMessages("party").push(errorMessage);
 			this.RenderChatMessage(errorMessage, true, true);
 			AudioManager.PlayGlobal("AirshipPackages/@Easy/Core/Sound/UI_Error.ogg");
-		} else if (sendResponse.transformedMessage) {
-			messageObj.setMessageText(sendResponse.transformedMessage);
+		} else {
+			if (sendResponse.filterResult.transformedMessage && Protected.Settings.IsChatFilterEnabled()) {
+				messageObj.setMessageText(sendResponse.filterResult.transformedMessage);
+			}
+
+			if (sendResponse.filterResult.messageBlocked) {
+				// TODO: send warning that not all players will reveive this message
+			}
 		}
 
 		// predict send for sender
