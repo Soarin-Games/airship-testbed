@@ -4223,7 +4223,7 @@ declare const enum LoadingStatus {
     Loading = 1,
     Loaded = 2,
 }
-declare const enum Flips {
+declare const enum VoxelFlip {
     Flip_0Deg = 0,
     Flip_90Deg = 1,
     Flip_180Deg = 2,
@@ -39183,7 +39183,7 @@ declare const Surface: SurfaceConstructor;
 interface PrecalculatedFlipConstructor {
 
 
-    new(srcVertices: Readonly<Vector3[]>, srcNormals: Readonly<Vector3[]>, srcSurfaces: Readonly<Surface[]>, flip: Flips): PrecalculatedFlip;
+    new(srcVertices: Readonly<Vector3[]>, srcNormals: Readonly<Vector3[]>, srcSurfaces: Readonly<Surface[]>, voxelFlip: VoxelFlip): PrecalculatedFlip;
 
 
 
@@ -55460,7 +55460,7 @@ interface VoxelWorldConstructor {
     GetFirstInstance(): VoxelWorld;
     GetVoxelDataExtraBits(voxelData: number): number;
     GetVoxelDataFlippedBits(voxelData: number): number;
-    GetVoxelDataFlips(voxelData: number): Flips;
+    GetVoxelDataFlips(voxelData: number): VoxelFlip;
     GetVoxelDataId(voxelData: number): number;
     GetVoxelDataId(voxelData: number): number;
     GetVoxelDataRotation(voxelData: number): Quaternion;
