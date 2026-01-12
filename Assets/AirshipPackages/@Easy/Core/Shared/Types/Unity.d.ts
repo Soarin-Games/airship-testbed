@@ -4970,6 +4970,9 @@ interface Random {
 
 	/** Creates a new Random generator with the current state of this generator. */
 	Clone(): Random;
+
+	/** The seed of the RNG. */
+	readonly seed: number;
 }
 interface RandomConstructor {
 	/**
