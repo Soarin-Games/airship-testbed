@@ -38868,7 +38868,7 @@ interface VoxelBlocks extends MonoBehaviour {
     atlasMaterial: Material;
     atlas: TexturePacker;
     loadedBlocks: Readonly<BlockDefinition[]>;
-    alphebeticalBlocks: Readonly<BlockDefinition[]>;
+    alphabeticalBlocks: Readonly<BlockDefinition[]>;
     rootAssetPath: string;
     m_bundlePaths: Readonly<string[]>;
     blockDefinitionLists: Readonly<VoxelBlockDefinitionList[]>;
