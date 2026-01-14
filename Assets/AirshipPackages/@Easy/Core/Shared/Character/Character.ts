@@ -78,6 +78,9 @@ export default class Character extends AirshipBehaviour {
 	@Header("Inventory")
 	@NonSerialized()
 	public inventory: Inventory;
+	/**
+	 * @deprecated Use {@link GetHeldItem()} instead. Value is not updated reliably.
+	 */
 	@NonSerialized() public heldItem?: ItemStack;
 	@NonSerialized() public heldSlot = 0;
 	@NonSerialized() public readonly onHeldSlotChanged = new Signal<number>();
@@ -240,7 +243,7 @@ export default class Character extends AirshipBehaviour {
 				);
 
 				if (this.IsDead()) return;
-				
+
 				this.SetHealth(this.health + healInfo.healAmount);
 			}),
 		);
