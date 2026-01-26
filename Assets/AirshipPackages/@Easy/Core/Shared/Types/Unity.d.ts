@@ -1756,7 +1756,6 @@ interface AssetBridge {
 	IsLoaded(): boolean;
 	LoadAsset<T = GameObject>(path: string): T;
 	LoadAssetIfExists<T = GameObject>(path: string): T | undefined;
-	LoadAssets(paths: string[]): Object[];
 	GetAssetPathsInDirectory(directory: string, deep: boolean): string[];
 }
 interface AssetBridgeConstructor {
