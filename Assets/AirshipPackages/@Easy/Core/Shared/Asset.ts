@@ -34,4 +34,11 @@ export class Asset {
 		this.loadedAssets.set(path, asset);
 		return asset;
 	}
+
+	/**
+	 * Loads all resources within a directory path in a game bundle.
+	 */
+	public static LoadAll(path: string) {
+		error("not implemented");
+	}
 }
