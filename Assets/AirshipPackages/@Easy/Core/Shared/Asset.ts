@@ -37,8 +37,44 @@ export class Asset {
 
 	/**
 	 * Loads all resources within a directory path in a game bundle.
+	 * 
+	 * If `deep` is set to `true`, then all subdirectories will be included as well. The default is `false.`
 	 */
-	public static LoadAll(path: string) {
-		error("not implemented");
+	public static LoadAll(path: string, deep = false) {
+		const assetPaths = AssetBridge.Instance.GetAssetPathsInDirectory(path, deep);
+		const assets: Object[] = [];
+
+		/*
+		// Filter out already-loaded assets:
+		for (let i = assetPaths.size() - 1; i >= 0; i--) {
+			const path = assetPaths[i];
+			if (this.loadedAssets.has(path)) {
+				assets.push(this.loadedAssets.get(path)!);
+				assetPaths.remove(i);
+			}
+		}
+
+		// Load assets and append them to the 'assets' array:
+		const newLoadedAssets = AssetBridge.Instance.LoadAssets(assetPaths);
+		newLoadedAssets.move(0, newLoadedAssets.size() - 1, assets.size(), assets);
+
+		// Add newly-loaded assets to the loadedAssets map:
+		for (const asset of newLoadedAssets) {
+			// TODO
+		}
+		*/
+
+		for (const path of assetPaths) {
+			if (this.loadedAssets.has(path)) {
+				assets.push(this.loadedAssets.get(path)!);
+			} else {
+				const asset = this.LoadAssetIfExists<Object>(path);
+				if (asset !== undefined) {
+					assets.push(asset);
+				}
+			}
+		}
+
+		return assets;
 	}
 }
