@@ -419,7 +419,7 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 		if (clothing && clothing.size() > 0) {
 			clothing.forEach((c) => {
 				this.AddItemButton(c, async () => {
-					print(`Equipping ${c.class.name} (${c.class.classId})`);
+					print(`Clicking ${c.class.name} (${c.class.classId})`);
 					await this.SelectItem(c);
 					this.accessoryBuilder.UpdateCombinedMesh();
 				});
@@ -596,7 +596,10 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 			const gear = PlatformGear.DownloadYielding(clothingDto.class.classId, clothingDto.class.gear.airAssets[0]);
 			if (!gear) error("failed to download clothing.");
 			if (gear?.accessoryPrefabs === undefined) error("empty accessory prefabs.");
-
+			if (!this.selectedAccessories.has(clothingDto.instanceId)) {
+				// Item downloaded after user selected a different item
+				return;
+			}
 			for (let accessoryPrefab of gear.accessoryPrefabs) {
 				this.accessoryBuilder.Add(accessoryPrefab);
 			}
