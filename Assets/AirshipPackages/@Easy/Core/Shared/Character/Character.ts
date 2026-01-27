@@ -63,7 +63,7 @@ export default class Character extends AirshipBehaviour {
 	@NonSerialized() public isEmoting = false;
 
 	// Signals
-	@NonSerialized() public onDeath = new Signal<void>();
+	@NonSerialized() public onDeath = new Signal<DamageInfo>();
 	@NonSerialized() public onDespawn = new Signal<void>();
 	@NonSerialized() public onStateChanged = new Signal<[newState: CharacterState, oldState: CharacterState]>();
 	@NonSerialized() public onHealthChanged = new Signal<[newHealth: number, oldHealth: number]>();
@@ -78,6 +78,9 @@ export default class Character extends AirshipBehaviour {
 	@Header("Inventory")
 	@NonSerialized()
 	public inventory: Inventory;
+	/**
+	 * @deprecated Use {@link GetHeldItem()} instead. Value is not updated reliably.
+	 */
 	@NonSerialized() public heldItem?: ItemStack;
 	@NonSerialized() public heldSlot = 0;
 	@NonSerialized() public readonly onHeldSlotChanged = new Signal<number>();
@@ -200,7 +203,7 @@ export default class Character extends AirshipBehaviour {
 					if (this.movement) {
 						this.movement.enabled = false;
 					}
-					this.onDeath.Fire();
+					this.onDeath.Fire(damageInfo);
 				}
 			}),
 		);
@@ -240,7 +243,7 @@ export default class Character extends AirshipBehaviour {
 				);
 
 				if (this.IsDead()) return;
-				
+
 				this.SetHealth(this.health + healInfo.healAmount);
 			}),
 		);

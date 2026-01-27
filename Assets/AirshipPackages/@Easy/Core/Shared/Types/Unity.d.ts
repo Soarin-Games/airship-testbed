@@ -4970,6 +4970,9 @@ interface Random {
 
 	/** Creates a new Random generator with the current state of this generator. */
 	Clone(): Random;
+
+	/** The seed of the RNG. */
+	readonly seed: number;
 }
 interface RandomConstructor {
 	/**
@@ -5897,3 +5900,57 @@ interface VideoPlayer extends Behaviour {
 	 */
 	Stop(): void;
 }
+
+interface Guid extends IEquatable<Guid>, IFormattable, ISpanFormattable, IComparable, IComparable<Guid> {
+	CompareTo(value: unknown): number;
+	CompareTo(value: Guid): number;
+	Equals(o: unknown): boolean;
+	Equals(g: Guid): boolean;
+	GetHashCode(): number;
+	ToByteArray(): Readonly<number[]>;
+	ToString(): string;
+	ToString(format: string): string;
+	ToString(format: string, provider: IFormatProvider): string;
+	TryWriteBytes(destination: Span<number>): boolean;
+}
+interface GuidConstructor {
+	readonly Empty: Guid;
+
+	new (b: Readonly<number[]>): Guid;
+	new (b: ReadOnlySpan<number>): Guid;
+	new (
+		a: number,
+		b: number,
+		c: number,
+		d: number,
+		e: number,
+		f: number,
+		g: number,
+		h: number,
+		i: number,
+		j: number,
+		k: number,
+	): Guid;
+	new (a: number, b: number, c: number, d: Readonly<number[]>): Guid;
+	new (
+		a: number,
+		b: number,
+		c: number,
+		d: number,
+		e: number,
+		f: number,
+		g: number,
+		h: number,
+		i: number,
+		j: number,
+		k: number,
+	): Guid;
+	new (g: string): Guid;
+
+	NewGuid(): Guid;
+	Parse(input: string): Guid;
+	Parse(input: ReadOnlySpan<string>): Guid;
+	ParseExact(input: string, format: string): Guid;
+	ParseExact(input: ReadOnlySpan<string>, format: ReadOnlySpan<string>): Guid;
+}
+declare const Guid: GuidConstructor;
