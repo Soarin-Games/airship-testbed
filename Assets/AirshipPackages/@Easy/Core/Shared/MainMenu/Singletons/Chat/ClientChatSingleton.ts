@@ -234,6 +234,8 @@ export class ClientChatSingleton {
 				this.UpdateChatMessage(msg.internalMessageId, msg.message);
 			} else if (msg.type === "remove" && Protected.Settings.IsChatFilterEnabled()) {
 				this.ClearChatMessage(msg.internalMessageId);
+			} else if (msg.type === "remove" && !Protected.Settings.IsChatFilterEnabled()) { 
+				this.SetBlockedForOthers(msg.internalMessageId);
 			}
 		});
 
@@ -471,6 +473,7 @@ export class ClientChatSingleton {
 			const chatMessage = chatMessageGO.GetAirshipComponent<ChatMessage>()!;
 			const refs = chatMessageGO.GetComponent<GameObjectReferences>()!;
 
+			const blockedGui = refs.GetValue<GameObject>("UI", "BlockedMessage").GetComponent<TMP_Text>();
 			const textGui = refs.GetValue<TMP_Text>("UI", "Text");
 			textGui.text = message;
 
@@ -487,6 +490,7 @@ export class ClientChatSingleton {
 			} else {
 				// system message
 				textGui.margin = new Vector4(0, 8, 8, 8);
+				if (blockedGui) blockedGui.margin = new Vector4(0, -8, 8, 0);
 				profileImage.gameObject.SetActive(false);
 			}
 
@@ -571,6 +575,21 @@ export class ClientChatSingleton {
 				chatMessage.RemoveUrl();
 			}
 		}
+	}
+
+	/**
+	 * Used when the client is displaying a chat that may be blocked for others that have the chat filter enabled.
+	 * @param messageId 
+	 */
+	public SetBlockedForOthers(messageId: string) {
+		const index = this.chatMessageElements.findIndex((element) => element.messageId === messageId);
+
+		if (index === -1) return;
+
+		const element = this.chatMessageElements[index];
+		const refs = element.gameObject.GetComponent<GameObjectReferences>()!;
+		const gameObject = refs.GetValue<GameObject>("UI", "BlockedMessage");
+		gameObject.SetActive(true);
 	}
 
 	public ClearChatMessages(): void {

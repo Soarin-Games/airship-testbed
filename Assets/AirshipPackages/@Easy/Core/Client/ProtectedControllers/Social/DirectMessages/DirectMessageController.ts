@@ -116,7 +116,10 @@ export class DirectMessageController {
 					ColorUtil.ColoredText(Theme.pink, "From ") +
 					ColorUtil.ColoredText(Theme.white, friend.username) +
 					ColorUtil.ColoredText(Theme.gray, ": " + data.text);
-				Dependency<ClientChatSingleton>().RenderChatMessage(text);
+				const chatSingleton = Dependency<ClientChatSingleton>();
+				const messageId = Guid.NewGuid().ToString();
+				chatSingleton.RenderChatMessage(text, messageId);
+				// We don't set blocked since this is a DM. We are the only recipient.
 			}
 
 			if (data.sender !== "") {
@@ -157,7 +160,13 @@ export class DirectMessageController {
 						ColorUtil.ColoredText(Theme.pink, "[Party] ") +
 						ColorUtil.ColoredText(Theme.white, member.username) +
 						ColorUtil.ColoredText(Theme.gray, ": " + data.text);
-					Dependency<ClientChatSingleton>().RenderChatMessage(text);
+					const chatSingleton = Dependency<ClientChatSingleton>();
+					const messageId = Guid.NewGuid().ToString();
+					chatSingleton.RenderChatMessage(text, messageId);
+
+					if (data.filterResult.messageBlocked) {
+						chatSingleton.SetBlockedForOthers(messageId)
+					}
 				}
 			}
 
@@ -316,10 +325,11 @@ export class DirectMessageController {
 				}
 				messageObj.setMessageText(data.filterResult.transformedMessage);
 				sentMessage.text = data.filterResult.transformedMessage;
-			}
-
-			if (data.filterResult.messageBlocked) {
-				// TODO: send warning that not all player will receive this message
+			} else {
+				if (Game.coreContext === CoreContext.GAME) {
+					clientChat.SetBlockedForOthers(messageId);
+				}
+				messageObj.setMessageText(message, data.filterResult.messageBlocked);
 			}
 		} else {
 			const errorHeader =
@@ -371,10 +381,8 @@ export class DirectMessageController {
 		} else {
 			if (sendResponse.filterResult.transformedMessage && Protected.Settings.IsChatFilterEnabled()) {
 				messageObj.setMessageText(sendResponse.filterResult.transformedMessage);
-			}
-
-			if (sendResponse.filterResult.messageBlocked) {
-				// TODO: send warning that not all players will reveive this message
+			} else {
+				messageObj.setMessageText(message, sendResponse.filterResult.messageBlocked);
 			}
 		}
 
@@ -392,7 +400,7 @@ export class DirectMessageController {
 		dm: DirectMessage,
 		receivedWhileOpen: boolean,
 		isParty?: boolean,
-	): { delete: () => void; setMessageText: (str: string) => void } {
+	): { delete: () => void; setMessageText: (str: string, wasBlocked?: boolean) => void } {
 		let outgoing = dm.sender === Game.localPlayer.userId;
 
 		let messageGo: GameObject;
@@ -404,7 +412,7 @@ export class DirectMessageController {
 		const messageRefs = messageGo.GetComponent<GameObjectReferences>()!;
 		const text = messageRefs.GetValue("UI", "Text") as TMP_Text;
 
-		const setMessageText = (str: string) => {
+		const setMessageText = (str: string, wasBlocked = false) => {
 			str = this.SanitizeMessage(str);
 
 			if (isParty && !outgoing) {
@@ -413,6 +421,10 @@ export class DirectMessageController {
 				text.text = username + ": " + str;
 			} else {
 				text.text = str;
+			}
+
+			if (wasBlocked) {
+				text.color = ColorUtil.HexToColor("#ffc8c8");
 			}
 		};
 
