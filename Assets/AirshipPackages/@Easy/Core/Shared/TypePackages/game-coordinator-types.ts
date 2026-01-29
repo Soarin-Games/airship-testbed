@@ -167,6 +167,7 @@ export namespace GameCoordinatorChat {
     export interface SendMessageSuccess {
         messageSent: true;
         transformedMessage?: string;
+        filterResult: { messageBlocked: boolean; transformedMessage?: string };
     }
 
     export type SendPartyMessageArgs = {
@@ -1528,6 +1529,7 @@ export namespace GameCoordinatorTransfers {
         user: GameCoordinatorUsers.PublicUser;
         orgRoleName: string | undefined;
         isEasyEmployee: boolean;
+        isPlatformMuted?: { expiresAt: string };
         clientTransferData?: unknown;
         serverTransferData?: unknown;
     }
