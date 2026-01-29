@@ -24,11 +24,11 @@ export class ProtectedChatService implements OnStart {
 		CoreNetwork.ClientToServer.SendChatMessage.server.OnClientEvent((player, text) => {
 			if (text.size() > 500) return;
 
-			if (player.isPlatformMuted) {
-				if (player.isPlatformMuted.expiresAt !== "N/A") {
-					player.SendMessage(ChatColor.Red("You are permanently muted and cannot send messages."));
+			if (player.muteInfo) {
+				if (player.muteInfo.expiresAt) {
+					player.SendMessage(ChatColor.Red(`You are muted until ${DateTime.fromISO(player.muteInfo.expiresAt)}.`));
 				} else {
-					player.SendMessage(ChatColor.Red(`You are muted until ${player.isPlatformMuted.expiresAt}.`));
+					player.SendMessage(ChatColor.Red("You are permanently muted and cannot send messages."));
 				}
 				return;
 			}

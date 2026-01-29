@@ -1529,7 +1529,7 @@ export namespace GameCoordinatorTransfers {
         user: GameCoordinatorUsers.PublicUser;
         orgRoleName: string | undefined;
         isEasyEmployee: boolean;
-        isPlatformMuted?: { expiresAt: string };
+        muteInfo: { muted: boolean; expiresAt: string | undefined } | undefined;
         clientTransferData?: unknown;
         serverTransferData?: unknown;
     }

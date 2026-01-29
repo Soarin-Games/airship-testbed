@@ -57,10 +57,8 @@ export class Player {
 
 	/**
 	 * Platform mute info if the player is muted (prevented from sending public text chat messages).
-	 * Set from ServerTransferData or NATS messaging events (MUTE_USER, UNMUTE_USER). Undefined if not muted.
-	 * expiresAt = "N/A" if permanently muted, otherwise will be a Date string formatted into UTC
 	 */
-	public isPlatformMuted: { expiresAt: string } | undefined;
+	public muteInfo: { muted: boolean, expiresAt: string | undefined } | undefined;
 
 	/**
 	 * The server only transfer data provided with the request that transfered the player to this server. This is not available
@@ -167,7 +165,10 @@ export class Player {
 			let data = json.decode(transferPacket) as GameCoordinatorTransfers.ServerTransferData;
 			this.clientTransferData = data.clientTransferData;
 			this.serverTransferData = data.serverTransferData;
-			this.isPlatformMuted = data.isPlatformMuted;
+			this.muteInfo = data.muteInfo;
+			if (this.muteInfo?.muted) {
+				this.MuteVoiceChat(true);
+			}
 		}
 
 		const simulationManager = AirshipSimulationManager.Instance as AirshipSimulationManager &

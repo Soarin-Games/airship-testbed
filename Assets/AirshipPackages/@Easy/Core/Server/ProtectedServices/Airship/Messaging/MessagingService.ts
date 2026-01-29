@@ -2,6 +2,7 @@ import { Airship } from "@Easy/Core/Shared/Airship";
 import { Dependency, Service } from "@Easy/Core/Shared/Flamework";
 import { Game } from "@Easy/Core/Shared/Game";
 import { ProtectedPlayersSingleton } from "@Easy/Core/Shared/MainMenu/Singletons/ProtectedPlayersSingleton";
+import { AirshipPlayersSingleton } from "@Easy/Core/Shared/Player/AirshipPlayersSingleton";
 import { Signal } from "@Easy/Core/Shared/Util/Signal";
 import { SetInterval } from "@Easy/Core/Shared/Util/Timer";
 
@@ -67,20 +68,18 @@ interface KickUserEvent {
 	messageToUser: string;
 }
 
-interface MuteUserEvent {
-    type: "MUTE_USER";
+interface SetMutedUserEvent {
+    type: "SET_MUTED_USER";
     uid: string;
     messageToUser: string;
-    expiresAt: string;
+	muteInfo: {
+		muted: boolean;
+		expiresAt: string | undefined;
+	} | undefined;
 }
 
-interface UnmuteUserEvent {
-    type: "UNMUTE_USER";
-    uid: string;
-    messageToUser: string;
-}
 
-type AirshipMultiplexEvent = KickUserEvent | MuteUserEvent | UnmuteUserEvent;
+type AirshipMultiplexEvent = KickUserEvent | SetMutedUserEvent;
 
 @Service({})
 export class MessagingService {
@@ -186,28 +185,24 @@ export class MessagingService {
 		});
 
 		this.airshipGameEvents.Connect((data) => {
-			if (data.type === "MUTE_USER") {
+			if (data.type === "SET_MUTED_USER") {
 				const player = this.protectedPlayers.FindByUserId(data.uid);
 				if (!player) return;
 
-				contextbridge.broadcast<(userId: string, muteInfo: { expiresAt: string } | undefined, message: string) => void>(
+				// Set player to muted in the protected context
+				const airshipPlayer = Dependency(AirshipPlayersSingleton).FindByUserId(data.uid);
+				if (airshipPlayer) {
+					airshipPlayer.muteInfo = data.muteInfo;
+					if (data.muteInfo?.muted) {
+						airshipPlayer.MuteVoiceChat(true);
+					}
+				}
+
+				// Sending this info to the game from protected context
+				contextbridge.broadcast<(userId: string, muteInfo: { muted: boolean, expiresAt: string | undefined } | undefined, message: string) => void>(
 					"Player:SetPlatformMuted",
 					data.uid,
-					{ expiresAt: data.expiresAt },
-					data.messageToUser,
-				);
-			}
-		});
-
-		this.airshipGameEvents.Connect((data) => {
-			if (data.type === "UNMUTE_USER") {
-				const player = this.protectedPlayers.FindByUserId(data.uid);
-				if (!player) return;
-
-				contextbridge.broadcast<(userId: string, muteInfo: { expiresAt: string } | undefined, message: string) => void>(
-					"Player:SetPlatformMuted",
-					data.uid,
-					undefined,
+					data.muteInfo,
 					data.messageToUser,
 				);
 			}
