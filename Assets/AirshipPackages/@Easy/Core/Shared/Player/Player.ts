@@ -446,20 +446,6 @@ export class Player {
 		else AirshipUniVoice.MutePeer(this.connectionId, muted);
 	}
 
-
-	/** Prevent publicly sending chat messages when muted */
-	public MutePlatformTextChat(muted: boolean) {
-		if (Game.IsServer()) {
-			this.isPlatformMuted = muted ? { expiresAt: "" } : undefined;
-			contextbridge.broadcast<(userId: string, muteInfo: { expiresAt: string } | undefined, message: string) => void>(
-				"Player:SetPlatformMuted",
-				this.userId,
-				this.isPlatformMuted,
-				"",
-			);
-		}
-	}
-
 	public Kick(message: string): void {
 		if (Game.IsHosting()) {
 			error("Unable to kick host.");
