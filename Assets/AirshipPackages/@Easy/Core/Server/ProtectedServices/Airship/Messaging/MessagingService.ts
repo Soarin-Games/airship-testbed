@@ -66,7 +66,21 @@ interface KickUserEvent {
 	uid: string;
 	messageToUser: string;
 }
-type AirshipMultiplexEvent = KickUserEvent;
+
+interface MuteUserEvent {
+    type: "MUTE_USER";
+    uid: string;
+    messageToUser: string;
+    expiresAt: string;
+}
+
+interface UnmuteUserEvent {
+    type: "UNMUTE_USER";
+    uid: string;
+    messageToUser: string;
+}
+
+type AirshipMultiplexEvent = KickUserEvent | MuteUserEvent | UnmuteUserEvent;
 
 @Service({})
 export class MessagingService {
@@ -167,7 +181,35 @@ export class MessagingService {
 			if (data.type === "KICK_USER") {
 				const player = this.protectedPlayers.FindByUserId(data.uid);
 				if (!player) return;
-				TransferManager.Instance.KickClient(player.connectionId, data.messageToUser || "You have been kicked");
+				TransferManager.Instance.KickClient(player.connectionId, data.messageToUser || "You have been kicked.");
+			}
+		});
+
+		this.airshipGameEvents.Connect((data) => {
+			if (data.type === "MUTE_USER") {
+				const player = this.protectedPlayers.FindByUserId(data.uid);
+				if (!player) return;
+
+				contextbridge.broadcast<(userId: string, muteInfo: { expiresAt: string } | undefined, message: string) => void>(
+					"Player:SetPlatformMuted",
+					data.uid,
+					{ expiresAt: data.expiresAt },
+					data.messageToUser,
+				);
+			}
+		});
+
+		this.airshipGameEvents.Connect((data) => {
+			if (data.type === "UNMUTE_USER") {
+				const player = this.protectedPlayers.FindByUserId(data.uid);
+				if (!player) return;
+
+				contextbridge.broadcast<(userId: string, muteInfo: { expiresAt: string } | undefined, message: string) => void>(
+					"Player:SetPlatformMuted",
+					data.uid,
+					undefined,
+					data.messageToUser,
+				);
 			}
 		});
 

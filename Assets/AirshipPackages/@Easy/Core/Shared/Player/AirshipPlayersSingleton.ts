@@ -410,6 +410,20 @@ export class AirshipPlayersSingleton {
 		if (Game.IsGameLuauContext()) {
 			CoreNetwork.ClientToServer.ChangedOutfit.server.OnClientEvent((player) => {});
 		}
+
+		// Sync platform mute state across contexts
+		contextbridge.subscribe<(from: LuauContext, userId: string, muteInfo: { expiresAt: string } | undefined, message: string) => void>(
+			"Player:SetPlatformMuted",
+			(from, userId, muteInfo, message) => {
+				const player = this.FindByUserId(userId);
+				if (player) {
+					player.isPlatformMuted = muteInfo;
+					if (message && Game.IsGameLuauContext()) {
+						player.SendMessage(message);
+					}
+				}
+			},
+		);
 	}
 
 	private HandlePlayerConnect(player: Player) {
