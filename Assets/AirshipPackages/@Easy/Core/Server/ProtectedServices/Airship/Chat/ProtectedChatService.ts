@@ -26,11 +26,17 @@ export class ProtectedChatService implements OnStart {
 
 			if (player.muteInfo) {
 				if (player.muteInfo.expiresAt) {
-					player.SendMessage(ChatColor.Red(`You are muted until ${DateTime.fromISO(player.muteInfo.expiresAt)}.`));
+					const expiresAt = DateTime.fromISO(player.muteInfo.expiresAt);
+					if (DateTime.now().TimestampSeconds >= expiresAt.TimestampSeconds) {
+						player.muteInfo = undefined;
+					} else {
+						player.SendMessage(ChatColor.Red(`You are muted until ${expiresAt}.`));
+						return;
+					}
 				} else {
 					player.SendMessage(ChatColor.Red("You are permanently muted and cannot send messages."));
+					return;
 				}
-				return;
 			}
 
 			if (player.orgRoleName === undefined) {
