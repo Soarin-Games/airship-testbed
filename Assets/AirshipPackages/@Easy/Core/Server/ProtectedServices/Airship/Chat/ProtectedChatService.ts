@@ -30,7 +30,17 @@ export class ProtectedChatService implements OnStart {
 					if (DateTime.now().TimestampSeconds >= expiresAt.TimestampSeconds) {
 						player.muteInfo = undefined;
 					} else {
-						player.SendMessage(ChatColor.Red(`You are muted until ${expiresAt.ToLocalTime()}.`));
+						const remainingSeconds = expiresAt.TimestampSeconds - DateTime.now().TimestampSeconds;
+						const hours = math.floor(remainingSeconds / 3600);
+						const minutes = math.floor((remainingSeconds % 3600) / 60);
+						const seconds = math.floor(remainingSeconds % 60);
+
+						const parts: string[] = [];
+						if (hours > 0) parts.push(`${hours}h`);
+						if (minutes > 0) parts.push(`${minutes}m`);
+						if (seconds > 0 || parts.size() === 0) parts.push(`${seconds}s`);
+
+						player.SendMessage(ChatColor.Red(`You are muted until ${expiresAt.FormatLocalTime("%Y-%m-%d %H:%M:%S")} (${parts.join(" ")} remaining).`));
 						return;
 					}
 				} else {
