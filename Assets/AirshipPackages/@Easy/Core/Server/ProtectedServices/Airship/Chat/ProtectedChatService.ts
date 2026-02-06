@@ -30,7 +30,7 @@ export class ProtectedChatService implements OnStart {
 					if (DateTime.now().TimestampSeconds >= expiresAt.TimestampSeconds) {
 						player.muteInfo = undefined;
 					} else {
-						player.SendMessage(ChatColor.Red(`You are muted until ${expiresAt}.`));
+						player.SendMessage(ChatColor.Red(`You are muted until ${expiresAt.ToLocalTime()}.`));
 						return;
 					}
 				} else {
