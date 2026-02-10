@@ -181,10 +181,12 @@ export class Game {
 	}
 
 	public static IsLandscape(): boolean {
+		if (!Game.IsMobile()) return true;
 		return !this.IsPortrait();
 	}
 
 	public static IsPortrait(): boolean {
+		if (!Game.IsMobile()) return false;
 		return Screen.orientation === ScreenOrientation.Portrait;
 	}
 
