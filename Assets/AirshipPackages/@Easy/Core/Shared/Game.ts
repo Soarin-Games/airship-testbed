@@ -181,11 +181,11 @@ export class Game {
 	}
 
 	public static IsLandscape(): boolean {
-		return Screen.width >= Screen.height;
+		return !this.IsPortrait();
 	}
 
 	public static IsPortrait(): boolean {
-		return !this.IsLandscape();
+		return Screen.orientation === ScreenOrientation.Portrait;
 	}
 
 	/**
