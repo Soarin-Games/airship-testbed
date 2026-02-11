@@ -196,11 +196,21 @@ export class Game {
 	public static GetScaleFactor(): number {
 		let dpi = Screen.dpi;
 		let width = Screen.width;
+		const height = Screen.height;
+		const isTrue16By9Preset = width * 9 === height * 16 && width % 8 === 0 && height % 8 === 0;
 
-		// In macOS Editor Game view, Retina scaling can inflate Screen.dpi and cause menu UI to render overly zoomed.
-		// Only force 1x scale for Full HD-ish editor resolutions; keep default high-DPI behavior for 4K presets.
-		if (Game.IsEditor() && Game.IsMac() && !Game.IsMobile() && width <= 1920 && Screen.height <= 1080) {
-			return 1;
+		if (Game.IsEditor() && !Game.IsMobile()) {
+			// Free Aspect in editor uses arbitrary viewport sizes; DPI-based scaling makes UI inconsistent.
+			// Keep desktop Free Aspect at 1x on all platforms.
+			if (!isTrue16By9Preset) {
+				return 1;
+			}
+
+			// Unity "Low Resolution Aspect Ratios" and smaller editor Game views should use 1x scaling.
+			// Only use DPI-based desktop scaling for truly high-res editor render sizes (e.g. 4K-like heights).
+			if (height < 1440) {
+				return 1;
+			}
 		}
 
 		if (Game.IsMobile()) {
