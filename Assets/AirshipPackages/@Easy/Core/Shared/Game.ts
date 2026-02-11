@@ -197,6 +197,12 @@ export class Game {
 		let dpi = Screen.dpi;
 		let width = Screen.width;
 
+		// In macOS Editor Game view, Retina scaling can inflate Screen.dpi and cause menu UI to render overly zoomed.
+		// Only force 1x scale for Full HD-ish editor resolutions; keep default high-DPI behavior for 4K presets.
+		if (Game.IsEditor() && Game.IsMac() && !Game.IsMobile() && width <= 1920 && Screen.height <= 1080) {
+			return 1;
+		}
+
 		if (Game.IsMobile()) {
 			if (Game.deviceType === AirshipDeviceType.Tablet) {
 				return dpi / 180;
