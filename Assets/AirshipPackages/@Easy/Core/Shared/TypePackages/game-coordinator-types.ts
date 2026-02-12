@@ -1777,7 +1777,10 @@ export namespace GameCoordinatorUserLocations {
     }
 
     export interface ClientSpec {
-        find(args: FindArgs["query"], options?: RequestOptions): Promise<{ [userId: string]: { serverId: string } }>;
+        find(
+            args: FindArgs["query"],
+            options?: RequestOptions,
+        ): Promise<{ [userId: string]: { gameId: string; serverId: string } }>;
     }
 
     export class Client implements ClientSpec {
@@ -1790,7 +1793,7 @@ export namespace GameCoordinatorUserLocations {
         async find(
             args: FindArgs["query"],
             options?: RequestOptions,
-        ): Promise<{ [userId: string]: { serverId: string } }> {
+        ): Promise<{ [userId: string]: { gameId: string; serverId: string } }> {
             return await this.makeRequest({
                 method: "GET",
                 routeId: "GameCoordinator:UserLocations:find",
