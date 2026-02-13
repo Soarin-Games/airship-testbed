@@ -190,7 +190,7 @@ export class MessagingService {
 				if (!player) return;
 
 				// Set player to muted in the protected context
-				const airshipPlayer = Dependency(AirshipPlayersSingleton).FindByUserId(data.uid);
+				const airshipPlayer = Dependency<AirshipPlayersSingleton>().FindByUserId(data.uid);
 				if (airshipPlayer) {
 					airshipPlayer.muteInfo = data.muteInfo;
 					if (data.muteInfo?.muted) {
