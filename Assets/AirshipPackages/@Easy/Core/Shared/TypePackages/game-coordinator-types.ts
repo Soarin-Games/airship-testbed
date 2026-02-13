@@ -164,10 +164,11 @@ export namespace GameCoordinatorChat {
 
 	export type SendMessageResponse = GameCoordinatorChat.SendMessageSuccess | GameCoordinatorChat.SendMessageFailure;
 
-	export interface SendMessageSuccess {
-		messageSent: true;
-		filterResult: { messageBlocked: boolean; transformedMessage?: string };
-	}
+    export interface SendMessageSuccess {
+        messageSent: true;
+        transformedMessage?: string;
+        filterResult: { messageBlocked: boolean; transformedMessage?: string };
+    }
 
 	export type SendPartyMessageArgs = {
 		data: GameCoordinatorChat.PartyChatMessageDto;
@@ -1528,17 +1529,18 @@ export namespace GameCoordinatorTransfers {
 		data: GameCoordinatorTransfers.TransferToServerIdDto;
 	};
 
-	export interface ServerTransferData {
-		gameId: string;
-		gameServer: GameCoordinatorAgones.GameServer;
-		requestTime: number;
-		transferSource: GameCoordinatorTransfers.TransferSourceData;
-		user: GameCoordinatorUsers.PublicUser;
-		orgRoleName: string | undefined;
-		isEasyEmployee: boolean;
-		clientTransferData?: unknown;
-		serverTransferData?: unknown;
-	}
+    export interface ServerTransferData {
+        gameId: string;
+        gameServer: GameCoordinatorAgones.GameServer;
+        requestTime: number;
+        transferSource: GameCoordinatorTransfers.TransferSourceData;
+        user: GameCoordinatorUsers.PublicUser;
+        orgRoleName: string | undefined;
+        isEasyEmployee: boolean;
+        muteInfo: { muted: boolean; expiresAt: string | undefined } | undefined;
+        clientTransferData?: unknown;
+        serverTransferData?: unknown;
+    }
 
 	export interface TransferFailureResult {
 		transfersRequested: false;
@@ -1782,9 +1784,12 @@ export namespace GameCoordinatorUserLocations {
 		userIds: string[];
 	}
 
-	export interface ClientSpec {
-		find(args: FindArgs["query"], options?: RequestOptions): Promise<{ [userId: string]: { serverId: string } }>;
-	}
+    export interface ClientSpec {
+        find(
+            args: FindArgs["query"],
+            options?: RequestOptions,
+        ): Promise<{ [userId: string]: { gameId: string; serverId: string } }>;
+    }
 
 	export class Client implements ClientSpec {
 		private readonly makeRequest: MakeRequest;
@@ -1793,19 +1798,19 @@ export namespace GameCoordinatorUserLocations {
 			this.makeRequest = makeRequest;
 		}
 
-		async find(
-			args: FindArgs["query"],
-			options?: RequestOptions,
-		): Promise<{ [userId: string]: { serverId: string } }> {
-			return await this.makeRequest({
-				method: "GET",
-				routeId: "GameCoordinator:UserLocations:find",
-				path: `/user-locations/`,
-				retryKey: options?.retryKey ?? "GameCoordinator:UserLocations:find",
-				query: args,
-			});
-		}
-	}
+        async find(
+            args: FindArgs["query"],
+            options?: RequestOptions,
+        ): Promise<{ [userId: string]: { gameId: string; serverId: string } }> {
+            return await this.makeRequest({
+                method: "GET",
+                routeId: "GameCoordinator:UserLocations:find",
+                path: `/user-locations/`,
+                retryKey: options?.retryKey ?? "GameCoordinator:UserLocations:find",
+                query: args,
+            });
+        }
+    }
 }
 
 // ====+==== UserNotifications Types ====+====
