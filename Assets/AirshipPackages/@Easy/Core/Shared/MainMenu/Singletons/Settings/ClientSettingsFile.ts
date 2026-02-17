@@ -24,4 +24,5 @@ export interface ClientSettingsFile {
 	gameKeybindOverrides: { [key: string]: { [key: string]: SerializableAction } };
 	lastPushNotifPromptTime: number;
 	firstLoginTime: number;
+	chatFilterEnabled: boolean;
 }
