@@ -134,7 +134,7 @@ export default class PlayerEntry extends AirshipBehaviour {
 		this.bin.AddEngineEventConnection(
 			CanvasAPI.OnClickEvent(this.reportBtn.gameObject, () => {
 				task.spawn(async () => {
-					await Protected.ProtectedPlayers.ReportPlayer(player.userId, []);
+					await Protected.ProtectedPlayers.ReportPlayer(player.userId, [{ type: "username" }]);
 					print(`Reported ${player.username}`);
 				});
 				task.spawn(() => {
