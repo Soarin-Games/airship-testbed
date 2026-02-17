@@ -30,7 +30,12 @@ class ChatMessageElement {
 	public shown = true;
 	private hideBin = new Bin();
 
-	constructor(public readonly gameObject: GameObject, public time: number, public readonly messageId?: string, public readonly nameWithPrefix?: string) {
+	constructor(
+		public readonly gameObject: GameObject,
+		public time: number,
+		public readonly messageId?: string,
+		public readonly nameWithPrefix?: string,
+	) {
 		this.canvasGroup = gameObject.GetComponent<CanvasGroup>()!;
 	}
 
@@ -113,7 +118,7 @@ export class ClientChatSingleton {
 						wrapperRect.offsetMin = new Vector2(wrapperRect.offsetMin.x, 216);
 
 						// Make chat message font (& profile picture) 10% smaller
-						this.ScaleChatMessagePrefab(0.90);
+						this.ScaleChatMessagePrefab(0.9);
 					} else {
 						wrapperRect.anchorMax = new Vector2(0, 1);
 						wrapperRect.anchorMin = new Vector2(0, 0.55);
@@ -165,15 +170,12 @@ export class ClientChatSingleton {
 		const profileImage = refs.GetValue<RawImage>("UI", "ProfilePicture");
 		const rectTransform = profileImage.rectTransform;
 		const prevSize = rectTransform.sizeDelta;
-		const newSize = new Vector2(
-			math.ceil(prevSize.x * fontScale),
-			math.ceil(prevSize.y * fontScale)
-		);
+		const newSize = new Vector2(math.ceil(prevSize.x * fontScale), math.ceil(prevSize.y * fontScale));
 		rectTransform.sizeDelta = newSize;
 
 		// Manually handle the offset (moves off pivot when changing sizeDelta)
 		const offset = prevSize.sub(newSize).div(2).mul(new Vector2(0, 1));
-		rectTransform.offsetMin = rectTransform.offsetMin.add(offset)
+		rectTransform.offsetMin = rectTransform.offsetMin.add(offset);
 		rectTransform.offsetMax = rectTransform.offsetMax.add(offset);
 
 		// Refresh rounded image
@@ -205,7 +207,12 @@ export class ClientChatSingleton {
 		return this.selected;
 	}
 
-	public AddMessage(rawText: string, messageId: string | undefined, nameWithPrefix: string | undefined, senderClientId: number | undefined): void {
+	public AddMessage(
+		rawText: string,
+		messageId: string | undefined,
+		nameWithPrefix: string | undefined,
+		senderClientId: number | undefined,
+	): void {
 		let sender: ProtectedPlayer | undefined;
 		if (senderClientId !== undefined) {
 			sender = Protected.ProtectedPlayers.FindByConnectionId(senderClientId);
@@ -222,28 +229,15 @@ export class ClientChatSingleton {
 		const isMainMenu = Game.coreContext === CoreContext.MAIN_MENU;
 		if (isMainMenu) return;
 
-		contextbridge.subscribe(
-			"Chat:ProcessLocalMessage",
-			(context: LuauContext, msg: ChatMessageNetworkEvent) => {
-				if (msg.type === "sent") {
-					this.AddMessage(msg.message, msg.internalMessageId, msg.senderPrefix, msg.senderClientId);
-				} else if (msg.type === "update") {
-					this.UpdateChatMessage(msg.internalMessageId, msg.message);
-				} else if (msg.type === "remove") {
-					this.ClearChatMessage(msg.internalMessageId);
-				}
-			},
-		);
-
-		// TODO: Does this ever run? It seems to be on the client that the subscription in AirshipChatSingleton is what sends events here
-		// TODO: It does so through the contextbridge Chat:ProcessLocalMessage event
-		CoreNetwork.ServerToClient.ChatMessage.client.OnServerEvent((msg) => {
+		contextbridge.subscribe("Chat:ProcessLocalMessage", (context: LuauContext, msg: ChatMessageNetworkEvent) => {
 			if (msg.type === "sent") {
 				this.AddMessage(msg.message, msg.internalMessageId, msg.senderPrefix, msg.senderClientId);
-			} else if (msg.type === "update") {
+			} else if (msg.type === "update" && Protected.Settings.IsChatFilterEnabled()) {
 				this.UpdateChatMessage(msg.internalMessageId, msg.message);
-			} else if (msg.type === "remove") {
+			} else if (msg.type === "remove" && Protected.Settings.IsChatFilterEnabled()) {
 				this.ClearChatMessage(msg.internalMessageId);
+			} else if (msg.type === "remove" && !Protected.Settings.IsChatFilterEnabled()) { 
+				this.SetBlockedForOthers(msg.internalMessageId);
 			}
 		});
 
@@ -467,7 +461,12 @@ export class ClientChatSingleton {
 		}
 	}
 
-	public RenderChatMessage(message: string, messageId?: string, sender?: ProtectedPlayer, nameWithPrefix?: string): void {
+	public RenderChatMessage(
+		message: string,
+		messageId?: string,
+		sender?: ProtectedPlayer,
+		nameWithPrefix?: string,
+	): void {
 		if (nameWithPrefix) {
 			message = ChatColor.White(nameWithPrefix) + ChatColor.White(message);
 		}
@@ -476,6 +475,7 @@ export class ClientChatSingleton {
 			const chatMessage = chatMessageGO.GetAirshipComponent<ChatMessage>()!;
 			const refs = chatMessageGO.GetComponent<GameObjectReferences>()!;
 
+			const blockedGui = refs.GetValue<GameObject>("UI", "BlockedMessage").GetComponent<TMP_Text>();
 			const textGui = refs.GetValue<TMP_Text>("UI", "Text");
 			textGui.text = message;
 
@@ -492,6 +492,7 @@ export class ClientChatSingleton {
 			} else {
 				// system message
 				textGui.margin = new Vector4(0, 8, 8, 8);
+				if (blockedGui) blockedGui.margin = new Vector4(0, -8, 8, 0);
 				profileImage.gameObject.SetActive(false);
 			}
 
@@ -578,6 +579,20 @@ export class ClientChatSingleton {
 		}
 	}
 
+	/**
+	 * Used when the client is displaying a chat that may be blocked for others that have the chat filter enabled.
+	 * @param messageId 
+	 */
+	public SetBlockedForOthers(messageId: string) {
+		const index = this.chatMessageElements.findIndex((element) => element.messageId === messageId);
+
+		if (index === -1) return;
+
+		const element = this.chatMessageElements[index];
+		const refs = element.gameObject.GetComponent<GameObjectReferences>()!;
+		const gameObject = refs.GetValue<GameObject>("UI", "BlockedMessage");
+		gameObject.SetActive(true);
+	}
 
 	public ClearChatMessages(): void {
 		try {

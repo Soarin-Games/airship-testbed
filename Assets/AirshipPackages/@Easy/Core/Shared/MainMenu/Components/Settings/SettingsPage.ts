@@ -41,6 +41,7 @@ export default class SettingsPage extends AirshipBehaviour {
 	@Header("Toggles")
 	public sprintToggle: SettingsToggle;
 	public voiceToggle: SettingsToggle;
+	public chatFilterToggle: SettingsToggle;
 	public mobileDynamicJoystickToggle: SettingsToggle;
 
 	@Header("Sliders")
@@ -304,6 +305,11 @@ export default class SettingsPage extends AirshipBehaviour {
 				}
 			});
 		}
+
+		this.chatFilterToggle.Init("Filter Chat Messages", settings.IsChatFilterEnabled());
+		this.chatFilterToggle.toggle.onValueChanged.Connect((val) => {
+			settings.SetChatFilterEnabled(val);
+		})
 
 		// Hacky workaround for GetComponentsInChildren<Button> not working.
 		const images = this.rightSection.gameObject.GetComponentsInChildren<Image>(true);
