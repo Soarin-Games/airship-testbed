@@ -272,7 +272,7 @@ export class MainMenuController {
 
 		let parent: Transform | undefined;
 		if (Game.IsInGame()) {
-			parent = GameObject.Find("AirshipEngineOverlay")?.transform.GetChild(0);
+			parent = GameObject.Find("AirshipEngineOverlay")?.transform;
 		} else {
 			parent = this.refs.GetValue<GameObject>("UI", "ToastContainer").transform;
 		}
@@ -293,7 +293,7 @@ export class MainMenuController {
 	public ShowTransferFailedToast(message?: string) {
 		let parent: Transform | undefined;
 		if (Game.IsInGame()) {
-			parent = GameObject.Find("AirshipEngineOverlay")?.transform.GetChild(0);
+			parent = GameObject.Find("AirshipEngineOverlay")?.transform;
 		} else {
 			parent = this.refs.GetValue<GameObject>("UI", "ToastContainer").transform;
 		}
@@ -308,7 +308,7 @@ export class MainMenuController {
 		).GetAirshipComponent<TransferFailedToast>();
 		if (toast && message) toast.message.text = message;
 
-		task.delayDetached(3, () => {
+		task.delayDetached(5, () => {
 			if (toast?.gameObject) {
 				Object.Destroy(toast.gameObject);
 			}
