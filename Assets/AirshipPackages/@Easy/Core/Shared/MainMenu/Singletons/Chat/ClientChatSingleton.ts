@@ -37,6 +37,7 @@ class ChatMessageElement {
 	public Hide(): void {
 		if (!this.shown) return;
 		this.shown = false;
+		this.canvasGroup.blocksRaycasts = false;
 		const t = NativeTween.CanvasGroupAlpha(this.canvasGroup, 0, 0.2)?.SetUseUnscaledTime(true);
 		this.hideBin.Add(() => {
 			if (!t.IsDestroyed()) {
@@ -51,6 +52,7 @@ class ChatMessageElement {
 		this.shown = true;
 		this.hideBin.Clean();
 		this.canvasGroup.alpha = 1;
+		this.canvasGroup.blocksRaycasts = true;
 	}
 
 	public Destroy(): void {
