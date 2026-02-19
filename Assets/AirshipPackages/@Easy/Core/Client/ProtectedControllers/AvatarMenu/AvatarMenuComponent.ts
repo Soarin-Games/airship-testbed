@@ -1,4 +1,4 @@
-import { Airship, Platform } from "@Easy/Core/Shared/Airship";
+import { Airship } from "@Easy/Core/Shared/Airship";
 import {
 	AirshipGearCategory,
 	AirshipGearItem,
@@ -10,6 +10,7 @@ import { CoreNetwork } from "@Easy/Core/Shared/CoreNetwork";
 import { CoreRefs } from "@Easy/Core/Shared/CoreRefs";
 import { Dependency } from "@Easy/Core/Shared/Flamework";
 import { Game } from "@Easy/Core/Shared/Game";
+import { EncodeJSON } from "@Easy/Core/Shared/json";
 import AirshipButton from "@Easy/Core/Shared/MainMenu/Components/AirshipButton";
 import { MainMenuSingleton } from "@Easy/Core/Shared/MainMenu/Singletons/MainMenuSingleton";
 import { Protected } from "@Easy/Core/Shared/Protected";
@@ -21,13 +22,12 @@ import { ColorUtil } from "@Easy/Core/Shared/Util/ColorUtil";
 import MainMenuPageComponent from "../../../Shared/MainMenu/Components/MainMenuPageComponent";
 import { MainMenuController } from "../MainMenuController";
 import { MainMenuPageType } from "../MainMenuPageName";
+import { RightClickMenuController } from "../UI/RightClickMenu/RightClickMenuController";
 import AvatarAccessoryBtn from "./AvatarAccessoryBtn";
 import AvatarMenuBtn from "./AvatarMenuBtn";
 import AvatarMenuProfileComponent from "./AvatarMenuProfileComponent";
 import OutfitButton from "./Outfit/OutfitButtonComponent";
 import OutfitButtonNameComponent from "./Outfit/OutfitButtonNameComponent";
-import { RightClickMenuController } from "../UI/RightClickMenu/RightClickMenuController";
-import { EncodeJSON } from "@Easy/Core/Shared/json";
 
 export default class AvatarMenuComponent extends MainMenuPageComponent {
 	private readonly generalHookupKey = "General";
@@ -142,15 +142,18 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 				const outfitButton = go.GetAirshipComponent<OutfitButton>();
 				if (outfitButton) outfitButton.outfitIdx = i;
 
-                // Left clicking an outfit
+				// Left clicking an outfit
 				CanvasAPI.OnClickEvent(go, () => {
 					task.spawn(async () => {
 						if (this.dirty) {
-							const res = await Dependency<MainMenuSingleton>().ShowConfirmModal(
+							const confirmedDiscard = await Dependency<MainMenuSingleton>().ShowConfirmModal(
 								this.discardTitle,
 								this.discardMessage,
 							);
-							if (!res) {
+							if (confirmedDiscard) {
+								this.DiscardChanges();
+							}
+							if (!confirmedDiscard) {
 								return;
 							}
 						}
@@ -159,31 +162,30 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 					});
 				});
 
-
-                // Right clicking an outfit
-                CanvasAPI.OnPointerEvent(go, (dir, btn) => {
-                    if (dir === PointerDirection.DOWN && btn === PointerButton.RIGHT) {
-                        Dependency<RightClickMenuController>().OpenRightClickMenu(
-                            Dependency<MainMenuController>().mainContentCanvas,
-                            Mouse.position,
-                            [
-                                {
-                                    text: "Copy Outfit",
-                                    onClick: () => {
-                                        // Save whole DTO interface?
-                                        Bridge.CopyToClipboard(EncodeJSON(Protected.Avatar.outfits[outfitI]));
-                                        // let outfitStr = "";
-                                        // for( const gear of Protected.Avatar.outfits[outfitI].gear) {
-                                        //     outfitStr += gear.class.classId+",";
-                                        // }
-                                        // Bridge.CopyToClipboard(outfitStr);
-                                        // print("OUTFIT GEAR: " + outfitStr);
-                                    },
-                                },
-                            ],
-                        );
-                    }
-                });
+				// Right clicking an outfit
+				CanvasAPI.OnPointerEvent(go, (dir, btn) => {
+					if (dir === PointerDirection.DOWN && btn === PointerButton.RIGHT) {
+						Dependency<RightClickMenuController>().OpenRightClickMenu(
+							Dependency<MainMenuController>().mainContentCanvas,
+							Mouse.position,
+							[
+								{
+									text: "Copy Outfit",
+									onClick: () => {
+										// Save whole DTO interface?
+										Bridge.CopyToClipboard(EncodeJSON(Protected.Avatar.outfits[outfitI]));
+										// let outfitStr = "";
+										// for( const gear of Protected.Avatar.outfits[outfitI].gear) {
+										//     outfitStr += gear.class.classId+",";
+										// }
+										// Bridge.CopyToClipboard(outfitStr);
+										// print("OUTFIT GEAR: " + outfitStr);
+									},
+								},
+							],
+						);
+					}
+				});
 			}
 		}
 
@@ -211,7 +213,7 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 
 		if (this.revertBtn) {
 			this.revertBtn.button.onClick.Connect(() => {
-				this.Revert();
+				this.DiscardChanges();
 			});
 		}
 
@@ -279,11 +281,13 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 			this.bin.Add(
 				Dependency<MainMenuController>().onBeforePageChange.Connect((event) => {
 					if (this.dirty && event.oldPage === MainMenuPageType.Avatar) {
-						const [success, res] = Dependency<MainMenuSingleton>()
+						const [success, confirmedDiscard] = Dependency<MainMenuSingleton>()
 							.ShowConfirmModal(this.discardTitle, this.discardMessage, "Discard")
 							.await();
-						print(`[${success}, ${res}]`);
-						if (success && !res) {
+						if (confirmedDiscard) {
+							this.DiscardChanges();
+						}
+						if (success && !confirmedDiscard) {
 							event.SetCancelled(true);
 						}
 					}
@@ -862,7 +866,7 @@ export default class AvatarMenuComponent extends MainMenuPageComponent {
 		return new Vector2(finalCellWidth, finalCellHeight);
 	}
 
-	private Revert() {
+	private DiscardChanges() {
 		this.LoadCurrentOutfit().expect();
 	}
 }
