@@ -80,7 +80,8 @@ export default class MainMenuContent extends AirshipBehaviour {
 		const notchHeight = ProtectedUtil.GetNotchHeight();
 		const navigationHeight = ProtectedUtil.GetNavigationHeight(); // some devices have a "soft navigation"
 
-		if (Game.IsPortrait()) {
+		if (Game.deviceType === AirshipDeviceType.Phone && !Game.IsInGame()) {
+			// Portrait
 			this.canvasScalar.matchWidthOrHeight = 1;
 			this.socialMenu.SetParent(this.friendsPage);
 			this.socialMenu.gameObject.SetActive(true);
