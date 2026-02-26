@@ -59,7 +59,7 @@ export default class PartyModal extends AirshipBehaviour {
 		task.spawn(async () => {
 			this.UpdateParty(mainMenuPartyController.party);
 			this.bin.Add(
-				mainMenuPartyController.onPartyUpdated.Connect((newParty) => {
+				mainMenuPartyController.onPartyChanged.Connect((newParty) => {
 					this.UpdateParty(newParty);
 				}),
 			);
