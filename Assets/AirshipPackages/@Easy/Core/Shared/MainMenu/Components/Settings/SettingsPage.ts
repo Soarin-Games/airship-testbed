@@ -235,6 +235,11 @@ export default class SettingsPage extends AirshipBehaviour {
 			this.gamePageSettingsContainer.gameObject.SetActive(false);
 		}
 		if (Protected.Settings.gameSettings.size() > 0) {
+
+			if (Game.deviceType === AirshipDeviceType.Phone) {
+				this.gamePageSettingsContainer.gameObject.SetActive(true);
+			}
+
 			for (let gameSetting of Protected.Settings.gameSettingsOrdered) {
 				if (gameSetting === "space") {
 					Object.Instantiate(this.spacerPrefab, this.gamePageSettingsContainer);
