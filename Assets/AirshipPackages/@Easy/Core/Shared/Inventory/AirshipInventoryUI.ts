@@ -94,10 +94,10 @@ export default class AirshipInventoryUI extends AirshipBehaviour {
 	private currentHotbarCleanup?: () => void;
 
 	/**
-	 * When true, dragging an item onto the drop zone (onDraggedOutsideInventory) will not move the item
+	 * When true, dragging an item onto the drop zone (onDraggedOutsideInventory) will move the item
 	 * from the pickup slot back into the inventory.
 	 */
-	private skipMoveBackOnDraggedOutsideInventory = false;
+	private moveBackOnDraggedOutsideInventory = true;
 
 	override Awake() {
 		this.hotbarCanvas.enabled = false;
@@ -147,7 +147,7 @@ export default class AirshipInventoryUI extends AirshipBehaviour {
 							};
 
 							Airship.Inventory.localInventory?.onDraggedOutsideInventory.Fire(draggingState);
-							this.CleanupClickPickupState(this.skipMoveBackOnDraggedOutsideInventory);
+							this.CleanupClickPickupState(this.moveBackOnDraggedOutsideInventory);
 						}
 					}
 					if (this.closeOnClickOutside) {
@@ -562,11 +562,11 @@ export default class AirshipInventoryUI extends AirshipBehaviour {
 
 	/**
 	 * Cleans up the click pickup state, destroying the visual and clearing connections.
-	 * @param skipMoveToInventory If true, do not move item from pickup slot.
+	 * @param moveBackToInventory If true, move item from pickup slot back to inventory (default).
 	 */
-	private CleanupClickPickupState(skipMoveToInventory = false): void {
+	private CleanupClickPickupState(moveBackToInventory = true): void {
 		if (this.clickPickupState) {
-			if (!skipMoveToInventory) {
+			if (moveBackToInventory) {
 				const pickupStack = this.clickPickupState.inventory.GetItem(DESIGNATED_PICKUP_SLOT);
 				Airship.Inventory.MoveToInventory(
 					this.clickPickupState.inventory,
@@ -1942,11 +1942,11 @@ export default class AirshipInventoryUI extends AirshipBehaviour {
 	}
 
 	/**
-	 * Sets whether to skip moving the item back to the inventory when dragged outside.
-	 * @param skip True to skip moving the item back, false to move it back.
+	 * Sets whether to move the item back to the inventory when dragged outside.
+	 * @param moveBack True to move the item back, false to leave it in the pickup state.
 	 */
-	public SetSkipMoveBackOnDraggedOutsideInventory(skip: boolean): void {
-		this.skipMoveBackOnDraggedOutsideInventory = skip;
+	public SetMoveBackOnDraggedOutsideInventory(moveBack: boolean): void {
+		this.moveBackOnDraggedOutsideInventory = moveBack;
 	}
 
 	protected OnDestroy(): void {
