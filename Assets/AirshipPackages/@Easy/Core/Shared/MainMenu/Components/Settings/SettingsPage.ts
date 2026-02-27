@@ -235,7 +235,6 @@ export default class SettingsPage extends AirshipBehaviour {
 			this.gamePageSettingsContainer.gameObject.SetActive(false);
 		}
 		if (Protected.Settings.gameSettings.size() > 0) {
-
 			if (Game.deviceType === AirshipDeviceType.Phone) {
 				this.gamePageSettingsContainer.gameObject.SetActive(true);
 			}
@@ -314,7 +313,8 @@ export default class SettingsPage extends AirshipBehaviour {
 		this.chatFilterToggle.Init("Filter Chat Messages", settings.IsChatFilterEnabled());
 		this.chatFilterToggle.toggle.onValueChanged.Connect((val) => {
 			settings.SetChatFilterEnabled(val);
-		})
+			settings.MarkAsDirty();
+		});
 
 		// Hacky workaround for GetComponentsInChildren<Button> not working.
 		const images = this.rightSection.gameObject.GetComponentsInChildren<Image>(true);
