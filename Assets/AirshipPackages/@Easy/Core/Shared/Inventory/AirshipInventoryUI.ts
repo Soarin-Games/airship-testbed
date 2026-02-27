@@ -93,6 +93,12 @@ export default class AirshipInventoryUI extends AirshipBehaviour {
 	// Track current hotbar cleanup function
 	private currentHotbarCleanup?: () => void;
 
+	/**
+	 * When true, dragging an item onto the drop zone (onDraggedOutsideInventory) will not move the item
+	 * from the pickup slot back into the inventory.
+	 */
+	private skipMoveBackOnDraggedOutsideInventory = false;
+
 	override Awake() {
 		this.hotbarCanvas.enabled = false;
 		this.backpackCanvas.gameObject.SetActive(false);
@@ -141,7 +147,7 @@ export default class AirshipInventoryUI extends AirshipBehaviour {
 							};
 
 							Airship.Inventory.localInventory?.onDraggedOutsideInventory.Fire(draggingState);
-							this.CleanupClickPickupState();
+							this.CleanupClickPickupState(this.skipMoveBackOnDraggedOutsideInventory);
 						}
 					}
 					if (this.closeOnClickOutside) {
@@ -555,17 +561,20 @@ export default class AirshipInventoryUI extends AirshipBehaviour {
 	}
 
 	/**
-	 * Cleans up the click pickup state, destroying the visual and clearing connections
+	 * Cleans up the click pickup state, destroying the visual and clearing connections.
+	 * @param skipMoveToInventory If true, do not move item from pickup slot.
 	 */
-	private CleanupClickPickupState(): void {
+	private CleanupClickPickupState(skipMoveToInventory = false): void {
 		if (this.clickPickupState) {
-			const pickupStack = this.clickPickupState.inventory.GetItem(DESIGNATED_PICKUP_SLOT);
-			Airship.Inventory.MoveToInventory(
-				this.clickPickupState.inventory,
-				DESIGNATED_PICKUP_SLOT,
-				this.clickPickupState.inventory,
-				pickupStack?.amount ?? this.clickPickupState.amount,
-			);
+			if (!skipMoveToInventory) {
+				const pickupStack = this.clickPickupState.inventory.GetItem(DESIGNATED_PICKUP_SLOT);
+				Airship.Inventory.MoveToInventory(
+					this.clickPickupState.inventory,
+					DESIGNATED_PICKUP_SLOT,
+					this.clickPickupState.inventory,
+					pickupStack?.amount ?? this.clickPickupState.amount,
+				);
+			}
 			this.clickPickupBin.Clean();
 			this.clickPickupState = undefined;
 		}
@@ -1930,6 +1939,14 @@ export default class AirshipInventoryUI extends AirshipBehaviour {
 
 	public IsBackpackShown(): boolean {
 		return this.backpackShown;
+	}
+
+	/**
+	 * Sets whether to skip moving the item back to the inventory when dragged outside.
+	 * @param skip True to skip moving the item back, false to move it back.
+	 */
+	public SetSkipMoveBackOnDraggedOutsideInventory(skip: boolean): void {
+		this.skipMoveBackOnDraggedOutsideInventory = skip;
 	}
 
 	protected OnDestroy(): void {
