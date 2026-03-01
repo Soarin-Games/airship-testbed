@@ -517,17 +517,17 @@ export class ClientChatSingleton {
 	}
 
 	private detectUrlInChatMessage(message: string): string | undefined {
-		const cleanMessage = Bridge.RemoveRichText(message).lower();
+		const cleanMessage = Bridge.RemoveRichText(message);
 		const patterns = [
 			"https?://[%w%-%.]+[%w%.%-/?#&=_~]*", // URLs with http protocol
 			"%f[%w][%w%-]+%.[%a]+[%w%.%-/?#&=_~]*%f[%W]", // URLs matching only domain.tld
 		];
 
-		let url: string | undefined;
+		const lowerCaseMessage = cleanMessage.lower();
 		for (const pattern of patterns) {
-			const match = string.match(cleanMessage, pattern);
+			const match = string.find(lowerCaseMessage, pattern);
 			if (match !== undefined && match.size() > 0) {
-				url = match[0] as string;
+				let url = cleanMessage.sub(match[0]!, match[1]!);
 
 				// Don't make domains from emails clickable
 				if (cleanMessage.includes("@" + url)) {
@@ -535,11 +535,9 @@ export class ClientChatSingleton {
 				}
 
 				// Add protocol if missing
-				if (!string.match(url, "^https?://")) {
+				if (string.match(url.lower(), "^https?://")[0] === undefined) {
 					url = "https://" + url;
 				}
-
-				print("Found chat URL: " + url);
 				return url;
 			}
 		}
