@@ -77,6 +77,7 @@ export default class Character extends AirshipBehaviour {
 	 * Can be undefined if the Inventory component is removed from Character prefab.
 	 */
 	@Header("Inventory")
+	public enableHotbarScroll: boolean = true;
 	@NonSerialized()
 	public inventory: Inventory;
 	/**
@@ -905,7 +906,7 @@ export default class Character extends AirshipBehaviour {
 		this.bin.Add(
 			Mouse.onScrolled.Connect((event) => {
 				if (Airship.Camera.GetMode() instanceof FlyCameraMode) return;
-				if (!this.controlsEnabled || event.uiProcessed || event.IsCancelled()) return;
+				if (!this.controlsEnabled || event.uiProcessed || event.IsCancelled() || !this.enableHotbarScroll) return;
 				if (Mouse.IsOverUI()) return;
 				// print("scroll: " + delta);
 				if (math.abs(event.delta) < 0.05) return;
