@@ -593,7 +593,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 1149836141499182161}
-  - screenRelativeHeight: 0.0475
+  - screenRelativeHeight: 0.047185604
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 665416985170017182}
@@ -1833,6 +1833,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: ae8227d224bf7e749945db609efd9d24, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 32b6c86e4b9e5c040818bf1ea6fe61c2, type: 3}
+      propertyPath: m_CullingMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6141796999198570092, guid: 32b6c86e4b9e5c040818bf1ea6fe61c2, type: 3}
       propertyPath: m_Icon
       value: 
