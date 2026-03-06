@@ -23,6 +23,9 @@ import { MainMenuPageType } from "./MainMenuPageName";
 import { SocketController } from "./Socket/SocketController";
 import TransferFailedToast from "./Transfer/TransferFailedToast";
 import TransferToast from "./Transfer/TransferToast";
+import { AirshipMenuType } from "@Easy/Core/Shared/Menu/AirshipMenuType";
+import { SettingsPageSingleton } from "@Easy/Core/Shared/MainMenu/Singletons/SettingsPageSingleton";
+import { SettingsTab } from "@Easy/Core/Shared/MainMenu/Components/Settings/SettingsPageName";
 
 @Controller()
 export class MainMenuController {
@@ -132,8 +135,8 @@ export class MainMenuController {
 			Mouse.AddUnlocker();
 		}
 
-		contextbridge.callback<() => void>("MainMenu:OpenFromGame", (from) => {
-			this.OpenFromGameInProtectedContext();
+		contextbridge.callback<(menuType: AirshipMenuType) => void>("MainMenu:OpenFromGame", (from, menuType) => {
+			this.OpenFromGameInProtectedContext(menuType);
 		});
 
 		// const closeButton = this.refs.GetValue("UI", "CloseButton");
@@ -157,7 +160,7 @@ export class MainMenuController {
 		this.mainMenuBG?.SetActive(!show || isMainMenu);
 	}
 
-	public OpenFromGameInProtectedContext(): void {
+	public OpenFromGameInProtectedContext(menuType: AirshipMenuType = AirshipMenuType.ESCAPE): void {
 		if (this.IsOpen()) return;
 
 		this.gameCursorLocked = InputBridge.Instance.IsMouseLocked();
@@ -176,7 +179,12 @@ export class MainMenuController {
 		// if (this.currentPage) {
 		// 	this.RouteToPage(this.currentPage.pageType, true, true);
 		// }
-		this.RouteToPage(MainMenuPageType.Game, true, true);
+		
+		if (menuType === AirshipMenuType.ESCAPE) {
+			this.RouteToPage(MainMenuPageType.Game, true, true);
+		} else if (menuType === AirshipMenuType.SETTINGS) {
+			Dependency<SettingsPageSingleton>().Open(SettingsTab.Game);
+		}
 
 		this.onToggled.Fire(true);
 

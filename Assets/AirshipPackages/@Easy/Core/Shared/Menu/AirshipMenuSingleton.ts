@@ -3,6 +3,7 @@ import { Airship } from "@Easy/Core/Shared/Airship";
 import { Dependency, OnStart, Singleton } from "@Easy/Core/Shared/Flamework";
 import { Game } from "../Game";
 import { Signal } from "../Util/Signal";
+import { AirshipMenuType } from "./AirshipMenuType";
 
 @Singleton({})
 export class AirshipMenuSingleton implements OnStart {
@@ -70,8 +71,9 @@ export class AirshipMenuSingleton implements OnStart {
 
 	/**
 	 * Opens the Airship escape menu.
+	 * @param menuType The MainMenu type that will be opened. Defaults to `AirshipMenuType.ESCAPE`
 	 */
-	public OpenMenu(): void {
-		contextbridge.invoke("MainMenu:OpenFromGame", LuauContext.Protected);
+	public OpenMenu(menuType: AirshipMenuType = AirshipMenuType.ESCAPE): void {
+		contextbridge.invoke("MainMenu:OpenFromGame", LuauContext.Protected, menuType);
 	}
 }
