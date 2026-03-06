@@ -71,9 +71,15 @@ export class AirshipMenuSingleton implements OnStart {
 
 	/**
 	 * Opens the Airship escape menu.
-	 * @param menuType The MainMenu type that will be opened. Defaults to `AirshipMenuType.ESCAPE`
 	 */
-	public OpenMenu(menuType: AirshipMenuType = AirshipMenuType.ESCAPE): void {
-		contextbridge.invoke("MainMenu:OpenFromGame", LuauContext.Protected, menuType);
+	public OpenMenu(): void {
+		contextbridge.invoke("MainMenu:OpenFromGame", LuauContext.Protected, AirshipMenuType.ESCAPE);
+	}
+
+	/**
+	 * Opens the Airship settings
+	 */
+	public OpenSettings(): void {
+		contextbridge.invoke("MainMenu:OpenFromGame", LuauContext.Protected, AirshipMenuType.SETTINGS);
 	}
 }

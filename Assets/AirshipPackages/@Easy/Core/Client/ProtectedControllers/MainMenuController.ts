@@ -23,9 +23,9 @@ import { MainMenuPageType } from "./MainMenuPageName";
 import { SocketController } from "./Socket/SocketController";
 import TransferFailedToast from "./Transfer/TransferFailedToast";
 import TransferToast from "./Transfer/TransferToast";
-import { AirshipMenuType } from "@Easy/Core/Shared/Menu/AirshipMenuType";
 import { SettingsPageSingleton } from "@Easy/Core/Shared/MainMenu/Singletons/SettingsPageSingleton";
 import { SettingsTab } from "@Easy/Core/Shared/MainMenu/Components/Settings/SettingsPageName";
+import { AirshipMenuType } from "@Easy/Core/Shared/Menu/AirshipMenuType";
 
 @Controller()
 export class MainMenuController {
