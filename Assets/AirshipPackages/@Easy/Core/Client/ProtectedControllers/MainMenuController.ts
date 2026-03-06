@@ -25,7 +25,6 @@ import TransferFailedToast from "./Transfer/TransferFailedToast";
 import TransferToast from "./Transfer/TransferToast";
 import { SettingsPageSingleton } from "@Easy/Core/Shared/MainMenu/Singletons/SettingsPageSingleton";
 import { SettingsTab } from "@Easy/Core/Shared/MainMenu/Components/Settings/SettingsPageName";
-import { AirshipMenuType } from "@Easy/Core/Shared/Menu/AirshipMenuType";
 
 @Controller()
 export class MainMenuController {
@@ -135,8 +134,12 @@ export class MainMenuController {
 			Mouse.AddUnlocker();
 		}
 
-		contextbridge.callback<(menuType: AirshipMenuType) => void>("MainMenu:OpenFromGame", (from, menuType) => {
-			this.OpenFromGameInProtectedContext(menuType);
+		contextbridge.callback<() => void>("MainMenu:OpenFromGame", (from) => {
+			this.OpenFromGameInProtectedContext();
+		});
+
+		contextbridge.callback<() => void>("MainMenu:OpenSettingsFromGame", (from) => {
+			this.OpenSettingsFromGameInProtectedContext();
 		});
 
 		// const closeButton = this.refs.GetValue("UI", "CloseButton");
@@ -160,7 +163,7 @@ export class MainMenuController {
 		this.mainMenuBG?.SetActive(!show || isMainMenu);
 	}
 
-	public OpenFromGameInProtectedContext(menuType: AirshipMenuType = AirshipMenuType.ESCAPE): void {
+	public OpenFromGameInProtectedContext(): void {
 		if (this.IsOpen()) return;
 
 		this.gameCursorLocked = InputBridge.Instance.IsMouseLocked();
@@ -179,16 +182,31 @@ export class MainMenuController {
 		// if (this.currentPage) {
 		// 	this.RouteToPage(this.currentPage.pageType, true, true);
 		// }
-		
-		if (menuType === AirshipMenuType.ESCAPE) {
-			this.RouteToPage(MainMenuPageType.Game, true, true);
-		} else if (menuType === AirshipMenuType.SETTINGS) {
-			Dependency<SettingsPageSingleton>().Open(SettingsTab.Game);
-		}
+		this.RouteToPage(MainMenuPageType.Game, true, true);
 
 		this.onToggled.Fire(true);
 
 		//CloudImage.PrintCache();
+	}
+
+	public OpenSettingsFromGameInProtectedContext(): void {
+		if (this.IsOpen()) return;
+
+		this.gameCursorLocked = InputBridge.Instance.IsMouseLocked();
+
+		contextbridge.broadcast("Game:MenuToggled", true);
+		AppManager.OpenCustom(() => {
+			this.CloseFromGame();
+		});
+		this.open = true;
+		const duration = 0.06;
+		this.wrapperRect.localScale = new Vector3(1.1, 1.1, 1.1);
+		NativeTween.LocalScale(this.wrapperRect, new Vector3(1, 1, 1), duration).SetUseUnscaledTime(true);
+		this.mainContentCanvas.enabled = true;
+		NativeTween.CanvasGroupAlpha(this.rootCanvasGroup, 1, duration).SetUseUnscaledTime(true);
+
+		Dependency<SettingsPageSingleton>().Open(SettingsTab.Game);
+		this.onToggled.Fire(true);
 	}
 
 	public CloseFromGame(): void {
