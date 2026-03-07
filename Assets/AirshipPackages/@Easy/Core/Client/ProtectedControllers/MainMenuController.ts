@@ -163,9 +163,7 @@ export class MainMenuController {
 		this.mainMenuBG?.SetActive(!show || isMainMenu);
 	}
 
-	public OpenFromGameInProtectedContext(): void {
-		if (this.IsOpen()) return;
-
+	private OpenMenuSetup() {
 		this.gameCursorLocked = InputBridge.Instance.IsMouseLocked();
 
 		contextbridge.broadcast("Game:MenuToggled", true);
@@ -182,28 +180,23 @@ export class MainMenuController {
 		// if (this.currentPage) {
 		// 	this.RouteToPage(this.currentPage.pageType, true, true);
 		// }
-		this.RouteToPage(MainMenuPageType.Game, true, true);
+	}
 
+	public OpenFromGameInProtectedContext(): void {
+		if (this.IsOpen()) return;
+
+		this.OpenMenuSetup();
+
+		this.RouteToPage(MainMenuPageType.Game, true, true);
 		this.onToggled.Fire(true);
 
 		//CloudImage.PrintCache();
 	}
 
-	public OpenSettingsFromGameInProtectedContext(): void {
+	private OpenSettingsFromGameInProtectedContext(): void {
 		if (this.IsOpen()) return;
 
-		this.gameCursorLocked = InputBridge.Instance.IsMouseLocked();
-
-		contextbridge.broadcast("Game:MenuToggled", true);
-		AppManager.OpenCustom(() => {
-			this.CloseFromGame();
-		});
-		this.open = true;
-		const duration = 0.06;
-		this.wrapperRect.localScale = new Vector3(1.1, 1.1, 1.1);
-		NativeTween.LocalScale(this.wrapperRect, new Vector3(1, 1, 1), duration).SetUseUnscaledTime(true);
-		this.mainContentCanvas.enabled = true;
-		NativeTween.CanvasGroupAlpha(this.rootCanvasGroup, 1, duration).SetUseUnscaledTime(true);
+		this.OpenMenuSetup();
 
 		Dependency<SettingsPageSingleton>().Open(SettingsTab.Game);
 		this.onToggled.Fire(true);
